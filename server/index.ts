@@ -12,7 +12,7 @@ app.use(express.json());
 app.use('/api', router);
 
 app.get('/', (req, res) => {
-    res.send('Tour Agency');
+    res.send('лул');
 });
 
 const startServer = async () => {

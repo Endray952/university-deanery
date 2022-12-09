@@ -27,11 +27,11 @@ const signUpStyle = `
 
 export const NavBar = () => {
     return (
-        <nav className='bg-[#000] px-2 sm:px-4 py-2.5 rounded text-cyan-50'>
+        <nav className='bg-[#30A245] px-2 sm:px-4 py-2.5 rounded text-cyan-50'>
             <div className='container flex flex-wrap items-center justify-between m-auto'>
                 <NavLink to='/' className='flex items-center'>
                     <span className='self-center text-[30px] font-semibold whitespace-nowrap dark:text-white'>
-                        Tour agency
+                        Deanery
                     </span>
                 </NavLink>
 

@@ -36,7 +36,7 @@ export const authRoutes = [
 ];
 
 /**
- * Public routes to see tour agency main pages
+ * Public routes to see main pages
  */
 export const publicRoutes = [
     {
@@ -49,6 +49,6 @@ export const publicRoutes = [
     },
     {
         path: SERVICES_PATH,
-        component: Services
-    }
+        component: Services,
+    },
 ];

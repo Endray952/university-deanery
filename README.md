@@ -1,2 +1,3 @@
 # Tour-agency-app
-### PERN-stack app for tour agency. 
+
+### PERN-stack app for deanery.

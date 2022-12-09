@@ -38,18 +38,32 @@ class AuthController {
         }
     }
 
+    // async getUsers(req, res) {
+    //     try {
+    //         const users = await pool.query(
+    //             `SELECT
+    //                 "User"."id",
+    //                 "User"."login",
+    //                 "User"."name",
+    //                 "User"."surname",
+    //                 "Role"."type"
+    //             FROM "User"
+    //             JOIN "Role"
+    //             on "User"."role_id" = "Role"."id"`
+    //         );
+    //         res.json(users.rows);
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // }
+
     async getUsers(req, res) {
         try {
             const users = await pool.query(
                 `SELECT 
-                    "User"."id", 
-                    "User"."login", 
-                    "User"."name", 
-                    "User"."surname",
-                    "Role"."type"
-                FROM "User"
-                JOIN "Role" 
-                on "User"."role_id" = "Role"."id"`
+                    *
+                FROM "mark"
+                `
             );
             res.json(users.rows);
         } catch (e) {
