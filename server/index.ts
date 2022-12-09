@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { router } from './routes/index.js';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
@@ -11,8 +11,8 @@ const app = express();
 app.use(express.json());
 app.use('/api', router);
 
-app.get('/', (req, res) => {
-    res.send('лул');
+app.get('/', (req: Request, res: Response) => {
+    res.send('dhdjhgj');
 });
 
 const startServer = async () => {
