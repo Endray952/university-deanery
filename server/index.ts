@@ -11,7 +11,7 @@ app.use('/api', router);
 app.use(errorHandler);
 
 app.get('/', (req: Request, res: Response) => {
-    res.send('dhdjhgj');
+    res.send('Hello');
 });
 
 const startServer = async () => {
