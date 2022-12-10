@@ -1,8 +1,3 @@
-export const ADMIN_PATH = '/admin'
-export const LOGIN_PATH = '/auth'
-export const REGISTRATION_PATH = '/auth'
-export const CLIENT_PATH = '/user'
-export const TOURS_PATH = '/tours'
-export const TOUR_PATH = '/tour/:id'
-export const SERVICEP_PATH = '/servicep'
-export const SERVICES_PATH = '/services'
+export const ADMIN_PATH = '/admin';
+export const LOGIN_PATH = '/auth';
+export const REGISTRATION_PATH = '/registration';

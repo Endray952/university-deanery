@@ -10,20 +10,9 @@ import { authRoutes, publicRoutes } from '../routes';
 export const AppRouter = () => {
     const isAuth = true;
     return (
-        <>
-            <Routes>
-                {isAuth &&
-                    authRoutes.map((route) => {
-                        return (
-                            <Route
-                                key={route.path}
-                                path={route.path}
-                                element={<route.component />}
-                            />
-                        );
-                    })}
-
-                {publicRoutes.map((route) => {
+        <Routes>
+            {isAuth &&
+                authRoutes.map((route) => {
                     return (
                         <Route
                             key={route.path}
@@ -33,8 +22,17 @@ export const AppRouter = () => {
                     );
                 })}
 
-                <Route path='*' element={<ToursPage />} />
-            </Routes>
-        </>
+            {publicRoutes.map((route) => {
+                return (
+                    <Route
+                        key={route.path}
+                        path={route.path}
+                        element={<route.component />}
+                    />
+                );
+            })}
+
+            <Route path='*' element={<ToursPage />} />
+        </Routes>
     );
 };
