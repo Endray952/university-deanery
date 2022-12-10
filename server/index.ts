@@ -1,15 +1,14 @@
 import express, { Request, Response } from 'express';
 import { router } from './routes/index.js';
-import * as dotenv from 'dotenv';
 import cors from 'cors';
-
-dotenv.config();
+import { errorHandler } from './middleware/ErrorHandlingMiddleware.js';
 
 const PORT = process.env.PORT || 8081;
 const app = express();
 
 app.use(express.json());
 app.use('/api', router);
+app.use(errorHandler);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('dhdjhgj');

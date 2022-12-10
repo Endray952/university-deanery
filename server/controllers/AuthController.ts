@@ -2,6 +2,7 @@ import { pool } from '../db.js';
 import UserController from './UserController.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { ApiError } from '../error/ApiError.js';
 
 class AuthController {
     async hashPassword(password: string) {
@@ -57,7 +58,7 @@ class AuthController {
     //     }
     // }
 
-    async getUsers(req, res) {
+    async getUsers(req, res, next) {
         try {
             const users = await pool.query(
                 `SELECT 
@@ -67,7 +68,7 @@ class AuthController {
             );
             res.json(users.rows);
         } catch (e) {
-            console.log(e);
+            next(ApiError.badRequest(`${e.message} + kekeks`));
         }
     }
 

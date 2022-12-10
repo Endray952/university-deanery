@@ -1,4 +1,5 @@
 import { pool } from '../db.js';
+import { ApiError } from '../error/ApiError.js';
 
 class UserController {
     async isUserLoginExists(req, res) {
@@ -20,14 +21,14 @@ class UserController {
         }
     }
 
-    async addUser(req, res) {
+    async addUser(req, res, next) {
         try {
             pool.query(
                 `INSER INTO TABLE "User" 
                 VALUES ($1, $2, $3, $4, $5)`
             );
         } catch (e) {
-            console.log(e);
+            next(ApiError.badRequest(e.message));
         }
     }
 }
