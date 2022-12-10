@@ -7,7 +7,7 @@ const router = Router();
 
 router.post(
     '/registration',
-    checkRoleMiddleWare,
+    checkRoleMiddleWare(['admin']),
     controller.registration.bind(controller)
 );
 router.post('/login', controller.login.bind(controller));

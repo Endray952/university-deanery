@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-export const checkRoleMiddleWare = (role) => {
+export const checkRoleMiddleWare = (roles: Array<string>) => {
     return function (req, res, next) {
         if (req.method === 'OPTIONS') {
             next();
@@ -11,7 +11,8 @@ export const checkRoleMiddleWare = (role) => {
                 return res.status(401).json({ message: 'Не авторизован' });
             }
             const decoded: any = jwt.verify(token, process.env.SECRET_KEY);
-            if (decoded.role !== role) {
+            //console.log(decoded);
+            if (!roles.includes(decoded.role)) {
                 return res.status(403).json({ message: 'Нет доступа' });
             }
             req.user = decoded;
