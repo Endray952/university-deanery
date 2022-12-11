@@ -1,6 +1,14 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import {
+    Navigate,
+    NavLink,
+    redirect,
+    unstable_HistoryRouter,
+    useNavigate,
+} from 'react-router-dom';
+import UserStore from '../store/UserStore';
 import { LOGIN_PATH } from '../utils/consts';
+import { observer } from 'mobx-react-lite';
 
 const navlinkStyle = `
     text-xl font-bold
@@ -25,13 +33,24 @@ const signUpStyle = `
     md:p-[5px]
 `;
 
-export const NavBar = () => {
+export const NavBar = observer(() => {
+    if (!UserStore.isAuth) {
+        return null;
+    }
+    // const history = useHist();
+    const logOut = () => {
+        UserStore.setIsAuth(false);
+        UserStore.setUser({});
+        // return <Navigate to={LOGIN_PATH} replace />;
+        //history.push(LOGIN_PATH);
+    };
+
     return (
         <nav className='bg-[#30A245] px-2 sm:px-4 py-2.5 rounded text-cyan-50'>
             <div className='container flex flex-wrap items-center justify-between m-auto'>
                 <NavLink to='/' className='flex items-center'>
                     <span className='self-center text-[30px] font-semibold whitespace-nowrap dark:text-white'>
-                        Deanery
+                        Деканат
                     </span>
                 </NavLink>
 
@@ -61,13 +80,13 @@ export const NavBar = () => {
                         </li>
 
                         <li>
-                            <NavLink to={LOGIN_PATH} className={signUpStyle}>
-                                Sign Up
-                            </NavLink>
+                            <button onClick={logOut} className={signUpStyle}>
+                                Выйти
+                            </button>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     );
-};
+});

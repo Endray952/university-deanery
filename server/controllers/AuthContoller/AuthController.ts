@@ -93,7 +93,7 @@ class AuthController {
         let user = await this.isUserLoginExists(next, login);
         if (!user) {
             return next(
-                ApiError.badRequest('Пользователя с таким login не существует')
+                ApiError.internal('Пользователя с таким login не существует')
             );
         }
         user = await this.getUser(login);

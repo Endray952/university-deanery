@@ -1,17 +1,20 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, redirect } from 'react-router-dom';
+import { LoginPage } from '../pages/LoginPage';
+import DefaultPage from '../pages/DefaultPage';
 import { ToursPage } from '../pages/ToursPage';
 import { authRoutes, publicRoutes } from '../routes';
+import UserStore from '../store/UserStore';
+import { DEFAULT_PATH, LOGIN_PATH } from '../utils/consts';
 
 /**
  * Component represents navigation between different routes
  * @component
  */
 export const AppRouter = () => {
-    const isAuth = true;
     return (
         <Routes>
-            {isAuth &&
+            {UserStore.isAuth &&
                 authRoutes.map((route) => {
                     return (
                         <Route
@@ -32,7 +35,7 @@ export const AppRouter = () => {
                 );
             })}
 
-            <Route path='*' element={<ToursPage />} />
+            {/* <Route path={'*'} element={<DefaultPage />} /> */}
         </Routes>
     );
 };

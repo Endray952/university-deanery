@@ -1,14 +1,36 @@
-import React from 'react';
+import userEvent from '@testing-library/user-event';
+import { observer } from 'mobx-react-lite';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { AppRouter } from './components/AppRouter';
+import Footer from './components/Footer';
 import { NavBar } from './components/NavBar';
+import Spinner from './components/Spinner';
+import { check } from './http/userAPI';
+import UserStore from './store/UserStore';
 
-export const App = () => {
+export const App = observer(() => {
+    //console.log(process.env.REACT_APP_API_URL);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        check()
+            .then((data) => {
+                UserStore.setUser(UserStore.user);
+                UserStore.setIsAuth(true);
+            })
+            .finally(() => setLoading(false));
+    }, []);
+
+    if (loading) {
+        return <Spinner />;
+    }
+
     return (
         <BrowserRouter>
             <NavBar />
 
             <AppRouter />
+            {/* <Footer /> */}
         </BrowserRouter>
     );
-};
+});

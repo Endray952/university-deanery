@@ -1,7 +1,13 @@
-import { ADMIN_PATH, LOGIN_PATH, REGISTRATION_PATH } from './utils/consts';
+import {
+    ADMIN_PATH,
+    LOGIN_PATH,
+    REGISTRATION_PATH,
+    STUDENT_PATH,
+} from './utils/consts';
 
-import { AuthPage } from './pages/AuthPage';
+import { LoginPage } from './pages/LoginPage';
 import { ToursPage } from './pages/ToursPage';
+import DefaultPage from './pages/DefaultPage';
 
 /**
  * Routes for authentication
@@ -9,12 +15,17 @@ import { ToursPage } from './pages/ToursPage';
 export const authRoutes = [
     {
         path: ADMIN_PATH,
-        component: AuthPage,
+        component: LoginPage,
     },
 
     {
         path: REGISTRATION_PATH,
-        component: AuthPage,
+        component: LoginPage,
+    },
+
+    {
+        path: STUDENT_PATH,
+        component: ToursPage,
     },
 ];
 
@@ -24,6 +35,10 @@ export const authRoutes = [
 export const publicRoutes = [
     {
         path: LOGIN_PATH,
-        component: AuthPage,
+        component: LoginPage,
+    },
+    {
+        path: '/',
+        component: DefaultPage,
     },
 ];
