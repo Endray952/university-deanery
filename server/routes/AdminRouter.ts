@@ -12,9 +12,5 @@ router.post(
 );
 router.post('/login', controller.login.bind(controller));
 router.get('/auth', authMiddleware, controller.check);
-//router.get('/auth', controller.auth);
-//router.get('/users', controller.getUsers);
-
-//router.get('/login', controller.isUserLoginExists);
 
 export { router };

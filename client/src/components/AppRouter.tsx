@@ -1,17 +1,14 @@
 import React from 'react';
 import { Route, Routes, redirect } from 'react-router-dom';
-import { LoginPage } from '../pages/LoginPage';
 import DefaultPage from '../pages/DefaultPage';
-import { ToursPage } from '../pages/ToursPage';
 import { authRoutes, publicRoutes } from '../routes';
 import UserStore from '../store/UserStore';
-import { DEFAULT_PATH, LOGIN_PATH } from '../utils/consts';
-
+import { observer } from 'mobx-react-lite';
 /**
  * Component represents navigation between different routes
  * @component
  */
-export const AppRouter = () => {
+export const AppRouter = observer(() => {
     return (
         <Routes>
             {UserStore.isAuth &&
@@ -35,7 +32,7 @@ export const AppRouter = () => {
                 );
             })}
 
-            {/* <Route path={'*'} element={<DefaultPage />} /> */}
+            <Route path={'*'} element={<DefaultPage />} />
         </Routes>
     );
-};
+});

@@ -7,7 +7,7 @@ import {
     useNavigate,
 } from 'react-router-dom';
 import UserStore from '../store/UserStore';
-import { LOGIN_PATH } from '../utils/consts';
+import { DEFAULT_PATH, LOGIN_PATH } from '../utils/consts';
 import { observer } from 'mobx-react-lite';
 
 const navlinkStyle = `
@@ -34,15 +34,18 @@ const signUpStyle = `
 `;
 
 export const NavBar = observer(() => {
+    const navigate = useNavigate();
+
     if (!UserStore.isAuth) {
         return null;
     }
-    // const history = useHist();
+
     const logOut = () => {
         UserStore.setIsAuth(false);
         UserStore.setUser({});
-        // return <Navigate to={LOGIN_PATH} replace />;
+        //return <Navigate to={LOGIN_PATH} replace />;
         //history.push(LOGIN_PATH);
+        navigate(DEFAULT_PATH);
     };
 
     return (

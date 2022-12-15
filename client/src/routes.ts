@@ -6,7 +6,7 @@ import {
 } from './utils/consts';
 
 import { LoginPage } from './pages/LoginPage';
-import { ToursPage } from './pages/ToursPage';
+import { ToursPage } from './pages/StudentPage';
 import DefaultPage from './pages/DefaultPage';
 
 /**
