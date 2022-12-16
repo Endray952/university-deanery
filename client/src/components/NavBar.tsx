@@ -43,8 +43,7 @@ export const NavBar = observer(() => {
     const logOut = () => {
         UserStore.setIsAuth(false);
         UserStore.setUser({});
-        //return <Navigate to={LOGIN_PATH} replace />;
-        //history.push(LOGIN_PATH);
+        localStorage.removeItem('token');
         navigate(ROOT_PATH);
     };
 
