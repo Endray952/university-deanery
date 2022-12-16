@@ -4,6 +4,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 
 import EditableList from '../components/EditableList/EditableList';
 import Sidebar from '../components/Slidebar/Slidebar';
+import { getStudents } from '../http/deanAPI';
 import UserStore from '../store/UserStore';
 import { ROOT_PATH } from '../utils/consts';
 
@@ -21,7 +22,11 @@ export const StudentPage = () => {
             <div style={PageContainerStyle}>
                 <Sidebar />
                 <Container maxWidth='xl' color='cyan'>
-                    <div>ToursPage</div>
+                    <div
+                        onClick={async (e) => console.log(await getStudents())}
+                    >
+                        ToursPage
+                    </div>
                     <EditableList />
                 </Container>
             </div>

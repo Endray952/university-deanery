@@ -24,10 +24,10 @@ import UserStore from '../store/UserStore';
 // };
 
 export const getStudents = async (): Promise<object> => {
-    const { data } = await $authHost.get('api/user/auth');
+    const { data } = await $authHost.get('api/dean/students');
     //console.log(data);
     //localStorage.setItem('token', data.token);
     //UserStore.setIsAuth(true);
     //console.log(jwt_decode(data.token));
-    return jwt_decode(data.token);
+    return data;
 };
