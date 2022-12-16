@@ -10,12 +10,11 @@ import { check } from './http/userAPI';
 import UserStore from './store/UserStore';
 
 export const App = observer(() => {
-    //console.log(process.env.REACT_APP_API_URL);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         check()
             .then((data) => {
-                UserStore.setUser(UserStore.user);
+                UserStore.setUser(data);
                 UserStore.setIsAuth(true);
             })
             .finally(() => setLoading(false));
@@ -24,7 +23,7 @@ export const App = observer(() => {
     if (loading) {
         return <Spinner />;
     }
-
+    console.log(UserStore.isAuth);
     return (
         <BrowserRouter>
             <NavBar />

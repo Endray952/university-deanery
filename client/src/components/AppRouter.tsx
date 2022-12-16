@@ -22,15 +22,16 @@ export const AppRouter = observer(() => {
                     );
                 })}
 
-            {publicRoutes.map((route) => {
-                return (
-                    <Route
-                        key={route.path}
-                        path={route.path}
-                        element={<route.component />}
-                    />
-                );
-            })}
+            {!UserStore.isAuth &&
+                publicRoutes.map((route) => {
+                    return (
+                        <Route
+                            key={route.path}
+                            path={route.path}
+                            element={<route.component />}
+                        />
+                    );
+                })}
 
             <Route path={'*'} element={<DefaultPage />} />
         </Routes>

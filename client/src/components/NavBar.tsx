@@ -7,7 +7,7 @@ import {
     useNavigate,
 } from 'react-router-dom';
 import UserStore from '../store/UserStore';
-import { DEFAULT_PATH, LOGIN_PATH } from '../utils/consts';
+import { ROOT_PATH, LOGIN_PATH } from '../utils/consts';
 import { observer } from 'mobx-react-lite';
 
 const navlinkStyle = `
@@ -45,7 +45,7 @@ export const NavBar = observer(() => {
         UserStore.setUser({});
         //return <Navigate to={LOGIN_PATH} replace />;
         //history.push(LOGIN_PATH);
-        navigate(DEFAULT_PATH);
+        navigate(ROOT_PATH);
     };
 
     return (

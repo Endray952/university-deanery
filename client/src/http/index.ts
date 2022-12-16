@@ -13,10 +13,6 @@ const authInterceptor = (config: any) => {
     return config;
 };
 
-const defaultInterceptor = (config: any) => {
-    return config;
-};
-
 $authHost.interceptors.request.use(authInterceptor);
 //$host.interceptors.request.use(defaultInterceptor);
 
