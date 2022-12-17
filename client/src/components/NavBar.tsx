@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Navigate,
     NavLink,
@@ -9,6 +9,8 @@ import {
 import UserStore from '../store/UserStore';
 import { ROOT_PATH, LOGIN_PATH } from '../utils/consts';
 import { observer } from 'mobx-react-lite';
+import { getStudentByUserId } from '../http/studentAPI';
+import Spinner from './Spinner';
 
 const navlinkStyle = `
     text-xl font-bold
@@ -35,6 +37,19 @@ const signUpStyle = `
 
 export const NavBar = observer(() => {
     const navigate = useNavigate();
+    const [currentUser, setCurrentUser] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        if (UserStore.user) {
+            // getStudentByUserId(UserStore.user?.id)
+            //     .then((data) => {
+            //         setCurrentUser(data);
+            //         console.log(data);
+            //     })
+            //     .finally(() => setLoading(false));
+        }
+        // console.log(JSON.stringify(UserStore.user));
+    }, []);
 
     if (!UserStore.isAuth) {
         return null;
@@ -42,7 +57,7 @@ export const NavBar = observer(() => {
 
     const logOut = () => {
         UserStore.setIsAuth(false);
-        UserStore.setUser({});
+        UserStore.setUser(null);
         localStorage.removeItem('token');
         navigate(ROOT_PATH);
     };
@@ -76,9 +91,7 @@ export const NavBar = observer(() => {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to='/services' className={navlinkStyle}>
-                                Services
-                            </NavLink>
+                            <div>{loading ? 'Загрузка...' : 'no info'}</div>
                         </li>
 
                         <li>

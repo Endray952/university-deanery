@@ -1,6 +1,7 @@
 import { $authHost, $host } from '.';
 import jwt_decode from 'jwt-decode';
 import UserStore from '../store/UserStore';
+import { userType } from '../utils/consts';
 
 export const registration = async (login: string, password: string) => {
     const { data } = await $host.post('api/auth/registration', {
@@ -14,7 +15,7 @@ export const registration = async (login: string, password: string) => {
 export const login = async (
     login: string,
     password: string
-): Promise<object> => {
+): Promise<userType | null> => {
     const { data } = await $host.post('api/user/login', {
         login,
         password,
@@ -23,7 +24,7 @@ export const login = async (
     return jwt_decode(data.token);
 };
 
-export const check = async (): Promise<object> => {
+export const check = async (): Promise<userType | null> => {
     const { data } = await $authHost.get('api/user/auth');
     localStorage.setItem('token', data.token);
     return jwt_decode(data.token);

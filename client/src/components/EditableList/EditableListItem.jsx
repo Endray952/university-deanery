@@ -1,6 +1,24 @@
 import React from 'react';
 
 const EditableListItem = ({ setModalOpen, student }) => {
+    let status = '';
+    switch (student.student_status) {
+        case 'enrolled':
+            status = 'учится';
+            break;
+        case 'expelled':
+            status = 'отчислен';
+            break;
+        case 'academic_leave':
+            status = 'академический отпуск';
+            break;
+        case 'graduated':
+            status = 'окончил обучение';
+            break;
+        default:
+            status = 'неизвестно';
+    }
+
     return (
         <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
             <th
@@ -8,18 +26,20 @@ const EditableListItem = ({ setModalOpen, student }) => {
                 className='flex items-center py-4 px-6 text-gray-900 whitespace-nowrap dark:text-white'
             >
                 <div className='pl-3'>
-                    <div className='text-base font-semibold'>Neil Sims</div>
+                    <div className='text-base font-semibold'>{`${
+                        student.name || 'неизвестно'
+                    } ${student.surname || 'неизвестно'}`}</div>
                     <div className='font-normal text-gray-500'>
-                        neil.sims@flowbite.com
+                        {`${student.email || 'неизвестно'}`}
                     </div>
                 </div>
             </th>
-            <td className='py-4 px-6'>React Developer</td>
+            <td className='py-4 px-6'>{status}</td>
             <td className='py-4 px-6'>
-                <div className='flex items-center'>
-                    <div className='h-2.5 w-2.5 rounded-full bg-green-400 mr-2'></div>{' '}
-                    Online
-                </div>
+                {`${student.code_number || 'неизвестно'}`}{' '}
+            </td>
+            <td className='py-4 px-6'>
+                {`${student.semestr_number || 'неизвестно'}`}{' '}
             </td>
             <td className='py-4 px-6'>
                 {/* <!-- Modal toggle --> */}
@@ -30,7 +50,7 @@ const EditableListItem = ({ setModalOpen, student }) => {
                     data-modal-toggle='editUserModal'
                     className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
                 >
-                    Edit user
+                    Изменить
                 </button>
             </td>
         </tr>

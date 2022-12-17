@@ -1,8 +1,8 @@
 import { pool } from '../../db.js';
 import { ApiError } from '../../error/ApiError.js';
-import { deanQueries } from './DeanQueries.js';
+import { StudentQueries } from './StudentQueries.js';
 
-class DeanController {
+class StudentController {
     // async getFeedbackById(req, res, next) {
     //     try {
     //         const { id: feedbackId } = req.params;
@@ -16,12 +16,15 @@ class DeanController {
     //     }
     // }
 
-    async getStudents(req, res, next) {
+    async getStudentByUserId(req, res, next) {
         try {
-            const students = await pool.query(deanQueries.getStudents());
-            res.json(students.rows);
+            const { id } = req.params;
+            const student = await pool.query(
+                StudentQueries.getStudentByUserId(id)
+            );
+            res.json(student.rows);
         } catch (e) {
-            console.log('getStudents error');
+            console.log('getStudentByUserId error');
             next(ApiError.badRequest(`${e.message}`));
         }
     }
@@ -46,4 +49,4 @@ class DeanController {
 
     async deleteFeedback(req, res) {}
 }
-export default new DeanController();
+export default new StudentController();
