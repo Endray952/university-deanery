@@ -1,7 +1,11 @@
 import React from 'react';
 
-const EditableListItem = ({ setModalOpen, listRow }) => {
-    //console.log(listRow.tableItems);
+const EditableListItem = ({ setModalOpen, listRow, setModalItem }) => {
+    const handleOpenModal = () => {
+        setModalItem();
+        setModalOpen(true);
+    };
+
     return (
         <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
             <th
@@ -27,9 +31,7 @@ const EditableListItem = ({ setModalOpen, listRow }) => {
             <td className='py-4 px-6'>
                 {/* <!-- Modal toggle --> */}
                 <button
-                    onClick={(e) => {
-                        setModalOpen(true);
-                    }}
+                    onClick={handleOpenModal}
                     data-modal-toggle='editUserModal'
                     className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
                 >

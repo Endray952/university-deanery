@@ -2,7 +2,7 @@ import { Modal } from '@mui/material';
 import React, { useState } from 'react';
 import ModalInput from './ModalInput';
 
-const ModalWindow = ({ isModalOpen, setModalOpen, modalConfig }) => {
+const ModalWindow = ({ isModalOpen, setModalOpen, modalConfig, modalItem }) => {
     const handleClose = () => setModalOpen(false);
     return (
         <Modal
@@ -34,7 +34,8 @@ const ModalWindow = ({ isModalOpen, setModalOpen, modalConfig }) => {
                         {/* <!-- Modal body --> */}
                         <div className='p-6 space-y-6'>
                             <div className='grid grid-cols-6 gap-6'>
-                                {modalConfig.inputs.map((input) => {
+                                {modalConfig.inputs(modalItem).map((input) => {
+                                    //console.log(input);
                                     return (
                                         <ModalInput
                                             inputName={input.inputName}
@@ -43,6 +44,7 @@ const ModalWindow = ({ isModalOpen, setModalOpen, modalConfig }) => {
                                             }
                                             inputType={input.inputType}
                                             isRequired={input.isRequired}
+                                            inputValue={input.value}
                                         />
                                     );
                                 })}

@@ -40,77 +40,80 @@ export const studentsListConfig = {
         'Действие',
     ],
 
-    getListRow: (item) => {
+    getListRow: (student) => {
         return {
             heading: {
-                mainText: `${item.name || 'неизвестно'} ${
-                    item.surname || 'неизвестно'
+                mainText: `${student.name || 'неизвестно'} ${
+                    student.surname || 'неизвестно'
                 }`,
-                secondaryText: item.email,
+                secondaryText: student.email,
             },
             tableItems: [
-                item.phone_number,
-                getStudentStatus(item.student_status),
-                item.group_code,
-                item.semestr_number,
-                item.direction_name,
-                item.institute_name,
+                student.phone_number,
+                getStudentStatus(student.student_status),
+                student.group_code,
+                student.semestr_number,
+                student.direction_name,
+                student.institute_name,
             ],
             actionName: 'изменить',
         };
     },
     searchConfig: {
-        searchBy: (item, searchInput) => {
+        searchBy: (student, searchInput) => {
             return (
-                leftStringIncludesRight(item.name, searchInput) ||
-                leftStringIncludesRight(item.surname, searchInput) ||
+                leftStringIncludesRight(student.name, searchInput) ||
+                leftStringIncludesRight(student.surname, searchInput) ||
                 leftStringIncludesRight(
-                    getStudentStatus(item.student_status),
+                    getStudentStatus(student.student_status),
                     searchInput
                 ) ||
-                leftStringIncludesRight(item.group_code, searchInput) ||
-                leftStringIncludesRight(item.semestr_number, searchInput) ||
-                leftStringIncludesRight(item.direction_name, searchInput) ||
-                leftStringIncludesRight(item.institute_name, searchInput) ||
-                leftStringIncludesRight(item.email, searchInput)
+                leftStringIncludesRight(student.group_code, searchInput) ||
+                leftStringIncludesRight(student.semestr_number, searchInput) ||
+                leftStringIncludesRight(student.direction_name, searchInput) ||
+                leftStringIncludesRight(student.institute_name, searchInput) ||
+                leftStringIncludesRight(student.email, searchInput) ||
+                leftStringIncludesRight(student.phone_number, searchInput)
             );
         },
         searchPlaceholder: 'Поиск студента',
     },
     modal: {
         modalName: 'Редактировать студента',
-        inputs: [
-            {
-                inputName: 'Имя',
-                inputPlaceholder: 'Иван',
-                inputType: 'text',
-                isRequired: true,
-            },
-            {
-                inputName: 'Фамилия',
-                inputPlaceholder: 'Иванов',
-                inputType: 'text',
-                isRequired: true,
-            },
-            {
-                inputName: 'Email',
-                inputPlaceholder: 'example@dekanat.ru',
-                inputType: 'email',
-                isRequired: true,
-            },
-            {
-                inputName: 'Номер телефона',
-                inputPlaceholder: '+79991112233',
-                inputType: 'number',
-                isRequired: true,
-            },
-            {
-                inputName: 'Номер телефона',
-                inputPlaceholder: '+79991112233',
-                inputType: 'number',
-                isRequired: true,
-            },
-        ],
+
+        inputs: (student) => {
+            console.log(student);
+            return [
+                {
+                    inputName: 'Имя',
+                    inputPlaceholder: 'Иван',
+                    inputType: 'text',
+                    isRequired: true,
+                    value: student?.name,
+                },
+                {
+                    inputName: 'Фамилия',
+                    inputPlaceholder: 'Иванов',
+                    inputType: 'text',
+                    isRequired: true,
+                    value: student?.surname,
+                },
+                {
+                    inputName: 'Email',
+                    inputPlaceholder: 'example@dekanat.ru',
+                    inputType: 'email',
+                    isRequired: true,
+                    value: student?.email,
+                },
+                {
+                    inputName: 'Номер телефона',
+                    inputPlaceholder: '+79991112233',
+                    inputType: 'text',
+                    isRequired: true,
+                    value: student?.phone_number,
+                },
+            ];
+        },
         buttons: [
             <button
                 type='submit'

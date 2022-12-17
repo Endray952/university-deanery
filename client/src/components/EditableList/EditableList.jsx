@@ -14,7 +14,7 @@ const EditableList = ({ config }) => {
     const [listItems, setListItems] = useState(null);
     const [loading, setLoading] = useState(true);
     const [searchInput, setSearchInput] = useState('');
-    //const [modalContent, setModalContent] = useState(null);
+    const [modalItem, setModalItem] = useState(null);
     useEffect(() => {
         config
             .asyncGetItems()
@@ -40,11 +40,12 @@ const EditableList = ({ config }) => {
     if (loading) {
         return <Spinner />;
     }
-    console.log(listItems);
+    //console.log(listItems);
     if (!listItems) {
         console.log(listItems);
         return <div>Ошибка загрузики данных</div>;
     }
+
     return (
         <>
             <div className='overflow-x-auto relative shadow-md sm:rounded-lg '>
@@ -71,6 +72,7 @@ const EditableList = ({ config }) => {
                                     <EditableListItem
                                         id={uuid()}
                                         setModalOpen={setModalOpen}
+                                        setModalItem={() => setModalItem(item)}
                                         listRow={config.getListRow(item)}
                                     />
                                 );
@@ -86,6 +88,7 @@ const EditableList = ({ config }) => {
                 isModalOpen={isModalOpen}
                 setModalOpen={setModalOpen}
                 modalConfig={config.modal}
+                modalItem={modalItem}
             />
         </>
     );
