@@ -1,6 +1,5 @@
 import { Modal } from '@mui/material';
 import React, { useState } from 'react';
-import ModalInput from './ModalInput';
 
 const ModalWindow = ({ isModalOpen, setModalOpen, modalConfig, modalItem }) => {
     const handleClose = () => setModalOpen(false);
@@ -31,33 +30,10 @@ const ModalWindow = ({ isModalOpen, setModalOpen, modalConfig, modalItem }) => {
 
                             {CloseButton(handleClose)}
                         </div>
+
                         {/* <!-- Modal body --> */}
-                        <div className='p-6 space-y-6'>
-                            <div className='grid grid-cols-6 gap-6'>
-                                {modalConfig.inputs(modalItem).map((input) => {
-                                    //console.log(input);
-                                    return (
-                                        <ModalInput
-                                            inputName={input.inputName}
-                                            inputPlaceholder={
-                                                input.inputPlaceholder
-                                            }
-                                            inputType={input.inputType}
-                                            isRequired={input.isRequired}
-                                            inputValue={input.value}
-                                        />
-                                    );
-                                })}
-                            </div>
-                        </div>
-                        {/* <!-- Modal footer --> */}
-                        <div
-                            className='flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600'
-                            style={{ justifyContent: 'space-between' }}
-                        >
-                            {/* <!-- Buttons from config --> */}
-                            {modalConfig.buttons.map((button) => button)}
-                        </div>
+
+                        {modalConfig.modalContent(modalItem, handleClose)}
                     </form>
                 </div>
             </div>

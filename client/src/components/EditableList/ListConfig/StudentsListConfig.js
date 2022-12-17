@@ -1,4 +1,5 @@
 import { getStudents } from '../../../http/deanAPI';
+import ModalStudents from '../Modal/ModalStudents';
 
 const getStudentStatus = (student_status) => {
     let status = '';
@@ -80,47 +81,86 @@ export const studentsListConfig = {
     },
     modal: {
         modalName: 'Редактировать студента',
-
-        inputs: (student) => {
-            console.log(student);
-            return [
-                {
-                    inputName: 'Имя',
-                    inputPlaceholder: 'Иван',
-                    inputType: 'text',
-                    isRequired: true,
-                    value: student?.name,
-                },
-                {
-                    inputName: 'Фамилия',
-                    inputPlaceholder: 'Иванов',
-                    inputType: 'text',
-                    isRequired: true,
-                    value: student?.surname,
-                },
-                {
-                    inputName: 'Email',
-                    inputPlaceholder: 'example@dekanat.ru',
-                    inputType: 'email',
-                    isRequired: true,
-                    value: student?.email,
-                },
-                {
-                    inputName: 'Номер телефона',
-                    inputPlaceholder: '+79991112233',
-                    inputType: 'text',
-                    isRequired: true,
-                    value: student?.phone_number,
-                },
-            ];
-        },
-        buttons: [
-            <button
-                type='submit'
-                className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
-            >
-                Сохранить
-            </button>,
-        ],
+        modalContent: (item, handleClose) => (
+            <ModalStudents student={item} handleClose={handleClose} />
+        ),
     },
 };
+
+//Save на всякий случай
+// inputs: (student) => {
+//     console.log(student);
+//     return [
+//         {
+//             inputName: 'Имя',
+//             inputPlaceholder: 'Иван',
+//             inputType: 'text',
+//             isRequired: true,
+//             value: student?.name,
+//         },
+//         {
+//             inputName: 'Фамилия',
+//             inputPlaceholder: 'Иванов',
+//             inputType: 'text',
+//             isRequired: true,
+//             value: student?.surname,
+//         },
+//         {
+//             inputName: 'Email',
+//             inputPlaceholder: 'example@dekanat.ru',
+//             inputType: 'email',
+//             isRequired: true,
+//             value: student?.email,
+//         },
+//         {
+//             inputName: 'Номер телефона',
+//             inputPlaceholder: '+79991112233',
+//             inputType: 'text',
+//             isRequired: true,
+//             value: student?.phone_number,
+//         },
+//     ];
+// },
+
+// inputs: (student) => {
+//     console.log(student);
+//     return {
+//         name: {
+//             inputName: 'Имя',
+//             inputPlaceholder: 'Иван',
+//             inputType: 'text',
+//             isRequired: true,
+//             value: student?.name,
+//         },
+//         surname: {
+//             inputName: 'Фамилия',
+//             inputPlaceholder: 'Иванов',
+//             inputType: 'text',
+//             isRequired: true,
+//             value: student?.surname,
+//         },
+//         email: {
+//             inputName: 'Email',
+//             inputPlaceholder: 'example@dekanat.ru',
+//             inputType: 'email',
+//             isRequired: true,
+//             value: student?.email,
+//         },
+//         telephone_number: {
+//             inputName: 'Номер телефона',
+//             inputPlaceholder: '+79991112233',
+//             inputType: 'text',
+//             isRequired: true,
+//             value: student?.phone_number,
+//         },
+//     };
+// },
+
+// buttons: [
+//     <button
+//         type='submit'
+//         className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+//     >
+//         Сохранить
+//     </button>,
+// ],

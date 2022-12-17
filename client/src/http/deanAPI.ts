@@ -31,3 +31,25 @@ export const getStudents = async (): Promise<object> => {
     //console.log(jwt_decode(data.token));
     return data;
 };
+
+export const updateStudent = async (
+    name: any,
+    surname: any,
+    email: any,
+    phone_number: any,
+    student_id: any
+): Promise<object> => {
+    console.log(name, surname, email, phone_number, student_id);
+    const { data } = await $authHost.post('api/dean/updateStudent', {
+        name,
+        surname,
+        email,
+        phone_number,
+        student_id,
+    });
+    //console.log(data);
+    //localStorage.setItem('token', data.token);
+    //UserStore.setIsAuth(true);
+    //console.log(jwt_decode(data.token));
+    return data;
+};

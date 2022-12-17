@@ -28,6 +28,15 @@ export const deanQueries = {
         ON direction.id = "group".direction_id 
         JOIN institute 
         ON institute.id = direction.institute_id 
+        ORDER BY student."name", student."surname"
         ;`;
+    },
+    updateStudent: (name, surname, email, phone_number, student_id) => {
+        return `UPDATE student SET
+        "name" = '${name}',
+        "surname" = '${surname}',
+        "email" = '${email}',
+        phone_number = '${phone_number}'
+        WHERE student.id = '${student_id}';`;
     },
 };

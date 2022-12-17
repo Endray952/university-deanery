@@ -11,4 +11,10 @@ router.get(
     DeanController.getStudents
 );
 
+router.post(
+    '/updateStudent',
+    checkRoleMiddleWare(['admin', 'dean']),
+    DeanController.updateStudent
+);
+
 export { router };

@@ -6,7 +6,7 @@ class FeedbackController {
     async getFeedbackById(req, res, next) {
         try {
             const { id: feedbackId } = req.params;
-            console.log(feedbackId);
+            //console.log(feedbackId);
             const feedbacks = await pool.query(
                 feedBackQueries.getFeedbacksById(feedbackId)
             );
@@ -30,7 +30,7 @@ class FeedbackController {
                     text
                 )
             );
-            console.log(postRes.rows);
+            // console.log(postRes.rows);
             res.json(postRes.rows);
         } catch (e) {
             next(ApiError.badRequest(`${e.message}`));

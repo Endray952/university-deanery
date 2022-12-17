@@ -24,23 +24,10 @@ const EditableList = ({ config }) => {
             .finally(() => setLoading(false));
     }, []);
 
-    // const getListItems = () => {
-    //    return listItems.map((item) => {
-    //     if(config.getListRow(item).)
-    //         return (
-    //             <EditableListItem
-    //                 id={uuid()}
-    //                 setModalOpen={setModalOpen}
-    //                 listRow={config.getListRow(item)}
-    //             />
-    //         );
-    //     })
-    // }
-
     if (loading) {
         return <Spinner />;
     }
-    //console.log(listItems);
+    console.log(modalItem, 'config: ', config.modal);
     if (!listItems) {
         console.log(listItems);
         return <div>Ошибка загрузики данных</div>;
