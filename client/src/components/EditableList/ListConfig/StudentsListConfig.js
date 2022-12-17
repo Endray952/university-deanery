@@ -52,10 +52,18 @@ export const studentsListConfig = {
             tableItems: [
                 student.phone_number,
                 getStudentStatus(student.student_status),
-                student.group_code,
-                student.semestr_number,
-                student.direction_name,
-                student.institute_name,
+                student.student_status === 'enrolled'
+                    ? student.group_code
+                    : '-',
+                student.student_status === 'enrolled'
+                    ? student.semestr_number
+                    : '-',
+                student.student_status === 'enrolled'
+                    ? student.direction_name
+                    : '-',
+                student.student_status === 'enrolled'
+                    ? student.institute_name
+                    : '-',
             ],
             actionName: 'изменить',
         };
