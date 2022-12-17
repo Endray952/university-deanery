@@ -19,6 +19,7 @@ const ModalWindow = ({ isModalOpen, setModalOpen, modalConfig, modalItem }) => {
                 <div className='relative w-full max-w-2xl h-full md:h-auto'>
                     {/* <!-- Modal content --> */}
                     <form
+                        id='dura'
                         action='#'
                         className='relative bg-white rounded-lg shadow dark:bg-gray-700'
                     >

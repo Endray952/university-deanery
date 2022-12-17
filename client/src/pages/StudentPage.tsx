@@ -28,7 +28,10 @@ export const StudentPage = () => {
                     >
                         ToursPage
                     </div>
-                    <EditableList config={studentsListConfig} />
+                    {
+                        //@ts-ignore
+                        <EditableList config={studentsListConfig} />
+                    }
                 </Container>
             </div>
         </>

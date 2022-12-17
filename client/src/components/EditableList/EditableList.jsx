@@ -1,6 +1,4 @@
-import { Modal } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { getStudents } from '../../http/deanAPI';
 import Spinner from '../Spinner';
 import ActionDropDown from './ActionDropDown';
 import ModalWindow from './Modal/ModalWindow';
@@ -9,32 +7,41 @@ import EditableListHead from './EditableListHead';
 import { v4 as uuid } from 'uuid';
 import EditableListItem from './EditableListItem';
 
+export const EditableListContext = React.createContext();
+
 const EditableList = ({ config }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [listItems, setListItems] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const [searchInput, setSearchInput] = useState('');
     const [modalItem, setModalItem] = useState(null);
+
     useEffect(() => {
         config
             .asyncGetItems()
             .then((data) => {
                 setListItems(data);
             })
-            .finally(() => setLoading(false));
+            .finally(() => setIsLoading(false));
     }, []);
 
-    if (loading) {
+    if (isLoading) {
         return <Spinner />;
     }
-    console.log(modalItem, 'config: ', config.modal);
+
     if (!listItems) {
         console.log(listItems);
         return <div>Ошибка загрузики данных</div>;
     }
 
     return (
-        <>
+        <EditableListContext.Provider
+            value={{
+                setListItems,
+                setIsLoading,
+                asyncGetItems: config.asyncGetItems.bind(config),
+            }}
+        >
             <div className='overflow-x-auto relative shadow-md sm:rounded-lg '>
                 <div className='flex justify-between items-center py-4 bg-white dark:bg-gray-800'>
                     <ActionDropDown />
@@ -57,7 +64,7 @@ const EditableList = ({ config }) => {
                             ) {
                                 return (
                                     <EditableListItem
-                                        id={uuid()}
+                                        key={uuid()}
                                         setModalOpen={setModalOpen}
                                         setModalItem={() => setModalItem(item)}
                                         listRow={config.getListRow(item)}
@@ -71,13 +78,13 @@ const EditableList = ({ config }) => {
                 </table>
             </div>
             <ModalWindow
-                id={uuid()}
+                key={uuid()}
                 isModalOpen={isModalOpen}
                 setModalOpen={setModalOpen}
                 modalConfig={config.modal}
                 modalItem={modalItem}
             />
-        </>
+        </EditableListContext.Provider>
     );
 };
 

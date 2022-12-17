@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { updateStudent } from '../../../http/deanAPI';
+import { EditableListContext } from '../EditableList';
 import ModalInput from './ModalInput';
 
 const ModalStudents = ({ student, handleClose }) => {
@@ -7,6 +8,33 @@ const ModalStudents = ({ student, handleClose }) => {
     const [surname, setSurname] = useState(student.surname);
     const [email, setEmail] = useState(student.email);
     const [phone, setPhone] = useState(student.phone_number);
+    const { setListItems, setIsLoading, asyncGetItems } =
+        useContext(EditableListContext);
+
+    const handleOnClick = async () => {
+        const form = document.getElementById('dura');
+        if (!form.checkValidity()) {
+            const tmpSubmit = document.createElement('button');
+            form.appendChild(tmpSubmit);
+            tmpSubmit.click();
+            form.removeChild(tmpSubmit);
+        } else {
+            handleClose();
+            await updateStudent(
+                name,
+                surname,
+                email,
+                phone,
+                student.student_id
+            );
+            setIsLoading(true);
+            await asyncGetItems()
+                .then((data) => {
+                    setListItems(data);
+                })
+                .finally(() => setIsLoading(false));
+        }
+    };
 
     return (
         <>
@@ -57,17 +85,7 @@ const ModalStudents = ({ student, handleClose }) => {
 
                 <button
                     type='submit'
-                    onClick={async (e) => {
-                        //e.preventDefault();
-                        handleClose();
-                        await updateStudent(
-                            name,
-                            surname,
-                            email,
-                            phone,
-                            student.student_id
-                        );
-                    }}
+                    onClick={handleOnClick}
                     className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
                 >
                     Сохранить
