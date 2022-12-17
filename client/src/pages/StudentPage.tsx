@@ -3,6 +3,7 @@ import React from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 import EditableList from '../components/EditableList/EditableList';
+import { studentsListConfig } from '../components/EditableList/ListConfig/StudentsListConfig';
 import Sidebar from '../components/Slidebar/Slidebar';
 import { getStudents } from '../http/deanAPI';
 import UserStore from '../store/UserStore';
@@ -27,7 +28,7 @@ export const StudentPage = () => {
                     >
                         ToursPage
                     </div>
-                    <EditableList />
+                    <EditableList config={studentsListConfig} />
                 </Container>
             </div>
         </>

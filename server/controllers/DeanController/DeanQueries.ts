@@ -17,7 +17,8 @@ export const deanQueries = {
         student_status,
         student.id AS student_id,
         last_student_group.group_id,
-        institute_id
+        institute_id,
+        direction."name" AS direction_name
         FROM student 
         CROSS JOIN get_last_student_stauts(student.id) AS last_student_stauts
         CROSS JOIN get_last_student_group(student.id) AS last_student_group

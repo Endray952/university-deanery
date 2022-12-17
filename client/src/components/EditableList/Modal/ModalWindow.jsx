@@ -2,7 +2,7 @@ import { Modal } from '@mui/material';
 import React, { useState } from 'react';
 import ModalInput from './ModalInput';
 
-const ModalWindow = ({ isModalOpen, setModalOpen, modalName }) => {
+const ModalWindow = ({ isModalOpen, setModalOpen, modalConfig }) => {
     const handleClose = () => setModalOpen(false);
     return (
         <Modal
@@ -26,7 +26,7 @@ const ModalWindow = ({ isModalOpen, setModalOpen, modalName }) => {
                         {/* <!-- Modal header --> */}
                         <div className='flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600'>
                             <h3 className='text-xl font-semibold text-gray-900 dark:text-white'>
-                                {modalName}
+                                {modalConfig.modalName}
                             </h3>
 
                             {CloseButton(handleClose)}
@@ -34,18 +34,18 @@ const ModalWindow = ({ isModalOpen, setModalOpen, modalName }) => {
                         {/* <!-- Modal body --> */}
                         <div className='p-6 space-y-6'>
                             <div className='grid grid-cols-6 gap-6'>
-                                <ModalInput
-                                    inputName={'Фимилия'}
-                                    inputPlaceholder={'Иванов'}
-                                    inputType={'text'}
-                                    isRequired={true}
-                                />
-                                <ModalInput
-                                    inputName={'Email'}
-                                    inputPlaceholder={'example@company.com'}
-                                    inputType={'email'}
-                                    isRequired={true}
-                                />
+                                {modalConfig.inputs.map((input) => {
+                                    return (
+                                        <ModalInput
+                                            inputName={input.inputName}
+                                            inputPlaceholder={
+                                                input.inputPlaceholder
+                                            }
+                                            inputType={input.inputType}
+                                            isRequired={input.isRequired}
+                                        />
+                                    );
+                                })}
                             </div>
                         </div>
                         {/* <!-- Modal footer --> */}
@@ -53,12 +53,8 @@ const ModalWindow = ({ isModalOpen, setModalOpen, modalName }) => {
                             className='flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600'
                             style={{ justifyContent: 'space-between' }}
                         >
-                            <button
-                                type='submit'
-                                className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
-                            >
-                                Save all
-                            </button>
+                            {/* <!-- Buttons from config --> */}
+                            {modalConfig.buttons.map((button) => button)}
                         </div>
                     </form>
                 </div>

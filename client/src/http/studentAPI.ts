@@ -24,6 +24,6 @@ import UserStore from '../store/UserStore';
 // };
 
 export const getStudentByUserId = async (id: string): Promise<object> => {
-    const { data } = await $authHost.get('api/student/myself/{id}');
+    const { data } = await $authHost.get(`api/student/myself/${id}`);
     return data;
 };

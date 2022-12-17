@@ -1,23 +1,10 @@
 import React, { useState } from 'react';
-import { studentsListConfig } from './ListConfig/ListConfig';
+import { studentsListConfig } from './ListConfig/StudentsListConfig';
 
-const EditableListHead = () => {
-    const [action, isAction] = useState(true);
+const EditableListHead = ({ editableListHead }) => {
     return (
         <tr>
-            {/* <th scope='col' className='py-3 px-6'>
-                Name
-            </th>
-            <th scope='col' className='py-3 px-6'>
-                Position
-            </th>
-            <th scope='col' className='py-3 px-6'>
-                Status
-            </th>
-            <th scope='col' className='py-3 px-6'>
-                Action
-            </th> */}
-            {studentsListConfig.editableListHead.map((heading) => {
+            {editableListHead.map((heading) => {
                 return (
                     <th scope='col' className='py-3 px-6'>
                         {heading}

@@ -42,11 +42,12 @@ export const NavBar = observer(() => {
     useEffect(() => {
         if (UserStore.user) {
             // getStudentByUserId(UserStore.user?.id)
-            //     .then((data) => {
-            //         setCurrentUser(data);
-            //         console.log(data);
-            //     })
-            //     .finally(() => setLoading(false));
+            getStudentByUserId('997351a9-a9b1-434f-927d-e36f4e0b8ee1')
+                .then((data) => {
+                    setCurrentUser(data);
+                    console.log(data);
+                })
+                .finally(() => setLoading(false));
         }
         // console.log(JSON.stringify(UserStore.user));
     }, []);
@@ -91,7 +92,9 @@ export const NavBar = observer(() => {
                             </NavLink>
                         </li>
                         <li>
-                            <div>{loading ? 'Загрузка...' : 'no info'}</div>
+                            <div>
+                                {loading ? 'Загрузка...' : currentUser.name}
+                            </div>
                         </li>
 
                         <li>

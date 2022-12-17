@@ -22,7 +22,7 @@ class StudentController {
             const student = await pool.query(
                 StudentQueries.getStudentByUserId(id)
             );
-            res.json(student.rows);
+            res.json(student.rows[0]);
         } catch (e) {
             console.log('getStudentByUserId error');
             next(ApiError.badRequest(`${e.message}`));
