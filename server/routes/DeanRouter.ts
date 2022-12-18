@@ -17,4 +17,10 @@ router.post(
     DeanController.updateStudent
 );
 
+router.post(
+    '/addStudent',
+    checkRoleMiddleWare(['admin', 'dean']),
+    DeanController.addStudent
+);
+
 export { router };

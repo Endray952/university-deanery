@@ -11,7 +11,7 @@ const ActionDropDown = () => {
                 onClick={(e) => isAction(!action)}
             >
                 <span className='sr-only'>Action button</span>
-                Action
+                Действия
                 <svg
                     className='ml-2 w-3 h-3'
                     aria-hidden='true'
@@ -44,22 +44,6 @@ const ActionDropDown = () => {
                             className='block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
                         >
                             Reward
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href='#'
-                            className='block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
-                        >
-                            Promote
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href='#'
-                            className='block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
-                        >
-                            Activate account
                         </a>
                     </li>
                 </ul>

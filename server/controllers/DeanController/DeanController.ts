@@ -16,6 +16,25 @@ class DeanController {
     //     }
     // }
 
+    async addStudent(req, res, next) {
+        try {
+            const { name, surname, email, phone_number, student_id } = req.body;
+            const students = await pool.query(
+                deanQueries.updateStudent(
+                    name,
+                    surname,
+                    email,
+                    phone_number,
+                    student_id
+                )
+            );
+            res.json(students.rows);
+        } catch (e) {
+            console.log('getStudents error');
+            next(ApiError.badRequest(`${e.message}`));
+        }
+    }
+
     async getStudents(req, res, next) {
         try {
             const students = await pool.query(deanQueries.getStudents());
@@ -25,10 +44,11 @@ class DeanController {
             next(ApiError.badRequest(`${e.message}`));
         }
     }
+
     async updateStudent(req, res, next) {
         try {
             const { name, surname, email, phone_number, student_id } = req.body;
-            console.log(name, surname, email, phone_number, student_id);
+            //console.log(name, surname, email, phone_number, student_id);
             const students = await pool.query(
                 deanQueries.updateStudent(
                     name,

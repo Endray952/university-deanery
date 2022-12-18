@@ -48,7 +48,7 @@ const EditableList = ({ config }) => {
         >
             <div className='overflow-x-auto relative shadow-md sm:rounded-lg '>
                 <div className='flex justify-between items-center py-4 bg-white dark:bg-gray-800'>
-                    <ActionDropDown />
+                    {config.actionComponent(listItems)}
                     <Pagination
                         count={
                             +(

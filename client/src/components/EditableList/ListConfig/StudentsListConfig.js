@@ -1,5 +1,6 @@
 import { getStudents } from '../../../http/deanAPI';
-import ModalStudents from '../Modal/ConcreteModals/ModalStudents';
+import StudentsActions from '../Actions/StudentsActions';
+import ModalStudents from '../Modal/ConcreteModals/StudentsModal/ModalStudents';
 
 const getStudentStatus = (student_status) => {
     let status = '';
@@ -93,6 +94,7 @@ export const studentsListConfig = {
             <ModalStudents student={item} handleClose={handleClose} />
         ),
     },
+    actionComponent: (item) => <StudentsActions students={item} />,
 };
 
 //Save на всякий случай

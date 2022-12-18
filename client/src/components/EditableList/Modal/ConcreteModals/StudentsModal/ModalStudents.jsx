@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
-import { updateStudent } from '../../../../http/deanAPI';
-import { EditableListContext } from '../../EditableList';
-import ModalInput from '../ModalInput';
+import { updateStudent } from '../../../../../http/deanAPI';
+import { EditableListContext } from '../../../EditableList';
+import ModalInput from '../../ModalInput';
 
 const ModalStudents = ({ student, handleClose }) => {
     const [name, setName] = useState(student.name);

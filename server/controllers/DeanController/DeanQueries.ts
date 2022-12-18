@@ -39,4 +39,7 @@ export const deanQueries = {
         phone_number = '${phone_number}'
         WHERE student.id = '${student_id}';`;
     },
+    // addStudent: (name, surname, email, phone_number, student_id) => {
+
+    // }
 };
