@@ -23,4 +23,10 @@ router.post(
     DeanController.addStudent
 );
 
+router.get(
+    '/getGroups/:date',
+    checkRoleMiddleWare(['admin', 'dean']),
+    DeanController.getGroups
+);
+
 export { router };

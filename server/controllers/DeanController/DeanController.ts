@@ -65,6 +65,18 @@ class DeanController {
         }
     }
 
+    async getGroups(req, res, next) {
+        try {
+            const { date } = req.params;
+            console.log(date);
+            const groups = await pool.query(deanQueries.getGroups(date));
+
+            res.json(groups.rows);
+        } catch (e) {
+            console.log('getGroups error');
+            next(ApiError.badRequest(`${e.message}`));
+        }
+    }
     // async postFeedback(req, res, next) {
     //     try {
     //         const { text } = req.body;

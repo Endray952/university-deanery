@@ -24,8 +24,10 @@ export const deanQueries = {
         CROSS JOIN get_last_student_group(student.id) AS last_student_group
         JOIN "group"  
         ON "group".id = last_student_group.group_id
+        JOIN studying_plan  
+        ON studying_plan.id = "group".studying_plan_id  
         JOIN direction 
-        ON direction.id = "group".direction_id 
+        ON direction.id = studying_plan.direction_id 
         JOIN institute 
         ON institute.id = direction.institute_id 
         ORDER BY student."name", student."surname"
@@ -42,4 +44,24 @@ export const deanQueries = {
     // addStudent: (name, surname, email, phone_number, student_id) => {
 
     // }
+    getGroups: (date: any) => {
+        return `SELECT semestr_groups.group_id AS group_id ,
+        semestr_groups.code_number ,
+        semestr_groups.studying_plan_id ,
+        semestr_groups.semestr_number ,
+        direction_id,
+        direction."name" AS direction_name,
+        direction."direction_type",
+        studying_plan.id AS studying_plan_id,
+        institute.id AS institute_id,
+        institute."name" AS institute_name
+        FROM get_semestr_groups(${date}) AS semestr_groups
+        JOIN studying_plan  
+        ON studying_plan.id = semestr_groups.studying_plan_id
+        JOIN direction  
+        ON direction.id = studying_plan.direction_id 
+        JOIN institute 
+        ON institute.id = direction.institute_id 
+        ;`;
+    },
 };

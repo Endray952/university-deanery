@@ -26,8 +26,10 @@ export const StudentQueries = {
         CROSS JOIN get_last_student_group(student.id) AS last_student_group
         JOIN "group"  
         ON "group".id = last_student_group.group_id
+        JOIN studying_plan 
+        ON studying_plan.id = "group".studying_plan_id 
         JOIN direction 
-        ON direction.id = "group".direction_id 
+        ON direction.id = studying_plan.direction_id 
         JOIN institute 
         ON institute.id = direction.institute_id 
         JOIN "system_user" 

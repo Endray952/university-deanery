@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Spinner from '../Spinner';
-import ActionDropDown from './ActionDropDown';
 import ModalWindow from './Modal/ModalWindow';
 import SearchInput from './SearchInput';
 import EditableListHead from './EditableListHead';

@@ -22,6 +22,17 @@ import UserStore from '../store/UserStore';
 //     localStorage.setItem('token', data.token);
 //     return jwt_decode(data.token);
 // };
+export const getCurrentGroups = async (): Promise<Array<any>> => {
+    const { data } = await $authHost.get('api/dean/getGroups/CURRENT_DATE');
+    console.log(data);
+    return data;
+};
+
+export const getGroupsByDate = async (date: any): Promise<object> => {
+    const { data } = await $authHost.get("api/dean/getGroups/'date'");
+
+    return data;
+};
 
 export const getStudents = async (): Promise<object> => {
     const { data } = await $authHost.get('api/dean/students');

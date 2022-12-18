@@ -1,17 +1,42 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { getCurrentGroups } from '../../../../http/deanAPI';
+import BasicDatePicker from '../../../DatePicker';
+import DropDownList from '../../../DropDownList';
+import Spinner from '../../../Spinner';
 
 import { EditableListContext } from '../../EditableList';
 import ModalInput from '../ModalInput';
+import GroupSelect from './GroupSelect';
 
 const ModalAddStudentContent = ({ handleClose }) => {
+    const [isLoading, setIsLoading] = useState(true);
+
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [passport, setPasport] = useState('');
     const [birthday, setBirthday] = useState('');
-    const { setListItems, setIsLoading, asyncGetItems } =
-        useContext(EditableListContext);
+    const {
+        setListItems,
+        setIsLoading: setListIsLoading,
+        asyncGetItems,
+    } = useContext(EditableListContext);
+    const [groups, setGroups] = useState(null);
+    const [selectedGroupId, setSelectedGroupId] = useState(null);
+    //const [selectedDirectionId, setSelectedDirectionId] = useState(null);
+    //const [selectedInstituteId, setSelectedDirectionId] = useState(null);
+
+    useEffect(() => {
+        getCurrentGroups()
+            .then((response) => {
+                //console.log(response);
+                setGroups(response);
+                //console.log(groups);
+            })
+            .finally(() => setIsLoading(false));
+        //console.log(groups);
+    }, []);
 
     const handleOnClick = async () => {
         const form = document.getElementById('dura');
@@ -29,14 +54,18 @@ const ModalAddStudentContent = ({ handleClose }) => {
             //     phone,
             //     student.student_id
             // );
-            setIsLoading(true);
+            setListIsLoading(true);
             await asyncGetItems()
                 .then((data) => {
                     setListItems(data);
                 })
-                .finally(() => setIsLoading(false));
+                .finally(() => setListIsLoading(false));
         }
     };
+
+    if (isLoading) {
+        return <Spinner />;
+    }
 
     return (
         <>
@@ -83,7 +112,23 @@ const ModalAddStudentContent = ({ handleClose }) => {
                         inputValue={passport}
                         onChangeSet={setPasport}
                     />
-                    {/* <BasicDatePicker value={birthday} setValue={setBirthday} /> */}
+                    <BasicDatePicker value={birthday} setValue={setBirthday} />
+                    {/* <DropDownList
+                        values={groups.map((group) => {
+                            return {
+                                name: group.code_number,
+                                id: group.group_id,
+                            };
+                        })}
+                        data={selectedGroupId}
+                        setData={setSelectedGroupId}
+                        label={'группа'}
+                    /> */}
+                    <GroupSelect
+                        groups={groups}
+                        selectedGroupId={selectedGroupId}
+                        setSelectedGroupId={setSelectedGroupId}
+                    />
                 </div>
             </div>
 
