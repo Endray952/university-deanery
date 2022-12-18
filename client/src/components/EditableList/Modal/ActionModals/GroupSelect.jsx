@@ -10,15 +10,16 @@ export default function GroupSelect({
     selectedGroupId,
     setSelectedGroupId,
 }) {
+    //const [institute, setInstitute] = useState({ name: '', value: '' });
     const [institute, setInstitute] = useState('');
     const [direction, setDirection] = useState('');
     const [semestr, setSemestr] = useState('');
-    const [group, setsetGroupPhone] = useState('');
+    const [group, setGroup] = useState('');
 
     const [instituteData, setInstituteData] = useState();
     const [directionData, setDirectionData] = useState([]);
     const [semestrData, setSemestrData] = useState([]);
-    const [groupData, setsetGroupPhoneData] = useState([]);
+    const [groupData, setGroupData] = useState([]);
 
     useEffect(() => {
         setInstituteData(
@@ -29,12 +30,6 @@ export default function GroupSelect({
                 };
             })
         );
-        // console.log(group);
-        // console.log([
-        //     ...new Map(
-        //         instituteData?.map((item) => [item['id'], item])
-        //     ).values(),
-        // ]);
     }, []);
 
     const handleChange = (event) => {
@@ -42,16 +37,11 @@ export default function GroupSelect({
     };
 
     const handleInstituteSelect = (event, value) => {
-        //console.log('value', value, '\nevent', event,);
-        setInstitute(event.target.value);
-        // console.log(JSON.stringify(event.target.value));
-        // console.log(JSON.stringify(institute));
-
-        // console.log(JSON.stringify(directionData));
+        setInstitute(value.props.value);
     };
 
     useEffect(() => {
-        if (institute.id) {
+        if (institute) {
             setDirectionData(
                 groups
                     .map((group) => {
@@ -62,25 +52,72 @@ export default function GroupSelect({
                         };
                     })
                     .filter((direction) => {
-                        console.log(direction.institute_id, institute.id);
-                        return direction.institute_id === institute.id;
+                        return direction.institute_id === institute;
                     })
             );
         }
-        console.log(getUniqueValues(directionData));
-    }, [institute.id]);
 
-    const handleDirectionSelect = (event) => {
-        // setDirection(event.target.value);
-        // console.log(JSON.stringify(institute));
-        // setDirectionData(
-        //     groups.map((group) => {
-        //         return {
-        //             name: group.direction_name,
-        //             id: group.direction_id,
-        //         };
-        //     })
-        // );
+        setDirection('');
+        setSemestr('');
+        setSemestrData([]);
+        setGroup('');
+        setGroupData([]);
+    }, [institute]);
+
+    const handleDirectionSelect = (event, value) => {
+        setDirection(value.props.value);
+    };
+
+    useEffect(() => {
+        if (direction) {
+            setSemestrData(
+                groups
+                    .map((group) => {
+                        return {
+                            name: group.semestr_number,
+                            id: group.semestr_number,
+                            direction_id: group.direction_id,
+                        };
+                    })
+                    .filter((sem) => {
+                        return sem.direction_id === direction;
+                    })
+            );
+        }
+
+        setSemestr('');
+        setGroup('');
+        setGroupData([]);
+    }, [direction, directionData]);
+
+    const handleSemestSelect = (event, value) => {
+        setSemestr(value.props.value);
+    };
+
+    useEffect(() => {
+        if (direction) {
+            setGroupData(
+                groups
+                    .map((group) => {
+                        return {
+                            name: group.code_number,
+                            id: group.group_id,
+                            direction_id: group.direction_id,
+                            sem_number: group.semestr_number,
+                        };
+                    })
+                    .filter((group) => {
+                        return (
+                            group.direction_id === direction &&
+                            +group.sem_number === +semestr
+                        );
+                    })
+            );
+        }
+    }, [semestr]);
+
+    const handleGroupSelect = (event, value) => {
+        setGroup(value.props.value);
     };
 
     const getUniqueValues = (array) => {
@@ -100,7 +137,7 @@ export default function GroupSelect({
                     <Select
                         labelId='demo-simple-select-required-label'
                         id='demo-simple-select-required'
-                        value={institute}
+                        value={institute.value}
                         //label={`${label}*`}
                         onChange={handleInstituteSelect}
                     >
@@ -143,15 +180,17 @@ export default function GroupSelect({
                     <Select
                         labelId='demo-simple-select-required-label'
                         id='demo-simple-select-required'
-                        value={''}
+                        value={semestr}
                         // label={'keek'}
-                        onChange={handleChange}
+                        onChange={handleSemestSelect}
                     >
-                        {/* {values.map((value) => {
-                        return (
-                            <MenuItem value={value.id}>{value.name}</MenuItem>
-                        );
-                    })} */}
+                        {getUniqueValues(semestrData).map((value) => {
+                            return (
+                                <MenuItem key={value.id} value={value.id}>
+                                    {value.name}
+                                </MenuItem>
+                            );
+                        })}
                     </Select>
                 </FormControl>
 
@@ -162,15 +201,17 @@ export default function GroupSelect({
                     <Select
                         labelId='demo-simple-select-required-label'
                         id='demo-simple-select-required'
-                        value={''}
+                        value={group}
                         //label={`${label}*`}
-                        onChange={handleChange}
+                        onChange={handleGroupSelect}
                     >
-                        {/* {values.map((value) => {
-                        return (
-                            <MenuItem value={value.id}>{value.name}</MenuItem>
-                        );
-                    })} */}
+                        {groupData.map((value) => {
+                            return (
+                                <MenuItem key={value.id} value={value.id}>
+                                    {value.name}
+                                </MenuItem>
+                            );
+                        })}
                     </Select>
                 </FormControl>
             </div>
