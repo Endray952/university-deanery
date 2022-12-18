@@ -34,16 +34,18 @@ const EditableListItem = ({ setModalOpen, listRow, setModalItem }) => {
                 );
             })}
 
-            <td className='py-4 px-6'>
-                {/* <!-- Modal toggle --> */}
-                <button
-                    onClick={handleOpenModal}
-                    data-modal-toggle='editUserModal'
-                    className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
-                >
-                    {listRow.actionName}
-                </button>
-            </td>
+            {listRow.actionName && (
+                <td className='py-4 px-6'>
+                    {/* <!-- Modal toggle --> */}
+                    <button
+                        onClick={handleOpenModal}
+                        data-modal-toggle='editUserModal'
+                        className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
+                    >
+                        {listRow.actionName}
+                    </button>
+                </td>
+            )}
         </tr>
     );
 };

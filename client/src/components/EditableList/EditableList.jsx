@@ -6,8 +6,11 @@ import SearchInput from './SearchInput';
 import EditableListHead from './EditableListHead';
 import { v4 as uuid } from 'uuid';
 import EditableListItem from './EditableListItem';
+import Pagination from '@mui/material/Pagination';
 
 export const EditableListContext = React.createContext();
+
+const pageRatio = 5;
 
 const EditableList = ({ config }) => {
     const [isModalOpen, setModalOpen] = useState(false);
@@ -15,6 +18,7 @@ const EditableList = ({ config }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [searchInput, setSearchInput] = useState('');
     const [modalItem, setModalItem] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         config
@@ -45,6 +49,22 @@ const EditableList = ({ config }) => {
             <div className='overflow-x-auto relative shadow-md sm:rounded-lg '>
                 <div className='flex justify-between items-center py-4 bg-white dark:bg-gray-800'>
                     <ActionDropDown />
+                    <Pagination
+                        count={
+                            +(
+                                listItems.filter((item) =>
+                                    config.searchConfig.searchBy(
+                                        item,
+                                        searchInput
+                                    )
+                                ).length / pageRatio
+                            ).toFixed(0)
+                        }
+                        page={currentPage}
+                        onChange={(e, val) => setCurrentPage(val)}
+                        color='primary'
+                    />
+
                     <SearchInput
                         searchConfig={config.searchConfig}
                         searchInput={searchInput}
@@ -58,10 +78,11 @@ const EditableList = ({ config }) => {
                         />
                     </thead>
                     <tbody>
-                        {listItems.map((item) => {
-                            if (
+                        {listItems
+                            .filter((item) =>
                                 config.searchConfig.searchBy(item, searchInput)
-                            ) {
+                            )
+                            .map((item) => {
                                 return (
                                     <EditableListItem
                                         key={uuid()}
@@ -70,10 +91,11 @@ const EditableList = ({ config }) => {
                                         listRow={config.getListRow(item)}
                                     />
                                 );
-                            } else {
-                                return null;
-                            }
-                        })}
+                            })
+                            .slice(
+                                (currentPage - 1) * pageRatio,
+                                (currentPage - 1) * pageRatio + pageRatio
+                            )}
                     </tbody>
                 </table>
             </div>

@@ -8,6 +8,7 @@ const ModalStudents = ({ student, handleClose }) => {
     const [surname, setSurname] = useState(student.surname);
     const [email, setEmail] = useState(student.email);
     const [phone, setPhone] = useState(student.phone_number);
+    const [passport, setPasport] = useState(student.passport);
     const { setListItems, setIsLoading, asyncGetItems } =
         useContext(EditableListContext);
 
@@ -73,6 +74,14 @@ const ModalStudents = ({ student, handleClose }) => {
                         inputValue={phone}
                         onChangeSet={setPhone}
                     />
+                    <ModalInput
+                        inputName={'Паспорт'}
+                        inputPlaceholder={'1111222222'}
+                        inputType={'text'}
+                        isRequired={true}
+                        inputValue={passport}
+                        onChangeSet={setPasport}
+                    />
                 </div>
             </div>
 
@@ -89,6 +98,13 @@ const ModalStudents = ({ student, handleClose }) => {
                     className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
                 >
                     Сохранить
+                </button>
+                <button
+                    type='submit'
+                    onClick={handleOnClick}
+                    className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+                >
+                    Перевести студента
                 </button>
             </div>
         </>
