@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { getCurrentGroups } from '../../../../http/deanAPI';
+import { createStudent, getCurrentGroups } from '../../../../http/deanAPI';
 import BasicDatePicker from '../../../DatePicker';
 import DropDownList from '../../../DropDownList';
 import Spinner from '../../../Spinner';
@@ -49,13 +49,17 @@ const ModalAddStudentContent = ({ handleClose }) => {
             form.removeChild(tmpSubmit);
         } else {
             handleClose();
-            // await updateStudent(
-            //     name,
-            //     surname,
-            //     email,
-            //     phone,
-            //     student.student_id
-            // );
+            await createStudent(
+                login,
+                password,
+                name,
+                surname,
+                email,
+                phone,
+                passport,
+                `${birthday.year()}-${birthday.month()}-${birthday.day()}`,
+                selectedGroupId
+            );
 
             setListIsLoading(true);
             await asyncGetItems()
