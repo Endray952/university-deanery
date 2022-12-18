@@ -18,12 +18,13 @@ export const App = observer(() => {
                 UserStore.setIsAuth(true);
             })
             .finally(() => setLoading(false));
+        console.log(JSON.stringify(UserStore.user));
     }, []);
 
     if (loading) {
         return <Spinner />;
     }
-    console.log(UserStore.isAuth);
+
     return (
         <BrowserRouter>
             <NavBar />

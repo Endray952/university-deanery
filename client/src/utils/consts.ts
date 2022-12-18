@@ -4,6 +4,7 @@ export const REGISTRATION_PATH = '/registration';
 export const STUDENT_PATH = '/student';
 export const DEAN_PATH = '/dean';
 export const ROOT_PATH = '/';
+export const SUTDENTS_EDIT_PATH = '/student'; //edit
 
 export interface userType {
     id: string;
@@ -12,3 +13,11 @@ export interface userType {
     iat: any;
     exp: any;
 }
+
+export const role = {
+    ADMIN: 'admin',
+    STUDENT: 'student',
+    DEAN: 'dean',
+    TEACHER: 'teacher',
+    RECTOR: 'teacher',
+};

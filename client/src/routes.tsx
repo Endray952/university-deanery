@@ -4,6 +4,7 @@ import {
     LOGIN_PATH,
     REGISTRATION_PATH,
     STUDENT_PATH,
+    SUTDENTS_EDIT_PATH,
 } from './utils/consts';
 
 import { LoginPage } from './pages/LoginPage';
@@ -14,7 +15,7 @@ import { StudentPage } from './pages/StudentPage';
 /**
  * Routes for authentication
  */
-export const authRoutes = [
+export const adminRoutes = [
     {
         path: ADMIN_PATH,
         component: LoginPage,
@@ -26,7 +27,75 @@ export const authRoutes = [
     },
 
     {
-        path: STUDENT_PATH,
+        path: SUTDENTS_EDIT_PATH,
+        component: StudentPage,
+    },
+];
+
+export const deanRoutes = [
+    {
+        path: ADMIN_PATH,
+        component: LoginPage,
+    },
+
+    {
+        path: REGISTRATION_PATH,
+        component: LoginPage,
+    },
+
+    {
+        path: SUTDENTS_EDIT_PATH,
+        component: StudentPage,
+    },
+];
+
+export const studentRoutes = [
+    {
+        path: ADMIN_PATH,
+        component: LoginPage,
+    },
+
+    {
+        path: REGISTRATION_PATH,
+        component: LoginPage,
+    },
+
+    {
+        path: SUTDENTS_EDIT_PATH,
+        component: StudentPage,
+    },
+];
+
+export const teacherRoutes = [
+    {
+        path: ADMIN_PATH,
+        component: LoginPage,
+    },
+
+    {
+        path: REGISTRATION_PATH,
+        component: LoginPage,
+    },
+
+    {
+        path: SUTDENTS_EDIT_PATH,
+        component: StudentPage,
+    },
+];
+
+export const rectorRoutes = [
+    {
+        path: ADMIN_PATH,
+        component: LoginPage,
+    },
+
+    {
+        path: REGISTRATION_PATH,
+        component: LoginPage,
+    },
+
+    {
+        path: SUTDENTS_EDIT_PATH,
         component: StudentPage,
     },
 ];

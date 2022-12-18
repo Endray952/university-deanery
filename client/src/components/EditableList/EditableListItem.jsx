@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 
 const EditableListItem = ({ setModalOpen, listRow, setModalItem }) => {
     const handleOpenModal = () => {
@@ -26,7 +27,11 @@ const EditableListItem = ({ setModalOpen, listRow, setModalItem }) => {
             </th>
 
             {listRow.tableItems.map((item) => {
-                return <td className='py-4 px-6'>{item || 'неизвестно'}</td>;
+                return (
+                    <td key={uuid()} className='py-4 px-6'>
+                        {item || 'неизвестно'}
+                    </td>
+                );
             })}
 
             <td className='py-4 px-6'>

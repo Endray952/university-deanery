@@ -1,5 +1,5 @@
 import { getStudents } from '../../../http/deanAPI';
-import ModalStudents from '../Modal/ModalStudents';
+import ModalStudents from '../Modal/ConcreteModals/ModalStudents';
 
 const getStudentStatus = (student_status) => {
     let status = '';
