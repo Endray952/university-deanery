@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const ActionDropDown = () => {
     const [action, isAction] = useState(true);
     return (
-        <div>
+        <div style={{ marginLeft: '15px' }}>
             <button
                 id='dropdownActionButton'
                 data-dropdown-toggle='dropdownAction'
