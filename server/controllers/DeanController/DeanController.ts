@@ -24,6 +24,39 @@ class DeanController {
     //     }
     // }
 
+    private async createUser(
+        login: string,
+        hashedPassword: string,
+        role: string,
+        personId: string,
+        next
+    ) {
+        try {
+            console.log(login, hashedPassword, personId);
+            await pool.query(
+                authQueries.createUser(login, hashedPassword, role, personId)
+            );
+        } catch (e) {
+            console.log('createUser');
+            //next(ApiError.badRequest(`Error creating user/ ${e.message}`));
+            throw e;
+        }
+    }
+
+    private async isUserLoginExists(next, login) {
+        try {
+            console.log(login);
+            const userLoginExists = await pool.query(
+                authQueries.isLoginExist(login)
+            );
+            return userLoginExists.rows[0].exists;
+        } catch (e) {
+            console.log('isUserLoginExists');
+            throw e;
+            //next(ApiError.badRequest(`${e.message}`));
+        }
+    }
+
     async createStudent(req, res, next) {
         try {
             const {
@@ -37,10 +70,22 @@ class DeanController {
                 birthday,
                 group_id,
             } = req.body;
+            console.log(
+                login,
+                password,
+                name,
+                surname,
+                email,
+                phone_number,
+                passport,
+                birthday,
+                group_id
+            );
             const candidateAprovement = await this.isUserLoginExists(
                 next,
                 login
             );
+            console.log(candidateAprovement);
             if (candidateAprovement) {
                 return next(
                     ApiError.badRequest(
@@ -48,21 +93,24 @@ class DeanController {
                     )
                 );
             }
-            const studentId = await pool.query(
-                deanQueries.createStudent(
-                    name,
-                    surname,
-                    email,
-                    phone_number,
-                    passport,
-                    birthday,
-                    group_id
+            console.log('after candidate');
+            const studentId = (
+                await pool.query(
+                    deanQueries.createStudent(
+                        name,
+                        surname,
+                        email,
+                        phone_number,
+                        passport,
+                        birthday,
+                        group_id
+                    )
                 )
-            );
+            ).rows[0]['create_person'];
             //res.json(studentId.rows);
-
-            const hashedPassword = await bcrypt.hash(password, 5);
-
+            console.log('id', studentId);
+            const hashedPassword = await bcrypt.hash(String(password), 5);
+            console.log(hashedPassword);
             this.createUser(
                 login,
                 hashedPassword,
@@ -70,6 +118,7 @@ class DeanController {
                 String(studentId),
                 next
             );
+            console.log(login);
             const token = generateJwt(String(studentId), login, 'student');
             return res.json({ token });
         } catch (e) {
@@ -135,37 +184,5 @@ class DeanController {
     //         next(ApiError.badRequest(`${e.message}`));
     //     }
     // }
-
-    private async createUser(
-        login: string,
-        hashedPassword: string,
-        role: string,
-        personId: string,
-        next
-    ) {
-        try {
-            await pool.query(
-                authQueries.createUser(login, hashedPassword, role, personId)
-            );
-        } catch (e) {
-            console.log('createUser');
-            //next(ApiError.badRequest(`Error creating user/ ${e.message}`));
-            throw e;
-        }
-    }
-
-    private async isUserLoginExists(next, login) {
-        try {
-            //console.log(login);
-            const userLoginExists = await pool.query(
-                authQueries.isLoginExist(login)
-            );
-            return userLoginExists.rows[0].exists;
-        } catch (e) {
-            console.log('isUserLoginExists');
-            throw e;
-            //next(ApiError.badRequest(`${e.message}`));
-        }
-    }
 }
 export default new DeanController();

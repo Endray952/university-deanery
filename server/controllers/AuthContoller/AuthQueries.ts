@@ -14,8 +14,8 @@ export const authQueries = {
         personId: string
     ) => {
         return `INSERT INTO "system_user" 
-        ("id", "login", "hashed_password", "role", "personId")
-        VALUES ('${uuid()}', '${login}', '${hashedPassword}', '${role}', '${personId}');
+        ("id", "login", "hashed_password", "role", "person_id")
+        VALUES (gen_random_uuid(), '${login}', '${hashedPassword}', '${role}', '${personId}')
         ;`;
     },
     getUser: (login: string) => {

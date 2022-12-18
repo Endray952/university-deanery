@@ -20,7 +20,7 @@ router.post(
 router.post(
     '/createStudent',
     checkRoleMiddleWare(['admin', 'dean']),
-    DeanController.createStudent
+    DeanController.createStudent.bind(DeanController)
 );
 
 router.get(
