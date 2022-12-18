@@ -1,7 +1,15 @@
 import { pool } from '../../db.js';
 import { ApiError } from '../../error/ApiError.js';
+import { authQueries } from '../AuthContoller/AuthQueries.js';
 import { deanQueries } from './DeanQueries.js';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
+const generateJwt = (id: string, login: string, role: string) => {
+    return jwt.sign({ id, login, role }, process.env.SECRET_KEY, {
+        expiresIn: '24h',
+    });
+};
 class DeanController {
     // async getFeedbackById(req, res, next) {
     //     try {
@@ -16,19 +24,54 @@ class DeanController {
     //     }
     // }
 
-    async addStudent(req, res, next) {
+    async createStudent(req, res, next) {
         try {
-            const { name, surname, email, phone_number, student_id } = req.body;
-            const students = await pool.query(
-                deanQueries.updateStudent(
+            const {
+                login,
+                password,
+                name,
+                surname,
+                email,
+                phone_number,
+                passport,
+                birthday,
+                group_id,
+            } = req.body;
+            const candidateAprovement = await this.isUserLoginExists(
+                next,
+                login
+            );
+            if (candidateAprovement) {
+                return next(
+                    ApiError.badRequest(
+                        'Пользователь с таким login уже существует'
+                    )
+                );
+            }
+            const studentId = await pool.query(
+                deanQueries.createStudent(
                     name,
                     surname,
                     email,
                     phone_number,
-                    student_id
+                    passport,
+                    birthday,
+                    group_id
                 )
             );
-            res.json(students.rows);
+            //res.json(studentId.rows);
+
+            const hashedPassword = await bcrypt.hash(password, 5);
+
+            this.createUser(
+                login,
+                hashedPassword,
+                'student',
+                String(studentId),
+                next
+            );
+            const token = generateJwt(String(studentId), login, 'student');
+            return res.json({ token });
         } catch (e) {
             console.log('getStudents error');
             next(ApiError.badRequest(`${e.message}`));
@@ -93,8 +136,36 @@ class DeanController {
     //     }
     // }
 
-    async updateFeedback(req, res) {}
+    private async createUser(
+        login: string,
+        hashedPassword: string,
+        role: string,
+        personId: string,
+        next
+    ) {
+        try {
+            await pool.query(
+                authQueries.createUser(login, hashedPassword, role, personId)
+            );
+        } catch (e) {
+            console.log('createUser');
+            //next(ApiError.badRequest(`Error creating user/ ${e.message}`));
+            throw e;
+        }
+    }
 
-    async deleteFeedback(req, res) {}
+    private async isUserLoginExists(next, login) {
+        try {
+            //console.log(login);
+            const userLoginExists = await pool.query(
+                authQueries.isLoginExist(login)
+            );
+            return userLoginExists.rows[0].exists;
+        } catch (e) {
+            console.log('isUserLoginExists');
+            throw e;
+            //next(ApiError.badRequest(`${e.message}`));
+        }
+    }
 }
 export default new DeanController();

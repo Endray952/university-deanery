@@ -41,9 +41,17 @@ export const deanQueries = {
         phone_number = '${phone_number}'
         WHERE student.id = '${student_id}';`;
     },
-    // addStudent: (name, surname, email, phone_number, student_id) => {
-
-    // }
+    createStudent: (
+        name,
+        surname,
+        email,
+        phone_number,
+        passport,
+        birthday,
+        group_id
+    ) => {
+        return `SELECT * FROM create_person('${name}','${surname}', '${email}', '${birthday}', '${passport}', '${phone_number}', '${group_id}');`;
+    },
     getGroups: (date: any) => {
         return `SELECT semestr_groups.group_id AS group_id ,
         semestr_groups.code_number ,

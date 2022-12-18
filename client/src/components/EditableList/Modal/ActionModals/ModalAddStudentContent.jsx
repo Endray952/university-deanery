@@ -11,6 +11,8 @@ import GroupSelect from './GroupSelect';
 const ModalAddStudentContent = ({ handleClose }) => {
     const [isLoading, setIsLoading] = useState(true);
 
+    const [login, setLogin] = useState('');
+    const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
@@ -38,7 +40,7 @@ const ModalAddStudentContent = ({ handleClose }) => {
         //console.log(groups);
     }, []);
 
-    const handleOnClick = async () => {
+    const handleSave = async () => {
         const form = document.getElementById('dura');
         if (!form.checkValidity()) {
             const tmpSubmit = document.createElement('button');
@@ -54,6 +56,7 @@ const ModalAddStudentContent = ({ handleClose }) => {
             //     phone,
             //     student.student_id
             // );
+
             setListIsLoading(true);
             await asyncGetItems()
                 .then((data) => {
@@ -71,6 +74,22 @@ const ModalAddStudentContent = ({ handleClose }) => {
         <>
             <div className='p-6 space-y-6'>
                 <div className='grid grid-cols-6 gap-6'>
+                    <ModalInput
+                        inputName={'Логин'}
+                        inputPlaceholder={'login'}
+                        inputType={'text'}
+                        isRequired={true}
+                        inputValue={login}
+                        onChangeSet={setLogin}
+                    />
+                    <ModalInput
+                        inputName={'Пароль'}
+                        inputPlaceholder={''}
+                        inputType={'text'}
+                        isRequired={true}
+                        inputValue={password}
+                        onChangeSet={setPassword}
+                    />
                     <ModalInput
                         inputName={'Имя'}
                         inputPlaceholder={'Иван'}
@@ -141,10 +160,10 @@ const ModalAddStudentContent = ({ handleClose }) => {
 
                 <button
                     type='submit'
-                    onClick={handleOnClick}
+                    onClick={handleSave}
                     className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
                 >
-                    Сохранить
+                    Добавить
                 </button>
             </div>
         </>

@@ -10,11 +10,9 @@ export default function GroupSelect({
     selectedGroupId,
     setSelectedGroupId,
 }) {
-    //const [institute, setInstitute] = useState({ name: '', value: '' });
     const [institute, setInstitute] = useState('');
     const [direction, setDirection] = useState('');
     const [semestr, setSemestr] = useState('');
-    const [group, setGroup] = useState('');
 
     const [instituteData, setInstituteData] = useState();
     const [directionData, setDirectionData] = useState([]);
@@ -31,10 +29,6 @@ export default function GroupSelect({
             })
         );
     }, []);
-
-    const handleChange = (event) => {
-        setSelectedGroupId(event.target.value);
-    };
 
     const handleInstituteSelect = (event, value) => {
         setInstitute(value.props.value);
@@ -60,7 +54,7 @@ export default function GroupSelect({
         setDirection('');
         setSemestr('');
         setSemestrData([]);
-        setGroup('');
+        setSelectedGroupId('');
         setGroupData([]);
     }, [institute]);
 
@@ -86,7 +80,7 @@ export default function GroupSelect({
         }
 
         setSemestr('');
-        setGroup('');
+        setSelectedGroupId('');
         setGroupData([]);
     }, [direction, directionData]);
 
@@ -117,7 +111,7 @@ export default function GroupSelect({
     }, [semestr]);
 
     const handleGroupSelect = (event, value) => {
-        setGroup(value.props.value);
+        setSelectedGroupId(value.props.value);
     };
 
     const getUniqueValues = (array) => {
@@ -201,7 +195,7 @@ export default function GroupSelect({
                     <Select
                         labelId='demo-simple-select-required-label'
                         id='demo-simple-select-required'
-                        value={group}
+                        value={selectedGroupId}
                         //label={`${label}*`}
                         onChange={handleGroupSelect}
                     >

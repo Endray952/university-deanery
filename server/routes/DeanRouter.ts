@@ -18,9 +18,9 @@ router.post(
 );
 
 router.post(
-    '/addStudent',
+    '/createStudent',
     checkRoleMiddleWare(['admin', 'dean']),
-    DeanController.addStudent
+    DeanController.createStudent
 );
 
 router.get(

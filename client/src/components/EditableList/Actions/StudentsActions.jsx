@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ModalAddStudent from '../Modal/ActionModals/ModalAddStudent';
 
 const StudentsActions = ({ students }) => {
-    const [isOpen, setOpen] = useState(false);
+    const [isOpen, setOpen] = useState(true);
     const [isModalAddStudentOpen, setModalAddStudentOpen] = useState(false);
 
     return (

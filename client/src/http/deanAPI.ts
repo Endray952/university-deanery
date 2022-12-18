@@ -43,6 +43,33 @@ export const getStudents = async (): Promise<object> => {
     return data;
 };
 
+export const createStudent = async (
+    login: any,
+    password: any,
+    name: any,
+    surname: any,
+    email: any,
+    phone_number: any,
+    passport: any,
+    birthday: any,
+    group_id: any
+): Promise<object> => {
+    console.log(name, surname, email, phone_number);
+    const { data } = await $authHost.post('api/dean/createStudent', {
+        login,
+        password,
+        name,
+        surname,
+        email,
+        phone_number,
+        passport,
+        birthday,
+        group_id,
+    });
+
+    return data;
+};
+
 export const updateStudent = async (
     name: any,
     surname: any,
