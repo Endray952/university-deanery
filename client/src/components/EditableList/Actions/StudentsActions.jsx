@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ModalAddStudent from '../Modal/ActionModals/ModalAddStudent';
+import ModalAddStudent from '../Modal/ActionModals/ModalCreateStudent/ModalAddStudent';
 
 const StudentsActions = ({ students }) => {
     const [isOpen, setOpen] = useState(true);

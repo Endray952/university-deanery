@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { createStudent, getCurrentGroups } from '../../../../http/deanAPI';
-import BasicDatePicker from '../../../DatePicker';
-import DropDownList from '../../../DropDownList';
-import Spinner from '../../../Spinner';
-
-import { EditableListContext } from '../../EditableList';
-import ModalInput from '../ModalInput';
+import { createStudent, getCurrentGroups } from '../../../../../http/deanAPI';
+import BasicDatePicker from '../../../../DatePicker';
+import Spinner from '../../../../Spinner';
+import { EditableListContext } from '../../../EditableList';
+import ModalInput from '../../ModalInput';
 import GroupSelect from './GroupSelect';
 
 const ModalAddStudentContent = ({ handleClose }) => {
