@@ -14,6 +14,7 @@ export const LoginPage = observer(() => {
     const navigate = useNavigate();
     const [loginInput, setLogin] = useState('');
     const [password, setPassword] = useState('');
+    const [errorText, setErrorText] = useState('');
 
     const click = async () => {
         try {
@@ -23,9 +24,18 @@ export const LoginPage = observer(() => {
             // console.log(JSON.stringify(UserStore.user), JSON.stringify(data));
             navigate(STUDENT_PATH);
         } catch (e: any) {
-            alert(e.response.data.message);
+            //alert(e.response.data.message);
+            setErrorText(e.response.data.message);
         }
     };
+
+    useEffect(() => {
+        if (UserStore.isAuth) {
+            UserStore.setIsAuth(false);
+            UserStore.setUser(null);
+            localStorage.removeItem('token');
+        }
+    }, []);
 
     return (
         <>
@@ -82,6 +92,7 @@ export const LoginPage = observer(() => {
                                     Войти
                                 </button>
                             </div>
+                            {errorText}
                         </div>
                     </div>
                 </div>

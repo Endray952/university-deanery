@@ -81,17 +81,22 @@ class DeanController {
                 birthday,
                 group_id
             );
+            const errorRes = { statusCode: '200', description: null };
             const candidateAprovement = await this.isUserLoginExists(
                 next,
                 login
             );
             console.log(candidateAprovement);
             if (candidateAprovement) {
-                return next(
-                    ApiError.badRequest(
-                        'Пользователь с таким login уже существует'
-                    )
-                );
+                errorRes.statusCode = '404';
+                errorRes.description =
+                    'Пользователь с таким login уже существует';
+                return res.json({ errorRes });
+                // return next(
+                //     ApiError.badRequest(
+                //         'Пользователь с таким login уже существует'
+                //     )
+                // );
             }
             console.log('after candidate');
             const studentId = (
@@ -160,7 +165,7 @@ class DeanController {
     async getGroups(req, res, next) {
         try {
             const { date } = req.params;
-            console.log(date);
+            //console.log(date);
             const groups = await pool.query(deanQueries.getGroups(date));
 
             res.json(groups.rows);

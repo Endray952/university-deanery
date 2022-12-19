@@ -24,7 +24,7 @@ import UserStore from '../store/UserStore';
 // };
 export const getCurrentGroups = async (): Promise<Array<any>> => {
     const { data } = await $authHost.get('api/dean/getGroups/CURRENT_DATE');
-    console.log(data);
+    //console.log(data);
     return data;
 };
 
@@ -36,10 +36,6 @@ export const getGroupsByDate = async (date: any): Promise<object> => {
 
 export const getStudents = async (): Promise<object> => {
     const { data } = await $authHost.get('api/dean/students');
-    //console.log(data);
-    //localStorage.setItem('token', data.token);
-    //UserStore.setIsAuth(true);
-    //console.log(jwt_decode(data.token));
     return data;
 };
 
@@ -85,9 +81,5 @@ export const updateStudent = async (
         phone_number,
         student_id,
     });
-    //console.log(data);
-    //localStorage.setItem('token', data.token);
-    //UserStore.setIsAuth(true);
-    //console.log(jwt_decode(data.token));
     return data;
 };

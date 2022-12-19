@@ -118,6 +118,8 @@ export default function GroupSelect({
         return [...new Map(array?.map((item) => [item['id'], item])).values()];
     };
 
+    //console.log(institute);
+
     if (groups?.length === 0) {
         return <p>Ошибка</p>;
     }
@@ -131,7 +133,7 @@ export default function GroupSelect({
                     <Select
                         labelId='demo-simple-select-required-label'
                         id='demo-simple-select-required'
-                        value={institute.value}
+                        value={institute || ''}
                         //label={`${label}*`}
                         onChange={handleInstituteSelect}
                     >
@@ -152,7 +154,7 @@ export default function GroupSelect({
                     <Select
                         labelId='demo-simple-select-required-label'
                         id='demo-simple-select-required'
-                        value={direction}
+                        value={direction || ''}
                         //label={`${label}*`}
                         onChange={handleDirectionSelect}
                     >
@@ -174,7 +176,7 @@ export default function GroupSelect({
                     <Select
                         labelId='demo-simple-select-required-label'
                         id='demo-simple-select-required'
-                        value={semestr}
+                        value={semestr || ''}
                         // label={'keek'}
                         onChange={handleSemestSelect}
                     >
@@ -195,7 +197,7 @@ export default function GroupSelect({
                     <Select
                         labelId='demo-simple-select-required-label'
                         id='demo-simple-select-required'
-                        value={selectedGroupId}
+                        value={selectedGroupId || ''}
                         //label={`${label}*`}
                         onChange={handleGroupSelect}
                     >

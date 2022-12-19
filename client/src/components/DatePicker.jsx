@@ -7,15 +7,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import 'dayjs/locale/ru';
 
 export default function BasicDatePicker({ value, setValue, placeholder }) {
-    // console.log(
-    //     'time',
-    //     `${value.y}-${value.M + 1}-${value.D}`,
-    //     JSON.stringify(value).slice(0, 11),
-    //     value.year(),
-    //     value.month(),
-    //     value.day(),
-    //     value.date()
-    // );
     return (
         <div className='col-span-6 sm:col-span-3'>
             <label
@@ -29,7 +20,7 @@ export default function BasicDatePicker({ value, setValue, placeholder }) {
             >
                 <DatePicker
                     label={placeholder}
-                    value={value}
+                    value={value || ''}
                     onChange={(newValue) => {
                         setValue(newValue);
                     }}

@@ -18,7 +18,7 @@ export const App = observer(() => {
                 UserStore.setIsAuth(true);
             })
             .finally(() => setLoading(false));
-        console.log(JSON.stringify(UserStore.user));
+        // console.log(JSON.stringify(UserStore.user));
     }, []);
 
     if (loading) {

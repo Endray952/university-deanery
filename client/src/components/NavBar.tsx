@@ -40,16 +40,22 @@ export const NavBar = observer(() => {
     const [currentUser, setCurrentUser] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        if (UserStore.user) {
-            // getStudentByUserId(UserStore.user?.id)
-            getStudentByUserId('997351a9-a9b1-434f-927d-e36f4e0b8ee1')
-                .then((data) => {
-                    setCurrentUser(data);
-                    console.log(data);
-                })
-                .finally(() => setLoading(false));
+        try {
+            if (UserStore.user) {
+                // getStudentByUserId(UserStore.user?.id)
+                //console.log(UserStore.user)
+                getStudentByUserId(UserStore.user.id)
+                    .then((data) => {
+                        setCurrentUser(data);
+                        console.log(data);
+                    })
+                    .finally(() => setLoading(false));
+            }
+        } catch (e) {
+            console.log(e);
         }
-        // console.log(JSON.stringify(UserStore.user));
+
+        console.log(JSON.stringify(UserStore.user));
     }, []);
 
     if (!UserStore.isAuth) {
@@ -77,7 +83,7 @@ export const NavBar = observer(() => {
                     id='navbar-default'
                 >
                     <ul className='flex flex-row p-4 mt-4 border items-center  md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0'>
-                        <li>
+                        {/* <li>
                             <NavLink
                                 to='/tours'
                                 className={navlinkStyle}
@@ -90,10 +96,12 @@ export const NavBar = observer(() => {
                             <NavLink to='/aboutpage' className={navlinkStyle}>
                                 About
                             </NavLink>
-                        </li>
+                        </li> */}
                         <li>
                             <div>
-                                {loading ? 'Загрузка...' : currentUser.name}
+                                {loading
+                                    ? 'Загрузка...'
+                                    : `${currentUser?.name} ${currentUser?.surname} \n ${currentUser?.group_code}`}
                             </div>
                         </li>
 

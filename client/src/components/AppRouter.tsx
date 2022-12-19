@@ -81,7 +81,16 @@ export const AppRouter = observer(() => {
                     );
                 })}
 
-            {!UserStore.isAuth &&
+            {publicRoutes.map((route) => {
+                return (
+                    <Route
+                        key={route.path}
+                        path={route.path}
+                        element={<route.component />}
+                    />
+                );
+            })}
+            {/* {!UserStore.isAuth &&
                 publicRoutes.map((route) => {
                     return (
                         <Route
@@ -90,7 +99,7 @@ export const AppRouter = observer(() => {
                             element={<route.component />}
                         />
                     );
-                })}
+                })} */}
 
             <Route path={'*'} element={<DefaultPage />} />
         </Routes>

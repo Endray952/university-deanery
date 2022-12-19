@@ -26,30 +26,26 @@ const ModalAddStudentContent = ({ handleClose }) => {
     } = useContext(EditableListContext);
     const [groups, setGroups] = useState(null);
     const [selectedGroupId, setSelectedGroupId] = useState(null);
-    //const [selectedDirectionId, setSelectedDirectionId] = useState(null);
-    //const [selectedInstituteId, setSelectedDirectionId] = useState(null);
+    const [errorText, setErrorText] = useState(null);
 
     useEffect(() => {
         getCurrentGroups()
             .then((response) => {
-                //console.log(response);
                 setGroups(response);
-                //console.log(groups);
             })
             .finally(() => setIsLoading(false));
-        //console.log(groups);
     }, []);
 
     const handleSave = async () => {
         const form = document.getElementById('dura');
-        if (!form.checkValidity()) {
+        if (!form.checkValidity() && errorText !== '') {
+            console.log('in check validity');
             const tmpSubmit = document.createElement('button');
             form.appendChild(tmpSubmit);
             tmpSubmit.click();
             form.removeChild(tmpSubmit);
         } else {
-            handleClose();
-            await createStudent(
+            const response = await createStudent(
                 login,
                 password,
                 name,
@@ -57,10 +53,17 @@ const ModalAddStudentContent = ({ handleClose }) => {
                 email,
                 phone,
                 passport,
-                `${birthday.year()}-${birthday.month()}-${birthday.day()}`,
+                `${birthday.$y}-${birthday.$M + 1}-${birthday.$D}`,
                 selectedGroupId
             );
-
+            console.log(response);
+            if (response.hasOwnProperty('errorRes')) {
+                console.log(response);
+                setErrorText(response.errorRes.description);
+                return;
+            }
+            setErrorText('');
+            handleClose();
             setListIsLoading(true);
             await asyncGetItems()
                 .then((data) => {
@@ -153,6 +156,7 @@ const ModalAddStudentContent = ({ handleClose }) => {
                         setSelectedGroupId={setSelectedGroupId}
                     />
                 </div>
+                <p> {errorText}</p>
             </div>
 
             {/* <!-- Modal footer --> */}
