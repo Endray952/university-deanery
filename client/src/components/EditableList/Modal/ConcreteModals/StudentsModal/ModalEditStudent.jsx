@@ -16,6 +16,8 @@ const ModalEditStudent = ({ student, handleClose }) => {
 
     const [modalEditStudentOpen, setModalEditStudentOpen] = useState(false);
 
+    const [selectedGroupId, setSelectedGroupId] = useState(null);
+
     const handleSave = async () => {
         const form = document.getElementById('dura');
         if (!form.checkValidity()) {
@@ -26,6 +28,9 @@ const ModalEditStudent = ({ student, handleClose }) => {
         } else {
             handleClose();
             try {
+                if (selectedGroupId) {
+                    console.log(selectedGroupId);
+                }
                 await updateStudent(
                     name,
                     surname,
@@ -51,7 +56,9 @@ const ModalEditStudent = ({ student, handleClose }) => {
         setModalEditStudentOpen(true);
     };
 
-    console.log(student);
+    //console.log(selectedGroupId);
+
+    // console.log(student);
 
     return (
         <>
@@ -136,6 +143,8 @@ const ModalEditStudent = ({ student, handleClose }) => {
                 modalName={'Перевод студента'}
                 setModalOpen={setModalEditStudentOpen}
                 student={student}
+                selectedGroupId={selectedGroupId}
+                setSelectedGroupId={setSelectedGroupId}
             />
         </>
     );

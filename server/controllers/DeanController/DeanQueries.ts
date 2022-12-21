@@ -54,7 +54,7 @@ export const deanQueries = {
         birthday,
         group_id
     ) => {
-        return `SELECT * FROM create_person('${name}','${surname}', '${email}', '${birthday}', '${passport}', '${phone_number}', '${group_id}');`;
+        return `SELECT * FROM create_student('${name}','${surname}', '${email}', '${birthday}', '${passport}', '${phone_number}', '${group_id}');`;
     },
     getGroups: (date: any) => {
         return `SELECT semestr_groups.group_id AS group_id ,

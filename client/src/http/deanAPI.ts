@@ -84,3 +84,15 @@ export const updateStudent = async (
     });
     return data;
 };
+
+export const transferStudent = async (
+    group_id: any,
+    student_id: any
+): Promise<object> => {
+    //console.log(name, surname, email, phone_number, student_id);
+    const { data } = await $authHost.post('api/dean/transferStudent', {
+        group_id,
+        student_id,
+    });
+    return data;
+};

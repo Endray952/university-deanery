@@ -9,10 +9,11 @@ const ModalTransferStudent = ({
     isModalOpen,
     setModalOpen,
     modalName,
-    student,
+    selectedGroupId,
+    setSelectedGroupId,
 }) => {
     const [groups, setGroups] = useState(null);
-    const [selectedGroupId, setSelectedGroupId] = useState(null);
+    //const [selectedGroupId, setSelectedGroupId] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [errorMsg, setErrorMsg] = useState(true);
 
@@ -29,7 +30,14 @@ const ModalTransferStudent = ({
         }
     }, []);
 
-    const handleClose = () => setModalOpen(false);
+    const handleClose = () => {
+        setSelectedGroupId(null);
+        setModalOpen(false);
+    };
+
+    const handleTransferStudent = () => {
+        setModalOpen(false);
+    };
 
     if (isLoading) {
         return (
@@ -72,17 +80,30 @@ const ModalTransferStudent = ({
 
                         {
                             <GroupSelect
-                                key={uuid()}
                                 groups={groups}
                                 selectedGroupId={selectedGroupId}
                                 setSelectedGroupId={setSelectedGroupId}
                             />
                         }
+                        <div
+                            className='flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600'
+                            style={{ justifyContent: 'space-between' }}
+                        >
+                            <button
+                                onClick={handleTransferStudent}
+                                className=' text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+                            >
+                                Добавить
+                            </button>
+                            <button
+                                onClick={handleClose}
+                                className=' text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+                            >
+                                Отмена
+                            </button>
+                        </div>
                     </form>
                 </div>
-                <button className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>
-                    Добавить
-                </button>
             </div>
         </Modal>
     );

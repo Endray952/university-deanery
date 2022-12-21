@@ -70,23 +70,11 @@ class DeanController {
                 birthday,
                 group_id,
             } = req.body;
-            console.log(
-                login,
-                password,
-                name,
-                surname,
-                email,
-                phone_number,
-                passport,
-                birthday,
-                group_id
-            );
             const errorRes = { statusCode: '200', description: null };
             const candidateAprovement = await this.isUserLoginExists(
                 next,
                 login
             );
-            console.log(candidateAprovement);
             if (candidateAprovement) {
                 errorRes.statusCode = '404';
                 errorRes.description =
@@ -98,7 +86,6 @@ class DeanController {
                 //     )
                 // );
             }
-            console.log('after candidate');
             const studentId = (
                 await pool.query(
                     deanQueries.createStudent(
@@ -111,11 +98,10 @@ class DeanController {
                         group_id
                     )
                 )
-            ).rows[0]['create_person'];
-            //res.json(studentId.rows);
-            console.log('id', studentId);
+            ).rows[0]['create_student'];
             const hashedPassword = await bcrypt.hash(String(password), 5);
             console.log(hashedPassword);
+            console.log(studentId);
             this.createUser(
                 login,
                 hashedPassword,
