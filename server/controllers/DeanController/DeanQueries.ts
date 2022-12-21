@@ -18,7 +18,9 @@ export const deanQueries = {
         student.id AS student_id,
         last_student_group.group_id,
         institute_id,
-        direction."name" AS direction_name
+        direction."name" AS direction_name,
+        "system_user"."role"  AS "role",
+        "system_user"."login"
         FROM student 
         CROSS JOIN get_last_student_stauts(student.id) AS last_student_stauts
         CROSS JOIN get_last_student_group(student.id) AS last_student_group
@@ -30,6 +32,8 @@ export const deanQueries = {
         ON direction.id = studying_plan.direction_id 
         JOIN institute 
         ON institute.id = direction.institute_id 
+        LEFT JOIN "system_user"	  
+        ON "system_user".person_id = student.id
         ORDER BY student."name", student."surname"
         ;`;
     },

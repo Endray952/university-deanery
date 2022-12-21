@@ -55,7 +55,7 @@ const ModalAddStudentContent = ({ handleClose }) => {
                 selectedGroupId
             );
             console.log(response);
-            if (response.hasOwnProperty('errorRes')) {
+            if (response?.hasOwnProperty('errorRes')) {
                 console.log(response);
                 setErrorText(response.errorRes.description);
                 return;

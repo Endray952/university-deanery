@@ -2,8 +2,10 @@ import React, { useContext, useState } from 'react';
 import { updateStudent } from '../../../../../http/deanAPI';
 import { EditableListContext } from '../../../EditableList';
 import ModalInput from '../../ModalInput';
+import ModalTransferStudent from './ModalTransferStudent';
 
-const ModalStudents = ({ student, handleClose }) => {
+const ModalEditStudent = ({ student, handleClose }) => {
+    const [login, setLogin] = useState(student.login);
     const [name, setName] = useState(student.name);
     const [surname, setSurname] = useState(student.surname);
     const [email, setEmail] = useState(student.email);
@@ -12,7 +14,9 @@ const ModalStudents = ({ student, handleClose }) => {
     const { setListItems, setIsLoading, asyncGetItems } =
         useContext(EditableListContext);
 
-    const handleOnClick = async () => {
+    const [modalEditStudentOpen, setModalEditStudentOpen] = useState(false);
+
+    const handleSave = async () => {
         const form = document.getElementById('dura');
         if (!form.checkValidity()) {
             const tmpSubmit = document.createElement('button');
@@ -21,13 +25,18 @@ const ModalStudents = ({ student, handleClose }) => {
             form.removeChild(tmpSubmit);
         } else {
             handleClose();
-            await updateStudent(
-                name,
-                surname,
-                email,
-                phone,
-                student.student_id
-            );
+            try {
+                await updateStudent(
+                    name,
+                    surname,
+                    email,
+                    phone,
+                    student.student_id
+                );
+            } catch (e) {
+                console.log('update error');
+            }
+
             setIsLoading(true);
             await asyncGetItems()
                 .then((data) => {
@@ -37,10 +46,26 @@ const ModalStudents = ({ student, handleClose }) => {
         }
     };
 
+    const handleTransferStudentClick = (e) => {
+        e.preventDefault();
+        setModalEditStudentOpen(true);
+    };
+
+    console.log(student);
+
     return (
         <>
             <div className='p-6 space-y-6'>
                 <div className='grid grid-cols-6 gap-6'>
+                    <ModalInput
+                        inputName={'Логин'}
+                        inputPlaceholder={'login'}
+                        inputType={'text'}
+                        isRequired={true}
+                        inputValue={login}
+                        onChangeSet={setLogin}
+                        inputDisabled={true}
+                    />
                     <ModalInput
                         inputName={'Имя'}
                         inputPlaceholder={'Иван'}
@@ -94,21 +119,26 @@ const ModalStudents = ({ student, handleClose }) => {
 
                 <button
                     type='submit'
-                    onClick={handleOnClick}
+                    onClick={handleSave}
                     className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
                 >
                     Сохранить
                 </button>
                 <button
-                    type='submit'
-                    onClick={handleOnClick}
+                    onClick={handleTransferStudentClick}
                     className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
                 >
                     Перевести студента
                 </button>
             </div>
+            <ModalTransferStudent
+                isModalOpen={modalEditStudentOpen}
+                modalName={'Перевод студента'}
+                setModalOpen={setModalEditStudentOpen}
+                student={student}
+            />
         </>
     );
 };
 
-export default ModalStudents;
+export default ModalEditStudent;

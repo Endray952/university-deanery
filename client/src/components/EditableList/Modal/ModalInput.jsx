@@ -7,6 +7,7 @@ const ModalInput = ({
     inputPlaceholder,
     inputValue,
     onChangeSet,
+    inputDisabled,
 }) => {
     return (
         <div className='col-span-6 sm:col-span-3'>
@@ -25,6 +26,7 @@ const ModalInput = ({
                 required={isRequired}
                 value={inputValue || ''}
                 onChange={(e) => onChangeSet(e.target.value)}
+                disabled={inputDisabled || false}
             />
         </div>
     );

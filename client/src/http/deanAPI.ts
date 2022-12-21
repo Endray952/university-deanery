@@ -36,6 +36,7 @@ export const getGroupsByDate = async (date: any): Promise<object> => {
 
 export const getStudents = async (): Promise<object> => {
     const { data } = await $authHost.get('api/dean/students');
+    console.log(data);
     return data;
 };
 
