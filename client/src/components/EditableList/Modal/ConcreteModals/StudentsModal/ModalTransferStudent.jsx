@@ -4,11 +4,13 @@ import GroupSelect from '../../ActionModals/ModalCreateStudent/GroupSelect';
 import { v4 as uuid } from 'uuid';
 import { getCurrentGroups } from '../../../../../http/deanAPI';
 import Spinner from '../../../../Spinner';
+import ModalInput from '../../ModalInput';
 
 const ModalTransferStudent = ({
     isModalOpen,
     setModalOpen,
     modalName,
+    student,
     selectedGroupId,
     setSelectedGroupId,
 }) => {
@@ -16,7 +18,7 @@ const ModalTransferStudent = ({
     //const [selectedGroupId, setSelectedGroupId] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [errorMsg, setErrorMsg] = useState(true);
-
+    console.log(student);
     useEffect(() => {
         try {
             getCurrentGroups()
@@ -77,14 +79,55 @@ const ModalTransferStudent = ({
                         </div>
 
                         {/* <!-- Modal body --> */}
+                        <div className='p-6 space-y-6'>
+                            <p>Перевод из</p>
+                            <div className='grid grid-cols-6 gap-6'>
+                                <ModalInput
+                                    inputName={'Институт'}
+                                    inputPlaceholder={'login'}
+                                    inputType={'text'}
+                                    isRequired={false}
+                                    inputValue={student.institute_name}
+                                    onChangeSet={null}
+                                    inputDisabled={true}
+                                />
+                                <ModalInput
+                                    inputName={'Направление'}
+                                    inputPlaceholder={'login'}
+                                    inputType={'text'}
+                                    isRequired={false}
+                                    inputValue={student.direction_name}
+                                    onChangeSet={null}
+                                    inputDisabled={true}
+                                />
+                                <ModalInput
+                                    inputName={'Семестр'}
+                                    inputPlaceholder={'login'}
+                                    inputType={'text'}
+                                    isRequired={false}
+                                    inputValue={student.semestr_number}
+                                    onChangeSet={null}
+                                    inputDisabled={true}
+                                />
+                                <ModalInput
+                                    inputName={'Группа'}
+                                    inputPlaceholder={'login'}
+                                    inputType={'text'}
+                                    isRequired={false}
+                                    inputValue={student.group_code}
+                                    onChangeSet={null}
+                                    inputDisabled={true}
+                                />
 
-                        {
-                            <GroupSelect
-                                groups={groups}
-                                selectedGroupId={selectedGroupId}
-                                setSelectedGroupId={setSelectedGroupId}
-                            />
-                        }
+                                {
+                                    <GroupSelect
+                                        groups={groups}
+                                        selectedGroupId={selectedGroupId}
+                                        setSelectedGroupId={setSelectedGroupId}
+                                    />
+                                }
+                            </div>
+                        </div>
                         <div
                             className='flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600'
                             style={{ justifyContent: 'space-between' }}
