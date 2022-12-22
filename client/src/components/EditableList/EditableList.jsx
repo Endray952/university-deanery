@@ -6,6 +6,7 @@ import EditableListHead from './EditableListHead';
 import { v4 as uuid } from 'uuid';
 import EditableListItem from './EditableListItem';
 import Pagination from '@mui/material/Pagination';
+import UserStore from '../../store/UserStore';
 
 export const EditableListContext = React.createContext();
 
@@ -18,7 +19,7 @@ const EditableList = ({ config }) => {
     const [searchInput, setSearchInput] = useState('');
     const [modalItem, setModalItem] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-
+    console.log(JSON.stringify(UserStore.user.role));
     useEffect(() => {
         config
             .asyncGetItems()

@@ -1,19 +1,18 @@
-import { Container } from '@mui/material';
 import React from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
-
+import { Container } from '@mui/material';
+import { Navigate } from 'react-router-dom';
 import EditableList from '../components/EditableList/EditableList';
-import { studentsListConfig } from '../components/EditableList/ListConfig/StudentsListConfig';
 import Sidebar from '../components/Slidebar/Sidebar';
 import { getStudents } from '../http/deanAPI';
 import UserStore from '../store/UserStore';
 import { ROOT_PATH } from '../utils/consts';
+import { studentsListConfig } from '../components/EditableList/ListConfig/StudentsListConfig';
 
 const PageContainerStyle = {
     display: 'flex',
 };
 
-export const StudentPage = () => {
+export const EditStudentsPage = () => {
     if (!UserStore.isAuth) {
         return <Navigate to={ROOT_PATH} replace />;
     }
@@ -23,16 +22,16 @@ export const StudentPage = () => {
             <div style={PageContainerStyle}>
                 <Sidebar />
                 <Container maxWidth='xl' color='cyan'>
-                    {/* <div
+                    <div
                         onClick={async (e) => console.log(await getStudents())}
                     >
-                        ToursPage
+                        getInfo
                     </div>
+
                     {
                         //@ts-ignore
                         <EditableList config={studentsListConfig} />
-                    } */}
-                    <div>Pososi</div>
+                    }
                 </Container>
             </div>
         </>

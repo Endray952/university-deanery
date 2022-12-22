@@ -11,8 +11,8 @@ import {
 } from '../routes';
 import UserStore from '../store/UserStore';
 import { observer } from 'mobx-react-lite';
-
 import { role } from '../utils/consts';
+
 /**
  * Component represents navigation between different routes
  * @component

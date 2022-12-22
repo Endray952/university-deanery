@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { login } from '../http/userAPI';
 import UserStore from '../store/UserStore';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { ROOT_PATH, STUDENT_PATH } from '../utils/consts';
+import { ROOT_PATH, STUDENTS_EDIT_PATH } from '../utils/consts';
 
 export const LoginPage = observer(() => {
     // const { user } = useContext(Context);
@@ -22,7 +22,7 @@ export const LoginPage = observer(() => {
             UserStore.setUser(data);
             UserStore.setIsAuth(true);
             // console.log(JSON.stringify(UserStore.user), JSON.stringify(data));
-            navigate(STUDENT_PATH);
+            navigate(ROOT_PATH);
         } catch (e: any) {
             //alert(e.response.data.message);
             setErrorText(e.response.data.message);
