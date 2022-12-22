@@ -5,6 +5,7 @@ import {
     REGISTRATION_PATH,
     STUDENT_MARKS_PATH,
     STUDENTS_EDIT_PATH,
+    TEACHERS_EDIT_PATH,
 } from './utils/consts';
 
 import { LoginPage } from './pages/LoginPage';
@@ -12,6 +13,7 @@ import { LoginPage } from './pages/LoginPage';
 import DefaultPage from './pages/DefaultPage';
 import { StudentPage } from './pages/StudentPage';
 import { EditStudentsPage } from './pages/EditStudentsPage';
+import { EditTeachersPage } from './pages/EditTeachersPage';
 
 /**
  * Routes for authentication
@@ -22,10 +24,10 @@ export const adminRoutes = [
         component: LoginPage,
     },
 
-    {
-        path: REGISTRATION_PATH,
-        component: LoginPage,
-    },
+    // {
+    //     path: REGISTRATION_PATH,
+    //     component: LoginPage,
+    // },
 
     {
         path: STUDENTS_EDIT_PATH,
@@ -36,6 +38,11 @@ export const adminRoutes = [
         path: STUDENT_MARKS_PATH,
         component: StudentPage,
     },
+
+    {
+        path: TEACHERS_EDIT_PATH,
+        component: EditTeachersPage,
+    },
 ];
 
 export const deanRoutes = [
@@ -44,14 +51,18 @@ export const deanRoutes = [
         component: LoginPage,
     },
 
-    {
-        path: REGISTRATION_PATH,
-        component: LoginPage,
-    },
+    // {
+    //     path: REGISTRATION_PATH,
+    //     component: LoginPage,
+    // },
 
     {
         path: STUDENTS_EDIT_PATH,
         component: StudentPage,
+    },
+    {
+        path: TEACHERS_EDIT_PATH,
+        component: EditTeachersPage,
     },
 ];
 
