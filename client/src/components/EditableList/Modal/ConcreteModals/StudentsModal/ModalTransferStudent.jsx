@@ -38,7 +38,15 @@ const ModalTransferStudent = ({
     };
 
     const handleTransferStudent = () => {
-        setModalOpen(false);
+        const form = document.getElementById('dura1');
+        if (!form.checkValidity()) {
+            const tmpSubmit = document.createElement('button');
+            form.appendChild(tmpSubmit);
+            tmpSubmit.click();
+            form.removeChild(tmpSubmit);
+        } else {
+            setModalOpen(false);
+        }
     };
 
     if (isLoading) {
@@ -66,7 +74,7 @@ const ModalTransferStudent = ({
                 <div className='relative w-full max-w-2xl h-full md:h-auto'>
                     {/* <!-- Modal content --> */}
                     <form
-                        id='dura'
+                        id='dura1'
                         action='#'
                         className='relative bg-white rounded-lg shadow dark:bg-gray-700'
                     >
@@ -80,44 +88,56 @@ const ModalTransferStudent = ({
 
                         {/* <!-- Modal body --> */}
                         <div className='p-6 space-y-6'>
-                            <p>Перевод из</p>
+                            <p>
+                                {student.student_status !== 'enrolled'
+                                    ? 'Зачислить в группу'
+                                    : 'Перевод из'}
+                            </p>
                             <div className='grid grid-cols-6 gap-6'>
-                                <ModalInput
-                                    inputName={'Институт'}
-                                    inputPlaceholder={'login'}
-                                    inputType={'text'}
-                                    isRequired={false}
-                                    inputValue={student.institute_name}
-                                    onChangeSet={null}
-                                    inputDisabled={true}
-                                />
-                                <ModalInput
-                                    inputName={'Направление'}
-                                    inputPlaceholder={'login'}
-                                    inputType={'text'}
-                                    isRequired={false}
-                                    inputValue={student.direction_name}
-                                    onChangeSet={null}
-                                    inputDisabled={true}
-                                />
-                                <ModalInput
-                                    inputName={'Семестр'}
-                                    inputPlaceholder={'login'}
-                                    inputType={'text'}
-                                    isRequired={false}
-                                    inputValue={student.semestr_number}
-                                    onChangeSet={null}
-                                    inputDisabled={true}
-                                />
-                                <ModalInput
-                                    inputName={'Группа'}
-                                    inputPlaceholder={'login'}
-                                    inputType={'text'}
-                                    isRequired={false}
-                                    inputValue={student.group_code}
-                                    onChangeSet={null}
-                                    inputDisabled={true}
-                                />
+                                {student.student_status === 'enrolled' && (
+                                    <ModalInput
+                                        inputName={'Институт'}
+                                        inputPlaceholder={'login'}
+                                        inputType={'text'}
+                                        isRequired={false}
+                                        inputValue={student.institute_name}
+                                        onChangeSet={null}
+                                        inputDisabled={true}
+                                    />
+                                )}
+                                {student.student_status === 'enrolled' && (
+                                    <ModalInput
+                                        inputName={'Направление'}
+                                        inputPlaceholder={'login'}
+                                        inputType={'text'}
+                                        isRequired={false}
+                                        inputValue={student.direction_name}
+                                        onChangeSet={null}
+                                        inputDisabled={true}
+                                    />
+                                )}
+                                {student.student_status === 'enrolled' && (
+                                    <ModalInput
+                                        inputName={'Семестр'}
+                                        inputPlaceholder={'login'}
+                                        inputType={'text'}
+                                        isRequired={false}
+                                        inputValue={student.semestr_number}
+                                        onChangeSet={null}
+                                        inputDisabled={true}
+                                    />
+                                )}
+                                {student.student_status === 'enrolled' && (
+                                    <ModalInput
+                                        inputName={'Группа'}
+                                        inputPlaceholder={'login'}
+                                        inputType={'text'}
+                                        isRequired={false}
+                                        inputValue={student.group_code}
+                                        onChangeSet={null}
+                                        inputDisabled={true}
+                                    />
+                                )}
 
                                 {
                                     <GroupSelect
@@ -136,7 +156,9 @@ const ModalTransferStudent = ({
                                 onClick={handleTransferStudent}
                                 className=' text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
                             >
-                                Добавить
+                                {student.student_status !== 'enrolled'
+                                    ? 'Зачислить'
+                                    : 'Перевести'}
                             </button>
                             <button
                                 onClick={handleClose}

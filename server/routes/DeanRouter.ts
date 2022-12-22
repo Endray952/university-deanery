@@ -29,4 +29,22 @@ router.get(
     DeanController.getGroups
 );
 
+router.post(
+    '/expellStudent',
+    checkRoleMiddleWare(['admin', 'dean']),
+    DeanController.expellStudent.bind(DeanController)
+);
+
+router.post(
+    '/enrollStudent',
+    checkRoleMiddleWare(['admin', 'dean']),
+    DeanController.enrollStudent.bind(DeanController)
+);
+
+router.post(
+    '/transferStudent',
+    checkRoleMiddleWare(['admin', 'dean']),
+    DeanController.transferStudent.bind(DeanController)
+);
+
 export { router };

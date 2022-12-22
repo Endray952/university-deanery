@@ -72,7 +72,8 @@ export const updateStudent = async (
     surname: any,
     email: any,
     phone_number: any,
-    student_id: any
+    student_id: any,
+    passport: any
 ): Promise<object> => {
     console.log(name, surname, email, phone_number, student_id);
     const { data } = await $authHost.post('api/dean/updateStudent', {
@@ -80,6 +81,27 @@ export const updateStudent = async (
         surname,
         email,
         phone_number,
+        student_id,
+        passport,
+    });
+    return data;
+};
+
+export const enrollStudent = async (
+    group_id: any,
+    student_id: any
+): Promise<object> => {
+    //console.log(name, surname, email, phone_number, student_id);
+    const { data } = await $authHost.post('api/dean/enrollStudent', {
+        group_id,
+        student_id,
+    });
+    return data;
+};
+
+export const expellStudent = async (student_id: any): Promise<object> => {
+    //console.log(name, surname, email, phone_number, student_id);
+    const { data } = await $authHost.post('api/dean/expellStudent', {
         student_id,
     });
     return data;

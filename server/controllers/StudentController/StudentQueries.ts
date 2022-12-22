@@ -22,7 +22,7 @@ export const StudentQueries = {
         "system_user"."role",
         "system_user"."hashed_password"
           FROM student 
-        CROSS JOIN get_last_student_stauts(student.id) AS last_student_stauts
+        CROSS JOIN get_last_student_status(student.id) AS last_student_stauts
         CROSS JOIN get_last_student_group(student.id) AS last_student_group
         JOIN "group"  
         ON "group".id = last_student_group.group_id

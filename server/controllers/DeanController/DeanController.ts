@@ -130,7 +130,8 @@ class DeanController {
 
     async updateStudent(req, res, next) {
         try {
-            const { name, surname, email, phone_number, student_id } = req.body;
+            const { name, surname, email, phone_number, student_id, passport } =
+                req.body;
             //console.log(name, surname, email, phone_number, student_id);
             const students = await pool.query(
                 deanQueries.updateStudent(
@@ -138,7 +139,8 @@ class DeanController {
                     surname,
                     email,
                     phone_number,
-                    student_id
+                    student_id,
+                    passport
                 )
             );
             res.json(students.rows);
@@ -160,6 +162,53 @@ class DeanController {
             next(ApiError.badRequest(`${e.message}`));
         }
     }
+
+    async expellStudent(req, res, next) {
+        try {
+            const { student_id } = req.body;
+            console.log(student_id);
+            const expelled_student_id = await pool.query(
+                deanQueries.expellStudent(student_id)
+            );
+
+            res.json(expelled_student_id.rows);
+        } catch (e) {
+            console.log('expell error');
+            next(ApiError.badRequest(`${e.message}`));
+        }
+    }
+
+    async enrollStudent(req, res, next) {
+        try {
+            const { student_id, group_id } = req.body;
+            console.log(student_id);
+            const enrolled_student_id = await pool.query(
+                deanQueries.enrollStudent(student_id, group_id)
+            );
+
+            res.json(enrolled_student_id.rows);
+        } catch (e) {
+            console.log('enroll error');
+            next(ApiError.badRequest(`${e.message}`));
+        }
+    }
+
+    //todo
+    async transferStudent(req, res, next) {
+        try {
+            const { student_id, group_id } = req.body;
+            //console.log(student_id);
+            const enrolled_student_id = await pool.query(
+                deanQueries.transferStudent(student_id, group_id)
+            );
+
+            res.json(enrolled_student_id.rows);
+        } catch (e) {
+            console.log('transfer error');
+            next(ApiError.badRequest(`${e.message}`));
+        }
+    }
+
     // async postFeedback(req, res, next) {
     //     try {
     //         const { text } = req.body;

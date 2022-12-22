@@ -1,5 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { updateStudent } from '../../../../../http/deanAPI';
+import {
+    enrollStudent,
+    expellStudent,
+    transferStudent,
+    updateStudent,
+} from '../../../../../http/deanAPI';
 import { EditableListContext } from '../../../EditableList';
 import ModalInput from '../../ModalInput';
 import ModalTransferStudent from './ModalTransferStudent';
@@ -17,7 +22,7 @@ const ModalEditStudent = ({ student, handleClose }) => {
     const [modalEditStudentOpen, setModalEditStudentOpen] = useState(false);
 
     const [selectedGroupId, setSelectedGroupId] = useState(null);
-
+    console.log(selectedGroupId);
     const handleSave = async () => {
         const form = document.getElementById('dura');
         if (!form.checkValidity()) {
@@ -29,14 +34,25 @@ const ModalEditStudent = ({ student, handleClose }) => {
             handleClose();
             try {
                 if (selectedGroupId) {
-                    console.log(selectedGroupId);
+                    if (student.student_status !== 'enrolled') {
+                        await enrollStudent(
+                            selectedGroupId,
+                            student.student_id
+                        );
+                    } else {
+                        await transferStudent(
+                            selectedGroupId,
+                            student.student_id
+                        );
+                    }
                 }
                 await updateStudent(
                     name,
                     surname,
                     email,
                     phone,
-                    student.student_id
+                    student.student_id,
+                    passport
                 );
             } catch (e) {
                 console.log('update error');
@@ -54,6 +70,23 @@ const ModalEditStudent = ({ student, handleClose }) => {
     const handleTransferStudentClick = (e) => {
         e.preventDefault();
         setModalEditStudentOpen(true);
+    };
+
+    const handleExpell = async () => {
+        try {
+            await expellStudent(student.student_id);
+            setIsLoading(true);
+            await asyncGetItems()
+                .then((data) => {
+                    setListItems(data);
+                })
+                .finally(() => setIsLoading(false));
+
+            handleClose();
+        } catch (e) {
+            handleClose();
+            console.log('expell student error');
+        }
     };
 
     //console.log(selectedGroupId);
@@ -115,6 +148,9 @@ const ModalEditStudent = ({ student, handleClose }) => {
                         onChangeSet={setPasport}
                     />
                 </div>
+                {selectedGroupId && (
+                    <p>{'Сохранится также информация о зачислении в группу'}</p>
+                )}
             </div>
 
             {/* <!-- Modal footer --> */}
@@ -131,11 +167,22 @@ const ModalEditStudent = ({ student, handleClose }) => {
                 >
                     Сохранить
                 </button>
+                {student.student_status === 'enrolled' && (
+                    <button
+                        onClick={handleExpell}
+                        className='text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-red-700 dark:focus:ring-red-800'
+                    >
+                        отчислить
+                    </button>
+                )}
+
                 <button
                     onClick={handleTransferStudentClick}
                     className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
                 >
-                    Перевести студента
+                    {student.student_status === 'enrolled'
+                        ? 'Перевести студента'
+                        : 'Зачислить в группу'}
                 </button>
             </div>
             <ModalTransferStudent
