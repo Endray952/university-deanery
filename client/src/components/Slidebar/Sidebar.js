@@ -18,6 +18,7 @@ const Sidebar = observer(() => {
                             .get(UserStore.user.role)
                             .map((sidebarContent) => (
                                 <SlidebarItem
+                                    key={sidebarContent.text}
                                     linkTo={sidebarContent.to}
                                     sidebarText={sidebarContent.text}
                                 />

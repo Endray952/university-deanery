@@ -135,4 +135,28 @@ export const deanQueries = {
     transferStudent: (student_id: any, group_id: any) => {
         return `SELECT * FROM transfer_student('${student_id}', '${group_id}');`;
     },
+
+    getTeachers: () => {
+        return ` SELECT teacher.id AS "teacher_id",
+        teacher.phone_number,
+        teacher."name" , 
+        teacher."surname" , 
+        teacher.email,
+        teacher.birthday,
+        teacher.passport,
+        teacher.is_working,
+        teacher_subject.subject_id,
+        subject."name" AS "subject_name",
+        "system_user".id AS user_login,
+        "system_user"."role",
+        "system_user"."login"
+        FROM teacher 
+        JOIN teacher_subject 
+        ON teacher_subject.teacher_id =teacher.id 
+        JOIN subject
+        ON subject.id = teacher_subject.subject_id
+       LEFT JOIN "system_user" 
+       ON "system_user".person_id = teacher.id
+        ;`;
+    },
 };

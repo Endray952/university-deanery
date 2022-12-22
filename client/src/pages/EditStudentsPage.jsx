@@ -3,7 +3,7 @@ import { Container } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 import EditableList from '../components/EditableList/EditableList';
 import Sidebar from '../components/Slidebar/Sidebar';
-import { getStudents } from '../http/deanAPI';
+import { getStudents, getTeachers } from '../http/deanAPI';
 import UserStore from '../store/UserStore';
 import { ROOT_PATH } from '../utils/consts';
 import { studentsListConfig } from '../components/EditableList/ListConfig/StudentsListConfig';
@@ -25,7 +25,7 @@ export const EditStudentsPage = () => {
                     <div
                         onClick={async (e) => console.log(await getStudents())}
                     >
-                        getInfo
+                        getInfoStudent
                     </div>
 
                     {

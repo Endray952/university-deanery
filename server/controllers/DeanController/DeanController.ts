@@ -11,19 +11,6 @@ const generateJwt = (id: string, login: string, role: string) => {
     });
 };
 class DeanController {
-    // async getFeedbackById(req, res, next) {
-    //     try {
-    //         const { id: feedbackId } = req.params;
-    //         console.log(feedbackId);
-    //         const feedbacks = await pool.query(
-    //             feedBackQueries.getFeedbacksById(feedbackId)
-    //         );
-    //         res.json(feedbacks.rows);
-    //     } catch (e) {
-    //         next(ApiError.badRequest(`${e.message}`));
-    //     }
-    // }
-
     private async createUser(
         login: string,
         hashedPassword: string,
@@ -193,7 +180,6 @@ class DeanController {
         }
     }
 
-    //todo
     async transferStudent(req, res, next) {
         try {
             const { student_id, group_id } = req.body;
@@ -209,20 +195,17 @@ class DeanController {
         }
     }
 
-    // async postFeedback(req, res, next) {
-    //     try {
-    //         const { text } = req.body;
-    //         const postRes = await pool.query(
-    //             feedBackQueries.postFeedback(
-    //                 '852ebb18-667d-485b-8544-2e3faa405819',
-    //                 text
-    //             )
-    //         );
-    //         console.log(postRes.rows);
-    //         res.json(postRes.rows);
-    //     } catch (e) {
-    //         next(ApiError.badRequest(`${e.message}`));
-    //     }
-    // }
+    async getTeachers(req, res, next) {
+        try {
+            //const { student_id, group_id } = req.body;
+            //console.log(student_id);
+            const teachers = await pool.query(deanQueries.getTeachers());
+
+            res.json(teachers.rows);
+        } catch (e) {
+            console.log('get teachers error');
+            next(ApiError.badRequest(`${e.message}`));
+        }
+    }
 }
 export default new DeanController();

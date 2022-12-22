@@ -118,3 +118,41 @@ export const transferStudent = async (
     });
     return data;
 };
+
+export const getTeachers = async () => {
+    const { data } = await $authHost.get('api/dean/teachers');
+    //console.log(data);
+    const mapData = new Map();
+    const resData = [];
+
+    data.forEach((teacher: any) => {
+        if (mapData.has(teacher.teacher_id)) {
+            const curItem = mapData.get(teacher.teacher_id);
+            curItem.subjects.push({
+                subject_id: teacher.subject_id,
+                subject_name: teacher.subject_name,
+            });
+            mapData.set(teacher.teacher_id, curItem);
+        } else {
+            //const curItem = {id: teacher.id, subjects: [{subject_name: teacher.subject}]}
+            const curItem = {
+                ...teacher,
+                subjects: [
+                    {
+                        subject_id: teacher.subject_id,
+                        subject_name: teacher.subject_name,
+                    },
+                ],
+            };
+            mapData.set(teacher.teacher_id, curItem);
+        }
+    });
+    //@ts-ignore
+    for (let value of mapData.values()) {
+        //console.log(value)
+        resData.push(value);
+    }
+    //console.log(JSON.stringify(resData));
+    //console.log(resData);
+    return resData;
+};
