@@ -7,7 +7,7 @@ import {
     useNavigate,
 } from 'react-router-dom';
 import UserStore from '../store/UserStore';
-import { ROOT_PATH, LOGIN_PATH } from '../utils/consts';
+import { ROOT_PATH, LOGIN_PATH, role } from '../utils/consts';
 import { observer } from 'mobx-react-lite';
 import { getStudentByUserId } from '../http/studentAPI';
 import Spinner from './Spinner';
@@ -44,18 +44,20 @@ export const NavBar = observer(() => {
             if (UserStore.user) {
                 // getStudentByUserId(UserStore.user?.id)
                 //console.log(UserStore.user)
-                getStudentByUserId(UserStore.user.id)
-                    .then((data) => {
-                        setCurrentUser(data);
-                        console.log(data);
-                    })
-                    .finally(() => setLoading(false));
+                // getStudentByUserId(UserStore.user.id)
+                //     .then((data) => {
+                //         setCurrentUser(data);
+                //         console.log(data);
+                //     })
+                //     .finally(() => setLoading(false));
+                getProfileByUser(setCurrentUser);
+                setLoading(false);
             }
         } catch (e) {
             console.log(e);
         }
 
-        console.log(JSON.stringify(UserStore.user));
+        //console.log(JSON.stringify(UserStore.user));
     }, []);
 
     if (!UserStore.isAuth) {
@@ -98,10 +100,20 @@ export const NavBar = observer(() => {
                             </NavLink>
                         </li> */}
                         <li>
-                            <div>
-                                {loading
-                                    ? 'Загрузка...'
-                                    : `${currentUser?.name} ${currentUser?.surname} \n ${currentUser?.group_code}`}
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                }}
+                            >
+                                <p>
+                                    {loading
+                                        ? 'Загрузка...'
+                                        : `${currentUser?.name || ''} ${
+                                              currentUser?.surname || ''
+                                          }`}
+                                </p>
+                                <p>{currentUser?.group_code}</p>
                             </div>
                         </li>
 
@@ -116,3 +128,16 @@ export const NavBar = observer(() => {
         </nav>
     );
 });
+
+const getProfileByUser = (setCurrentUser: any) => {
+    if (!UserStore.user) {
+        return 'неизвестно';
+    }
+    switch (UserStore.user.role) {
+        case role.ADMIN:
+            setCurrentUser({ name: 'админ' });
+            break;
+        default:
+            setCurrentUser({ name: 'Не опредлено' });
+    }
+};
