@@ -268,6 +268,62 @@ class DeanController {
             next(ApiError.badRequest(`${e.message}`));
         }
     }
+
+    async createTeacher(req, res, next) {
+        try {
+            const {
+                login,
+                password,
+                name,
+                surname,
+                email,
+                phone_number,
+                passport,
+                birthday,
+            } = req.body;
+            const errorRes = { statusCode: '200', description: null };
+            const candidateAprovement = await this.isUserLoginExists(
+                next,
+                login
+            );
+            if (candidateAprovement) {
+                errorRes.statusCode = '404';
+                errorRes.description =
+                    'Пользователь с таким login уже существует';
+                return res.json({ errorRes });
+            }
+            const teacherId = (
+                await pool.query(
+                    deanQueries.createTeacher(
+                        name,
+                        surname,
+                        email,
+                        phone_number,
+                        passport,
+                        birthday
+                    )
+                )
+            ).rows[0].id;
+            console.log('307', teacherId);
+            const hashedPassword = await bcrypt.hash(String(password), 5);
+            console.log(hashedPassword);
+            console.log(teacherId);
+            this.createUser(
+                login,
+                hashedPassword,
+                'teacher',
+                String(teacherId),
+                next
+            );
+
+            console.log(login);
+            const token = generateJwt(String(teacherId), login, 'teacher');
+            return res.json({ teacherId });
+        } catch (e) {
+            console.log('create teacher error');
+            next(ApiError.badRequest(`${e.message}`));
+        }
+    }
 }
 
 export default new DeanController();

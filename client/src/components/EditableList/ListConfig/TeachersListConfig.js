@@ -1,5 +1,5 @@
 import { getTeachers } from '../../../http/deanAPI';
-import StudentsActions from '../Actions/StudentsActions';
+import TeachersActions from '../Actions/TeachersActions';
 import ModalEditTeacher from '../Modal/ConcreteModals/TeachersModal/ModalEditTeacher';
 
 const teacherSubjects = (teacher) => {
@@ -70,5 +70,5 @@ export const teachersListConfig = {
             <ModalEditTeacher student={item} handleClose={handleClose} />
         ),
     },
-    actionComponent: (item) => <StudentsActions students={item} />,
+    actionComponent: (item) => <TeachersActions students={item} />,
 };

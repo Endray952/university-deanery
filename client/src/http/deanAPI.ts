@@ -191,11 +191,18 @@ export const updateTeacherSubjects = async (
     teacher_id: any,
     subject_ids: any
 ): Promise<object> => {
-    const { data } = await $authHost.post('api/dean/updateTeacherSubjects', {
-        teacher_id,
-        subject_ids,
-    });
-    return data;
+    try {
+        const { data } = await $authHost.post(
+            'api/dean/updateTeacherSubjects',
+            {
+                teacher_id,
+                subject_ids,
+            }
+        );
+        return data;
+    } catch (e) {
+        throw e;
+    }
 };
 
 export const changeTeacherStatus = async (
@@ -209,5 +216,30 @@ export const changeTeacherStatus = async (
             is_working,
         }
     );
+    return data;
+};
+
+export const createTeacher = async (
+    login: any,
+    password: any,
+    name: any,
+    surname: any,
+    email: any,
+    phone_number: any,
+    passport: any,
+    birthday: any
+): Promise<object> => {
+    //console.log(name, surname, email, phone_number);
+    const { data } = await $authHost.post('api/dean/createTeacher', {
+        login,
+        password,
+        name,
+        surname,
+        email,
+        phone_number,
+        passport,
+        birthday,
+    });
+
     return data;
 };

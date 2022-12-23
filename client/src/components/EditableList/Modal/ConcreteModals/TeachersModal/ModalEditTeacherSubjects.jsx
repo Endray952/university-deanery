@@ -103,6 +103,7 @@ const ModalEditTeacherSubjects = ({
                                                     style={{ display: 'flex' }}
                                                 >
                                                     <IconButton
+                                                        key={uuid()}
                                                         aria-label='delete'
                                                         size='small'
                                                         onClick={() =>
@@ -111,7 +112,10 @@ const ModalEditTeacherSubjects = ({
                                                             )
                                                         }
                                                     >
-                                                        <DeleteIcon fontSize='inherit' />
+                                                        <DeleteIcon
+                                                            key={uuid()}
+                                                            fontSize='inherit'
+                                                        />
                                                     </IconButton>
                                                     <ModalInput
                                                         key={selectedSubjectId}

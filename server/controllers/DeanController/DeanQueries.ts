@@ -202,4 +202,9 @@ export const deanQueries = {
         is_working = ${Boolean(!is_working)}
         WHERE teacher.id = '${teacher_id}';`;
     },
+
+    createTeacher: (name, surname, email, phone_number, passport, birthday) => {
+        return `INSERT INTO teacher(id,"name",surname,email,birthday,passport, phone_number, is_working)
+        VALUES (gen_random_uuid(), '${name}', '${surname}','${email}','${birthday}','${passport}', '${phone_number}', true) RETURNING id;`;
+    },
 };

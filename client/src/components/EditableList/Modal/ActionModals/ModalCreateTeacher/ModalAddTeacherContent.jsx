@@ -1,0 +1,238 @@
+import React, { useContext, useEffect, useState } from 'react';
+import {
+    createStudent,
+    createTeacher,
+    getCurrentGroups,
+    updateTeacherSubjects,
+} from '../../../../../http/deanAPI';
+import BasicDatePicker from '../../../../DatePicker';
+import Spinner from '../../../../Spinner';
+import { EditableListContext } from '../../../EditableList';
+import ModalEditTeacherSubjects from '../../ConcreteModals/TeachersModal/ModalEditTeacherSubjects';
+import ModalInput from '../../ModalInput';
+
+const ModalAddTeacherContent = ({ handleClose }) => {
+    const [isLoading, setIsLoading] = useState(true);
+
+    const [login, setLogin] = useState('');
+    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [passport, setPasport] = useState('');
+    const [birthday, setBirthday] = useState('');
+    const {
+        setListItems,
+        setIsLoading: setListIsLoading,
+        asyncGetItems,
+    } = useContext(EditableListContext);
+    //const [groups, setGroups] = useState(null);
+    //const [selectedGroupId, setSelectedGroupId] = useState(null);
+    const [errorText, setErrorText] = useState(null);
+
+    const [initialHeldSubjects, setInitialHeldSubjects] = useState([]);
+
+    const [selectedSubjects, setSelectedSubjects] = useState([]);
+
+    const [modalEditTeacherSubjectOpen, setmodalEditTeacherSubjectOpen] =
+        useState(false);
+
+    // useEffect(() => {
+    //     getCurrentGroups()
+    //         .then((response) => {
+    //             setGroups(response);
+    //         })
+    //         .finally(() => setIsLoading(false));
+    // }, []);
+
+    const handleSave = async (e) => {
+        e.preventDefault();
+        const form = document.getElementById('dura');
+        if (!form.checkValidity() && errorText !== '') {
+            console.log('in check validity');
+            const tmpSubmit = document.createElement('button');
+            form.appendChild(tmpSubmit);
+            tmpSubmit.click();
+            form.removeChild(tmpSubmit);
+        } else {
+            try {
+                const response = await createTeacher(
+                    login,
+                    password,
+                    name,
+                    surname,
+                    email,
+                    phone,
+                    passport,
+                    `${birthday.$y}-${birthday.$M + 1}-${birthday.$D}`
+                );
+                console.log('response', response);
+                if (response?.hasOwnProperty('errorRes')) {
+                    console.log(response);
+                    setErrorText(response.errorRes.description);
+                    return;
+                }
+
+                if (isSubjectsChanged) {
+                    await updateTeacherSubjects(
+                        response.teacherId,
+                        selectedSubjects
+                    );
+                }
+
+                setErrorText('');
+                handleClose();
+
+                await asyncGetItems()
+                    .then((data) => {
+                        setListItems(data);
+                    })
+                    .finally(() => setListIsLoading(false));
+            } catch (e) {
+                console.log(e);
+                setErrorText(e);
+            }
+        }
+    };
+
+    const isSubjectsChanged = () => {
+        let hasChanged = false;
+        if (selectedSubjects.length !== initialHeldSubjects.length) {
+            return true;
+        }
+        initialHeldSubjects.every((subjectId) => {
+            if (!selectedSubjects?.includes(subjectId)) {
+                hasChanged = true;
+                return false;
+            }
+            return true;
+        });
+        return hasChanged;
+    };
+
+    // if (isLoading) {
+    //     return <Spinner />;
+    // }
+
+    return (
+        <>
+            <div className='p-6 space-y-6'>
+                <div className='grid grid-cols-6 gap-6'>
+                    <ModalInput
+                        inputName={'Логин'}
+                        inputPlaceholder={'login'}
+                        inputType={'text'}
+                        isRequired={true}
+                        inputValue={login}
+                        onChangeSet={setLogin}
+                    />
+                    <ModalInput
+                        inputName={'Пароль'}
+                        inputPlaceholder={''}
+                        inputType={'text'}
+                        isRequired={true}
+                        inputValue={password}
+                        onChangeSet={setPassword}
+                    />
+                    <ModalInput
+                        inputName={'Имя'}
+                        inputPlaceholder={'Иван'}
+                        inputType={'text'}
+                        isRequired={true}
+                        inputValue={name}
+                        onChangeSet={setName}
+                    />
+                    <ModalInput
+                        inputName={'Фамилия'}
+                        inputPlaceholder={'Иванов'}
+                        inputType={'text'}
+                        isRequired={true}
+                        inputValue={surname}
+                        onChangeSet={setSurname}
+                    />
+                    <ModalInput
+                        inputName={'Email'}
+                        inputPlaceholder={'example@dekanat.ru'}
+                        inputType={'email'}
+                        isRequired={true}
+                        inputValue={email}
+                        onChangeSet={setEmail}
+                    />
+
+                    <ModalInput
+                        inputName={'Номер телефона'}
+                        inputPlaceholder={'79991112233'}
+                        inputType={'text'}
+                        isRequired={true}
+                        inputValue={phone}
+                        onChangeSet={setPhone}
+                    />
+                    <ModalInput
+                        inputName={'Паспорт'}
+                        inputPlaceholder={'1111222222'}
+                        inputType={'text'}
+                        isRequired={true}
+                        inputValue={passport}
+                        onChangeSet={setPasport}
+                    />
+                    <BasicDatePicker value={birthday} setValue={setBirthday} />
+                    {/* <DropDownList
+                        values={groups.map((group) => {
+                            return {
+                                name: group.code_number,
+                                id: group.group_id,
+                            };
+                        })}
+                        data={selectedGroupId}
+                        setData={setSelectedGroupId}
+                        label={'группа'}
+                    /> */}
+                    {/* <GroupSelect
+                        groups={groups}
+                        selectedGroupId={selectedGroupId}
+                        setSelectedGroupId={setSelectedGroupId}
+                    /> */}
+                </div>
+                <p> {errorText}</p>
+                {isSubjectsChanged() && (
+                    <p>{'Сохранится также информация о изменении предметов'}</p>
+                )}
+            </div>
+
+            {/* <!-- Modal footer --> */}
+            <div
+                className='flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600'
+                style={{ justifyContent: 'space-between' }}
+            >
+                {/* <!-- Buttons from config --> */}
+
+                <button
+                    onClick={handleSave}
+                    className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+                >
+                    Добавить
+                </button>
+                <button
+                    onClick={(e) => {
+                        e.preventDefault();
+                        setmodalEditTeacherSubjectOpen(true);
+                    }}
+                    className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+                >
+                    Добавить предметы
+                </button>
+            </div>
+            <ModalEditTeacherSubjects
+                isModalOpen={modalEditTeacherSubjectOpen}
+                modalName={'Поменять предметы, которые ведет преподаватель'}
+                setModalOpen={setmodalEditTeacherSubjectOpen}
+                selectedSubjects={selectedSubjects}
+                setSelectedSubjects={setSelectedSubjects}
+                initialHeldSubjects={initialHeldSubjects}
+            />
+        </>
+    );
+};
+
+export default ModalAddTeacherContent;
