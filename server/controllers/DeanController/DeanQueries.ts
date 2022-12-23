@@ -159,4 +159,8 @@ export const deanQueries = {
        ON "system_user".person_id = teacher.id
         ;`;
     },
+
+    getSubjects: () => {
+        return `SELECT * FROM subject;`;
+    },
 };

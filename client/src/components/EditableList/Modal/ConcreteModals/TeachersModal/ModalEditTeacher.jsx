@@ -1,28 +1,31 @@
 import React, { useContext, useState } from 'react';
-import {
-    enrollStudent,
-    expellStudent,
-    transferStudent,
-    updateStudent,
-} from '../../../../../http/deanAPI';
+
 import { EditableListContext } from '../../../EditableList';
 import ModalInput from '../../ModalInput';
-import ModalTransferStudent from './ModalTransferStudent';
+import ModalEditTeacherSubjects from './ModalEditTeacherSubjects';
 
-const ModalEditStudent = ({ student, handleClose }) => {
-    const [login, setLogin] = useState(student.login);
-    const [name, setName] = useState(student.name);
-    const [surname, setSurname] = useState(student.surname);
-    const [email, setEmail] = useState(student.email);
-    const [phone, setPhone] = useState(student.phone_number);
-    const [passport, setPasport] = useState(student.passport);
+const ModalEditTeacher = ({ student: teacher, handleClose }) => {
+    const [login, setLogin] = useState(teacher.login);
+    const [name, setName] = useState(teacher.name);
+    const [surname, setSurname] = useState(teacher.surname);
+    const [email, setEmail] = useState(teacher.email);
+    const [phone, setPhone] = useState(teacher.phone_number);
+    const [passport, setPasport] = useState(teacher.passport);
     const { setListItems, setIsLoading, asyncGetItems } =
         useContext(EditableListContext);
 
-    const [modalEditStudentOpen, setModalEditStudentOpen] = useState(false);
+    const [modalEditTeacherSubjectOpen, setmodalEditTeacherSubjectOpen] =
+        useState(false);
 
-    const [selectedGroupId, setSelectedGroupId] = useState(null);
-    console.log(selectedGroupId);
+    const [initialHeldSubjects, setInitialHeldSubjects] = useState(
+        teacher.subjects.map((v) => v.subject_id)
+    );
+
+    const [selectedSubjects, setSelectedSubjects] = useState(
+        teacher.subjects.map((v) => v.subject_id)
+    );
+
+    console.log(selectedSubjects);
     const handleSave = async () => {
         const form = document.getElementById('dura');
         if (!form.checkValidity()) {
@@ -33,27 +36,27 @@ const ModalEditStudent = ({ student, handleClose }) => {
         } else {
             handleClose();
             try {
-                if (selectedGroupId) {
-                    if (student.student_status !== 'enrolled') {
-                        await enrollStudent(
-                            selectedGroupId,
-                            student.student_id
-                        );
-                    } else {
-                        await transferStudent(
-                            selectedGroupId,
-                            student.student_id
-                        );
-                    }
-                }
-                await updateStudent(
-                    name,
-                    surname,
-                    email,
-                    phone,
-                    student.student_id,
-                    passport
-                );
+                // if (selectedGroupId) {
+                //     if (student.student_status !== 'enrolled') {
+                //         await enrollStudent(
+                //             selectedGroupId,
+                //             student.student_id
+                //         );
+                //     } else {
+                //         await transferStudent(
+                //             selectedGroupId,
+                //             student.student_id
+                //         );
+                //     }
+                // }
+                // await updateStudent(
+                //     name,
+                //     surname,
+                //     email,
+                //     phone,
+                //     student.student_id,
+                //     passport
+                // );
             } catch (e) {
                 console.log('update error');
             }
@@ -67,31 +70,38 @@ const ModalEditStudent = ({ student, handleClose }) => {
         }
     };
 
-    const handleTransferStudentClick = (e) => {
+    const handleEditTeacherSubjects = (e) => {
         e.preventDefault();
-        setModalEditStudentOpen(true);
+        setmodalEditTeacherSubjectOpen(true);
     };
 
     const handleExpell = async () => {
         try {
-            await expellStudent(student.student_id);
-            setIsLoading(true);
-            await asyncGetItems()
-                .then((data) => {
-                    setListItems(data);
-                })
-                .finally(() => setIsLoading(false));
+            // await expellStudent(student.student_id);
+            // setIsLoading(true);
+            // await asyncGetItems()
+            //     .then((data) => {
+            //         setListItems(data);
+            //     })
+            //     .finally(() => setIsLoading(false));
 
             handleClose();
         } catch (e) {
             handleClose();
-            console.log('expell student error');
+            console.log('dismiss teacher error');
         }
     };
 
-    //console.log(selectedGroupId);
-
-    // console.log(student);
+    const isSubjectsChanged = () => {
+        let hasChanged = false;
+        initialHeldSubjects.every((subjectId) => {
+            if (!selectedSubjects.includes(subjectId)) {
+                hasChanged = true;
+                return false;
+            }
+        });
+        return hasChanged;
+    };
 
     return (
         <>
@@ -148,8 +158,8 @@ const ModalEditStudent = ({ student, handleClose }) => {
                         onChangeSet={setPasport}
                     />
                 </div>
-                {selectedGroupId && (
-                    <p>{'Сохранится также информация о зачислении в группу'}</p>
+                {isSubjectsChanged() && (
+                    <p>{'Сохранится также информация о изменении предметов'}</p>
                 )}
             </div>
 
@@ -167,34 +177,32 @@ const ModalEditStudent = ({ student, handleClose }) => {
                 >
                     Сохранить
                 </button>
-                {student.student_status === 'enrolled' && (
+                {teacher.student_status === 'enrolled' && (
                     <button
                         onClick={handleExpell}
                         className='text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-red-700 dark:focus:ring-red-800'
                     >
-                        отчислить
+                        уволить
                     </button>
                 )}
 
                 <button
-                    onClick={handleTransferStudentClick}
+                    onClick={handleEditTeacherSubjects}
                     className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
                 >
-                    {student.student_status === 'enrolled'
-                        ? 'Перевести студента'
-                        : 'Зачислить в группу'}
+                    {teacher.is_working ? 'Изменить предметы' : 'каво'}
                 </button>
             </div>
-            <ModalTransferStudent
-                isModalOpen={modalEditStudentOpen}
-                modalName={'Перевод студента'}
-                setModalOpen={setModalEditStudentOpen}
-                student={student}
-                selectedGroupId={selectedGroupId}
-                setSelectedGroupId={setSelectedGroupId}
+            <ModalEditTeacherSubjects
+                isModalOpen={modalEditTeacherSubjectOpen}
+                modalName={'Поменять предметы, которые ведет преподаватель'}
+                setModalOpen={setmodalEditTeacherSubjectOpen}
+                selectedSubjects={selectedSubjects}
+                setSelectedSubjects={setSelectedSubjects}
+                initialHeldSubjects={initialHeldSubjects}
             />
         </>
     );
 };
 
-export default ModalEditStudent;
+export default ModalEditTeacher;

@@ -207,5 +207,18 @@ class DeanController {
             next(ApiError.badRequest(`${e.message}`));
         }
     }
+
+    async getSubjects(req, res, next) {
+        try {
+            //const { student_id, group_id } = req.body;
+            //console.log(student_id);
+            const subjects = await pool.query(deanQueries.getSubjects());
+
+            res.json(subjects.rows);
+        } catch (e) {
+            console.log('get subjects error');
+            next(ApiError.badRequest(`${e.message}`));
+        }
+    }
 }
 export default new DeanController();

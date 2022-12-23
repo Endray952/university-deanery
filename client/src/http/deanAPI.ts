@@ -156,3 +156,13 @@ export const getTeachers = async () => {
     //console.log(resData);
     return resData;
 };
+
+export const getSubjects = async (): Promise<object> => {
+    try {
+        const { data } = await $authHost.get('api/dean/getSubjects');
+        return data;
+    } catch (e) {
+        console.log(e);
+        return [];
+    }
+};
