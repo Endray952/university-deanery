@@ -1,5 +1,3 @@
-import { v4 as uuid } from 'uuid';
-
 export const authQueries = {
     isLoginExist: (login: string) => {
         return `SELECT EXISTS(

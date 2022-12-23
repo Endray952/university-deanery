@@ -1,5 +1,3 @@
-import { UserStore } from '../../../classes/UserStore';
-import { getLessons } from '../../../http/studentAPI';
 import { getGroupById } from '../../http/studentAPI';
 
 const leftStringIncludesRight = (left, right) => {
@@ -36,6 +34,7 @@ export const StudentLessonsConfig = {
     editableListHead: ['Предмет', 'Учитель', 'Время', 'Кабинет'],
 
     getListRow: (lesson) => {
+        //console.log('getListRow', lesson);
         return {
             heading: {
                 mainText: `${lesson.subject || 'неизвестно'}`,
@@ -43,27 +42,37 @@ export const StudentLessonsConfig = {
             },
             tableItems: [
                 `${lesson.name} ${lesson.surname}`,
-                dateToNormalDateString(lesson.start_date),
+                dateToNormalDateString(lesson.date) +
+                    `- ${new Date(
+                        new Date(lesson.date).getTime() +
+                            +lesson.duration.substring(0, 2) * 3600000 +
+                            +lesson.duration.substring(3, 5) * 60000
+                    ).getHours()}:${new Date(
+                        new Date(lesson.date).getTime() +
+                            +lesson.duration.substring(0, 2) * 3600000 +
+                            +lesson.duration.substring(3, 5) * 60000
+                    ).getMinutes()}`,
                 lesson.classroom,
             ],
         };
     },
     getListRowDelimeterObj: (weekDay) => {
         return {
-            id: '',
-            disciplineName: weekDay,
-            teacherName: '',
-            teacherSurname: '',
+            lesson_id: '',
+            subject: weekDay,
+            name: '',
+            surname: '',
             date: '',
             classroom: '',
         };
     },
     searchConfig: {
         searchBy: (course, searchInput) => {
+            // console.log(course);
             return (
+                leftStringIncludesRight(course.subject, searchInput) ||
                 leftStringIncludesRight(course.name, searchInput) ||
-                leftStringIncludesRight(course.teacheName, searchInput) ||
-                leftStringIncludesRight(course.teacherSurname, searchInput)
+                leftStringIncludesRight(course.surname, searchInput)
             );
         },
         searchPlaceholder: 'Поиск урока',

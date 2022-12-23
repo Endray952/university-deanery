@@ -12,7 +12,7 @@ const HeadingWrapper = styled.td`
 
 const EditableListItemDelimeter = ({ heading }) => {
     return (
-        <tr className='bg-white border-b'>
+        <tr className='bg-green-400 border-b'>
             <HeadingWrapper colSpan='4'>{heading}</HeadingWrapper>
         </tr>
     );

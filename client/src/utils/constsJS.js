@@ -12,6 +12,7 @@ export const adminSideBar = new Map().set(role.ADMIN, [
     { to: TEACHERS_EDIT_PATH, text: 'Учителя' },
     { to: STUDENT_SHEDULE_PATH, text: 'Мое расписание' },
 ]);
+
 //@ts-ignore
 // export const role = {
 //     ADMIN: 'admin',

@@ -41,7 +41,7 @@ export const StudentQueries = {
       teacher."name",
       teacher."surname",
      classroom."name" AS "classroom",
-     lesson.start_date,
+     lesson.start_date AS date,
      lesson.duration ,
      lesson."lesson_type",
      "group"."id" AS group_id,

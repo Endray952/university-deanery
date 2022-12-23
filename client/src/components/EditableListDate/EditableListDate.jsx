@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
-import ActionDropDown from './ActionDropDown';
-import SearchInput from './SearchInput';
-import EditableListHead from './EditableListHead';
-import EditableListItem from './EditableListItem';
-import { LoaderComponent } from 'react-fullscreen-loader';
 
 import EditableListItemDelimeter from './EditableListItemDelimeter';
 import ModalWindow from '../EditableList/Modal/ModalWindow';
 import { addDaysToDate, DatePagination, toNormalDate } from './DatePagination';
+import SearchInput from '../EditableList/SearchInput';
+import EditableListHead from '../EditableList/EditableListHead';
+import EditableListItem from '../EditableList/EditableListItem';
+import Spinner from '../Spinner';
 
 export const EditableListContext = React.createContext();
 
@@ -34,9 +33,10 @@ const EditableListDate = ({ config, shouldUpdate }) => {
     const [currentPage, setCurrentPage] = useState(
         new Date(
             new Date().setDate(new Date().getDate() - new Date().getDay() + 1)
-        ).toLocaleDateString()
+        ).toDateString()
     );
-
+    console.log(currentPage);
+    console.log(new Date(currentPage));
     const [currentListItems, setCurrentListItems] = useState([]);
     const sortedListItems = useRef([]);
 
@@ -60,21 +60,30 @@ const EditableListDate = ({ config, shouldUpdate }) => {
         }
 
         const list = [];
-
+        //console.log(currentPageEndDate, currentPageStartDate);
+        // console.log(currentPage);
         sortedListItems.current = (
             config.sort !== undefined ? listItems.sort(config.sort) : listItems
         )
             .filter((item) => config.searchConfig.searchBy(item, searchInput))
-            .filter(
-                (item) =>
+            .filter((item) => {
+                // console.log(
+                //     new Date(item.date).getTime() <
+                //         currentPageEndDate.current.getTime() &&
+                //         new Date(item.date).getTime() >
+                //             currentPageStartDate.current.getTime()
+                // );
+                return (
                     new Date(item.date).getTime() <
                         currentPageEndDate.current.getTime() &&
                     new Date(item.date).getTime() >
                         currentPageStartDate.current.getTime()
-            );
+                );
+            });
 
         for (const [index, item] of sortedListItems.current.entries()) {
             if (index === 0) {
+                console.log(new Date(item.date));
                 list.push(
                     config.getListRowDelimeterObj(
                         `${week[weekDay]} ${toNormalDate(new Date(item.date))}`
@@ -93,18 +102,18 @@ const EditableListDate = ({ config, shouldUpdate }) => {
 
             list.push(item);
         }
-
+        console.log(sortedListItems);
         setCurrentListItems(list);
 
         weekDay = 1;
-    }, [currentPage, listItems]);
+    }, [currentPage, listItems, searchInput]);
 
     const updateComponent = () => {
         setIsLoading(true);
         config
             .asyncGetItems()
             .then((response) => {
-                setListItems(response.data.courses);
+                setListItems(response);
             })
             .finally(() => {
                 setIsLoading(false);
@@ -116,7 +125,7 @@ const EditableListDate = ({ config, shouldUpdate }) => {
         config
             .asyncGetItems()
             .then((response) => {
-                setListItems(response.data.courses);
+                setListItems(response);
             })
             .finally(() => {
                 setIsLoading(false);
@@ -127,7 +136,7 @@ const EditableListDate = ({ config, shouldUpdate }) => {
         config
             .asyncGetItems()
             .then((response) => {
-                setListItems(response.data.courses);
+                setListItems(response);
             })
             .finally(() => {
                 setIsLoading(false);
@@ -135,13 +144,13 @@ const EditableListDate = ({ config, shouldUpdate }) => {
     }, []);
 
     if (isLoading) {
-        return <LoaderComponent />;
+        return <Spinner />;
     }
 
     if (!listItems) {
         return <div>Ошибка загрузки данных</div>;
     }
-
+    console.log('item', currentListItems);
     return (
         <EditableListContext.Provider
             value={{
@@ -152,7 +161,7 @@ const EditableListDate = ({ config, shouldUpdate }) => {
         >
             <div className='overflow-x-auto relative shadow-md sm:rounded-lg'>
                 <div className='flex justify-between items-center py-4 bg-white'>
-                    <ActionDropDown config={config.actionDropDown} />
+                    {/* <ActionDropDown config={config.actionDropDown} /> */}
                     {listItems.filter((item) =>
                         config.searchConfig.searchBy(item, searchInput)
                     ).length > pageRatio && (
@@ -168,19 +177,18 @@ const EditableListDate = ({ config, shouldUpdate }) => {
                     />
                 </div>
                 <table className='w-full text-sm text-left text-gray-500'>
-                    <thead className='text-xs text-gray-700 uppercase bg-gray-50'>
+                    <thead className='text-xs text-gray-700 uppercase bg-blue-200 '>
                         <EditableListHead
                             editableListHead={config.editableListHead}
                         />
                     </thead>
                     <tbody>
                         {currentListItems.map((item, index) => {
-                            if (
-                                week.includes(item.disciplineName.split(' ')[0])
-                            ) {
+                            console.log('item', item);
+                            if (week.includes(item.subject.split(' ')[0])) {
                                 return (
                                     <EditableListItemDelimeter
-                                        heading={item.disciplineName + ''}
+                                        heading={item.subject + ''}
                                     />
                                 );
                             }

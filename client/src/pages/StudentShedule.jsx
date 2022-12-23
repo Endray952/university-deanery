@@ -1,7 +1,10 @@
 import { Container } from '@mui/material';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import EditableListDate from '../components/EditableListDate/EditableListDate';
+import { StudentLessonsConfig } from '../components/EditableListDate/StudentLessonsConfig';
 import Sidebar from '../components/Slidebar/Sidebar';
+import { getGroupById } from '../http/studentAPI';
 import UserStore from '../store/UserStore';
 import { ROOT_PATH } from '../utils/consts';
 
@@ -19,16 +22,11 @@ export const StudentShedule = () => {
             <div style={PageContainerStyle}>
                 <Sidebar />
                 <Container maxWidth='xl' color='cyan'>
-                    {/* <div
-                        onClick={async (e) => console.log(await getStudents())}
-                    >
-                        ToursPage
-                    </div>
                     {
                         //@ts-ignore
-                        <EditableList config={studentsListConfig} />
-                    } */}
-                    <div>Pososi2</div>
+                        <EditableListDate config={StudentLessonsConfig} />
+                    }
+                    <div onClick={() => getGroupById()}>Pososi2</div>
                 </Container>
             </div>
         </>
