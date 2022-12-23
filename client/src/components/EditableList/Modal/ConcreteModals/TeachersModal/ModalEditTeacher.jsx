@@ -1,5 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { updateTeacher } from '../../../../../http/deanAPI';
+import {
+    changeTeacherStatus,
+    updateTeacher,
+    updateTeacherSubjects,
+} from '../../../../../http/deanAPI';
 
 import { EditableListContext } from '../../../EditableList';
 import ModalInput from '../../ModalInput';
@@ -19,13 +23,12 @@ const ModalEditTeacher = ({ student: teacher, handleClose }) => {
         useState(false);
 
     const [initialHeldSubjects, setInitialHeldSubjects] = useState(
-        teacher.subjects.map((v) => v.subject_id)
+        teacher.subjects.filter((v) => v.subject_id).map((v) => v.subject_id)
     );
 
     const [selectedSubjects, setSelectedSubjects] = useState(
-        teacher.subjects.map((v) => v.subject_id)
+        teacher.subjects.filter((v) => v.subject_id).map((v) => v.subject_id)
     );
-
     console.log(teacher);
     const handleSave = async () => {
         const form = document.getElementById('dura');
@@ -37,19 +40,12 @@ const ModalEditTeacher = ({ student: teacher, handleClose }) => {
         } else {
             handleClose();
             try {
-                // if (selectedGroupId) {
-                //     if (student.student_status !== 'enrolled') {
-                //         await enrollStudent(
-                //             selectedGroupId,
-                //             student.student_id
-                //         );
-                //     } else {
-                //         await transferStudent(
-                //             selectedGroupId,
-                //             student.student_id
-                //         );
-                //     }
-                // }
+                if (isSubjectsChanged) {
+                    await updateTeacherSubjects(
+                        teacher.teacher_id,
+                        selectedSubjects
+                    );
+                }
                 await updateTeacher(
                     name,
                     surname,
@@ -76,16 +72,15 @@ const ModalEditTeacher = ({ student: teacher, handleClose }) => {
         setmodalEditTeacherSubjectOpen(true);
     };
 
-    const handleExpell = async () => {
+    const handleChangeStatus = async (e) => {
+        e.preventDefault();
         try {
-            // await expellStudent(student.student_id);
-            // setIsLoading(true);
-            // await asyncGetItems()
-            //     .then((data) => {
-            //         setListItems(data);
-            //     })
-            //     .finally(() => setIsLoading(false));
-
+            await changeTeacherStatus(teacher.teacher_id, teacher.is_working);
+            await asyncGetItems()
+                .then((data) => {
+                    setListItems(data);
+                })
+                .finally(() => setIsLoading(false));
             handleClose();
         } catch (e) {
             handleClose();
@@ -95,8 +90,11 @@ const ModalEditTeacher = ({ student: teacher, handleClose }) => {
 
     const isSubjectsChanged = () => {
         let hasChanged = false;
+        if (selectedSubjects.length !== initialHeldSubjects.length) {
+            return true;
+        }
         initialHeldSubjects.every((subjectId) => {
-            if (!selectedSubjects.includes(subjectId)) {
+            if (!selectedSubjects?.includes(subjectId)) {
                 hasChanged = true;
                 return false;
             }
@@ -179,20 +177,20 @@ const ModalEditTeacher = ({ student: teacher, handleClose }) => {
                 >
                     Сохранить
                 </button>
-                {teacher.student_status === 'enrolled' && (
-                    <button
-                        onClick={handleExpell}
-                        className='text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-red-700 dark:focus:ring-red-800'
-                    >
-                        уволить
-                    </button>
-                )}
+
+                <button
+                    type='submit'
+                    onClick={handleChangeStatus}
+                    className='text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-red-700 dark:focus:ring-red-800'
+                >
+                    {teacher.is_working ? 'уволить' : 'принять на работу'}
+                </button>
 
                 <button
                     onClick={handleEditTeacherSubjects}
                     className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
                 >
-                    {teacher.is_working ? 'Изменить предметы' : 'каво'}
+                    {'Изменить предметы'}
                 </button>
             </div>
             <ModalEditTeacherSubjects

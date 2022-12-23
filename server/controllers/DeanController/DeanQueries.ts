@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import { pool } from '../../db.js';
 
 export const deanQueries = {
     // getStudents: () => {
@@ -151,9 +152,9 @@ export const deanQueries = {
         "system_user"."role",
         "system_user"."login"
         FROM teacher 
-        JOIN teacher_subject 
+        LEFT JOIN teacher_subject 
         ON teacher_subject.teacher_id =teacher.id 
-        JOIN subject
+        LEFT JOIN subject
         ON subject.id = teacher_subject.subject_id
        LEFT JOIN "system_user" 
        ON "system_user".person_id = teacher.id
@@ -179,5 +180,26 @@ export const deanQueries = {
             phone_number = '${phone_number}',
             passport = '${passport}'
             WHERE teacher.id = '${teacher_id}';`;
+    },
+
+    updateTeacherSubjects: (teacher_id, subject_ids) => {
+        let values = '';
+        subject_ids.forEach((subjectId) => {
+            values += `('${teacher_id}', '${subjectId}'),`;
+        });
+        values = values.substring(0, values.length - 1);
+        console.log(values);
+        pool.query(
+            `DELETE FROM teacher_subject 
+        WHERE teacher_id = '${teacher_id}';`
+        );
+        return `INSERT INTO teacher_subject(teacher_id, subject_id)
+        VALUES ${values};`;
+    },
+
+    updateTeacherChangeStatus: (teacher_id, is_working) => {
+        return `UPDATE teacher SET
+        is_working = ${Boolean(!is_working)}
+        WHERE teacher.id = '${teacher_id}';`;
     },
 };

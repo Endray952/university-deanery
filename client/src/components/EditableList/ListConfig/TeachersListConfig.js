@@ -4,9 +4,13 @@ import ModalEditTeacher from '../Modal/ConcreteModals/TeachersModal/ModalEditTea
 
 const teacherSubjects = (teacher) => {
     let subjects = '';
+    if (!teacher.subjects[0].subject_id) {
+        return 'нет';
+    }
     teacher.subjects.forEach((subject) => {
         subjects = `${subjects}, ${subject.subject_name}`;
     });
+
     return subjects.substring(1);
 };
 

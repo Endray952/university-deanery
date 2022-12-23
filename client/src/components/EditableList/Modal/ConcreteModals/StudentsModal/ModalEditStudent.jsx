@@ -72,17 +72,15 @@ const ModalEditStudent = ({ student, handleClose }) => {
         setModalEditStudentOpen(true);
     };
 
-    const handleExpell = async () => {
+    const handleExpell = async (e) => {
         try {
+            e.preventDefault();
             await expellStudent(student.student_id);
-            setIsLoading(true);
-            await asyncGetItems()
-                .then((data) => {
-                    setListItems(data);
-                })
-                .finally(() => setIsLoading(false));
-
-            handleClose();
+            //setIsLoading(true);
+            asyncGetItems().then((data) => {
+                setListItems(data);
+                handleClose();
+            });
         } catch (e) {
             handleClose();
             console.log('expell student error');
@@ -161,7 +159,7 @@ const ModalEditStudent = ({ student, handleClose }) => {
                 {/* <!-- Buttons from config --> */}
 
                 <button
-                    type='submit'
+                    // type='submit'
                     onClick={handleSave}
                     className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
                 >

@@ -186,3 +186,28 @@ export const updateTeacher = async (
     });
     return data;
 };
+
+export const updateTeacherSubjects = async (
+    teacher_id: any,
+    subject_ids: any
+): Promise<object> => {
+    const { data } = await $authHost.post('api/dean/updateTeacherSubjects', {
+        teacher_id,
+        subject_ids,
+    });
+    return data;
+};
+
+export const changeTeacherStatus = async (
+    teacher_id: any,
+    is_working: any
+): Promise<object> => {
+    const { data } = await $authHost.post(
+        'api/dean/updateTeacherChangeStatus',
+        {
+            teacher_id,
+            is_working,
+        }
+    );
+    return data;
+};
