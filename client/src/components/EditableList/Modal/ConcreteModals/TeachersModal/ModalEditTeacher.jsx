@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { updateTeacher } from '../../../../../http/deanAPI';
 
 import { EditableListContext } from '../../../EditableList';
 import ModalInput from '../../ModalInput';
@@ -25,7 +26,7 @@ const ModalEditTeacher = ({ student: teacher, handleClose }) => {
         teacher.subjects.map((v) => v.subject_id)
     );
 
-    console.log(selectedSubjects);
+    console.log(teacher);
     const handleSave = async () => {
         const form = document.getElementById('dura');
         if (!form.checkValidity()) {
@@ -49,14 +50,14 @@ const ModalEditTeacher = ({ student: teacher, handleClose }) => {
                 //         );
                 //     }
                 // }
-                // await updateStudent(
-                //     name,
-                //     surname,
-                //     email,
-                //     phone,
-                //     student.student_id,
-                //     passport
-                // );
+                await updateTeacher(
+                    name,
+                    surname,
+                    email,
+                    phone,
+                    teacher.teacher_id,
+                    passport
+                );
             } catch (e) {
                 console.log('update error');
             }
@@ -99,6 +100,7 @@ const ModalEditTeacher = ({ student: teacher, handleClose }) => {
                 hasChanged = true;
                 return false;
             }
+            return true;
         });
         return hasChanged;
     };

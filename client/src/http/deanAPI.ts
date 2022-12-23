@@ -166,3 +166,23 @@ export const getSubjects = async (): Promise<object> => {
         return [];
     }
 };
+
+export const updateTeacher = async (
+    name: any,
+    surname: any,
+    email: any,
+    phone_number: any,
+    teacher_id: any,
+    passport: any
+): Promise<object> => {
+    console.log(name, surname, email, phone_number, teacher_id);
+    const { data } = await $authHost.post('api/dean/updateTeacher', {
+        name,
+        surname,
+        email,
+        phone_number,
+        teacher_id,
+        passport,
+    });
+    return data;
+};

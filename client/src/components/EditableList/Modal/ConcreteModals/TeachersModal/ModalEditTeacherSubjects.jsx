@@ -90,40 +90,52 @@ const ModalEditTeacherSubjects = ({
                         {/* <!-- Modal body --> */}
                         <div className='p-6 space-y-6'>
                             <div className='col-span-6 sm:col-span-3'>
-                                {selectedSubjects.map((selectedSubjectId) => {
-                                    return (
-                                        <div style={{ display: 'flex' }}>
-                                            <IconButton
-                                                aria-label='delete'
-                                                size='small'
-                                                onClick={() =>
-                                                    handleSubjectDelete(
-                                                        selectedSubjectId
-                                                    )
-                                                }
-                                            >
-                                                <DeleteIcon fontSize='inherit' />
-                                            </IconButton>
-                                            <ModalInput
-                                                key={selectedSubjectId}
-                                                inputName={''}
-                                                inputPlaceholder={'1111222222'}
-                                                inputType={'text'}
-                                                isRequired={false}
-                                                inputValue={
-                                                    subjects.find(
-                                                        (i) =>
-                                                            i.id ===
-                                                            selectedSubjectId
-                                                    ).name
-                                                }
-                                                onChangeSet={null}
-                                                inputDisabled={true}
-                                            />
-                                        </div>
-                                    );
-                                })}
-
+                                <div
+                                    style={{
+                                        display: 'grid',
+                                        gridTemplateColumns: 'repeat(2, 1fr)',
+                                    }}
+                                >
+                                    {selectedSubjects.map(
+                                        (selectedSubjectId) => {
+                                            return (
+                                                <div
+                                                    style={{ display: 'flex' }}
+                                                >
+                                                    <IconButton
+                                                        aria-label='delete'
+                                                        size='small'
+                                                        onClick={() =>
+                                                            handleSubjectDelete(
+                                                                selectedSubjectId
+                                                            )
+                                                        }
+                                                    >
+                                                        <DeleteIcon fontSize='inherit' />
+                                                    </IconButton>
+                                                    <ModalInput
+                                                        key={selectedSubjectId}
+                                                        inputName={''}
+                                                        inputPlaceholder={
+                                                            '1111222222'
+                                                        }
+                                                        inputType={'text'}
+                                                        isRequired={false}
+                                                        inputValue={
+                                                            subjects.find(
+                                                                (i) =>
+                                                                    i.id ===
+                                                                    selectedSubjectId
+                                                            ).name
+                                                        }
+                                                        onChangeSet={null}
+                                                        inputDisabled={true}
+                                                    />
+                                                </div>
+                                            );
+                                        }
+                                    )}
+                                </div>
                                 <DropDownSubject
                                     key={uuid()}
                                     subjects={subjects}

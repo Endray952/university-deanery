@@ -220,5 +220,27 @@ class DeanController {
             next(ApiError.badRequest(`${e.message}`));
         }
     }
+    async updateTeacher(req, res, next) {
+        try {
+            const { name, surname, email, phone_number, teacher_id, passport } =
+                req.body;
+            //console.log(name, surname, email, phone_number, student_id);
+            const teachers = await pool.query(
+                deanQueries.updateTeacher(
+                    name,
+                    surname,
+                    email,
+                    phone_number,
+                    teacher_id,
+                    passport
+                )
+            );
+            res.json(teachers.rows);
+        } catch (e) {
+            console.log('update teacher error');
+            next(ApiError.badRequest(`${e.message}`));
+        }
+    }
 }
+
 export default new DeanController();

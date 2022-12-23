@@ -163,4 +163,21 @@ export const deanQueries = {
     getSubjects: () => {
         return `SELECT * FROM subject;`;
     },
+
+    updateTeacher: (
+        name,
+        surname,
+        email,
+        phone_number,
+        teacher_id,
+        passport
+    ) => {
+        return `UPDATE teacher SET
+            "name" = '${name}',
+            "surname" = '${surname}',
+            "email" = '${email}',
+            phone_number = '${phone_number}',
+            passport = '${passport}'
+            WHERE teacher.id = '${teacher_id}';`;
+    },
 };

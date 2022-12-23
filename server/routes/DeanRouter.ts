@@ -59,4 +59,10 @@ router.post(
     DeanController.transferStudent.bind(DeanController)
 );
 
+router.post(
+    '/updateTeacher',
+    checkRoleMiddleWare(['admin', 'dean']),
+    DeanController.updateTeacher.bind(DeanController)
+);
+
 export { router };
