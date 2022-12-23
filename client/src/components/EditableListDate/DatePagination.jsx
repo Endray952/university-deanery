@@ -1,5 +1,5 @@
-import { Button, ButtonGroup } from "@mui/material";
-import styled from "styled-components";
+import { Button, ButtonGroup } from '@mui/material';
+import styled from 'styled-components';
 
 const Wrapper = styled.div`
     display: flex;
@@ -19,9 +19,9 @@ const Element = styled.div`
 `;
 
 /**
- * 
- * @param {Date} date 
- * @returns 
+ *
+ * @param {Date} date
+ * @returns
  */
 export const toNormalDate = (date) => {
     let day = String(date.getDate());
@@ -39,39 +39,41 @@ export const toNormalDate = (date) => {
 };
 
 /**
- * 
- * @param {Date} date 
- * @param {number} days 
+ *
+ * @param {Date} date
+ * @param {number} days
  */
 export const addDaysToDate = (date, days) => {
-    const _date = new Date(date.getTime())
-    return new Date(_date.setDate(_date.getDate() + days))
-}
+    const _date = new Date(date.getTime());
+    return new Date(_date.setDate(_date.getDate() + days));
+};
 
 export const DatePagination = ({ page, onChange }) => {
     const currentDate = new Date(page);
     const weekText =
         toNormalDate(currentDate) +
-        "-" +
-        toNormalDate(
-            addDaysToDate(currentDate, 7)
-        );
+        '-' +
+        toNormalDate(addDaysToDate(currentDate, 7));
 
     const turnBackward = () => {
         const currDate = new Date(page);
         const date = addDaysToDate(currDate, -7);
-        onChange(`${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`);
-    }
+        onChange(
+            `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+        );
+    };
 
     const turnForward = () => {
         const currDate = new Date(page);
         const date = addDaysToDate(currDate, 7);
-        onChange(`${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`);
-    }
+        onChange(
+            `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+        );
+    };
 
     return (
         <Wrapper>
-            <ButtonGroup size="small">
+            <ButtonGroup size='small'>
                 <Button onClick={turnBackward}>Предыдущая неделя</Button>
                 <Button>{weekText}</Button>
                 <Button onClick={turnForward}>Следующая неделя</Button>

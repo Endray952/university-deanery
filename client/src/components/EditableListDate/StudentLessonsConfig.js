@@ -1,5 +1,6 @@
-import { UserStore } from "../../../classes/UserStore";
-import { getLessons } from "../../../http/studentAPI";
+import { UserStore } from '../../../classes/UserStore';
+import { getLessons } from '../../../http/studentAPI';
+import { getGroupById } from '../../http/studentAPI';
 
 const leftStringIncludesRight = (left, right) => {
     return String(left)
@@ -8,9 +9,9 @@ const leftStringIncludesRight = (left, right) => {
 };
 
 const dateConvertOptions = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
 };
 
 const dateToNormalDateString = (dateStr) => {
@@ -20,45 +21,41 @@ const dateToNormalDateString = (dateStr) => {
     let minutes = String(date.getMinutes());
 
     if (hours.length === 1) {
-        hours = "0" + hours;
+        hours = '0' + hours;
     }
 
     if (minutes.length === 1) {
-        minutes = "0" + minutes;
+        minutes = '0' + minutes;
     }
 
-    return (
-        hours +
-        ":" +
-        minutes
-    );
+    return hours + ':' + minutes;
 };
 
 export const StudentLessonsConfig = {
-    asyncGetItems: () => getLessons(UserStore.grade.id),
-    editableListHead: ["Предмет", "Учитель", "Время", "Кабинет"],
+    asyncGetItems: getGroupById,
+    editableListHead: ['Предмет', 'Учитель', 'Время', 'Кабинет'],
 
     getListRow: (lesson) => {
         return {
             heading: {
-                mainText: `${lesson.disciplineName || "неизвестно"}`,
-                secondaryText: lesson.id,
+                mainText: `${lesson.subject || 'неизвестно'}`,
+                secondaryText: '',
             },
             tableItems: [
-                `${lesson.teacherName} ${lesson.teacherSurname}`,
-                dateToNormalDateString(lesson.date),
+                `${lesson.name} ${lesson.surname}`,
+                dateToNormalDateString(lesson.start_date),
                 lesson.classroom,
             ],
         };
     },
     getListRowDelimeterObj: (weekDay) => {
         return {
-            id: "",
+            id: '',
             disciplineName: weekDay,
-            teacherName: "",
-            teacherSurname: "",
-            date: "",
-            classroom: "",
+            teacherName: '',
+            teacherSurname: '',
+            date: '',
+            classroom: '',
         };
     },
     searchConfig: {
@@ -69,11 +66,11 @@ export const StudentLessonsConfig = {
                 leftStringIncludesRight(course.teacherSurname, searchInput)
             );
         },
-        searchPlaceholder: "Поиск урока",
+        searchPlaceholder: 'Поиск урока',
     },
     sort: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
     actionDropDown: {
-        name: "avCourses",
+        name: 'avCourses',
         enabled: false,
         visible: false,
         actions: [],

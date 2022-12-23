@@ -27,3 +27,10 @@ export const getStudentByUserId = async (id: string): Promise<object> => {
     const { data } = await $authHost.get(`api/student/myself/${id}`);
     return data;
 };
+
+export const getGroupById = async (group_id?: string): Promise<object> => {
+    const { data } = await $authHost.get(
+        `api/student/group_id/${'b9b6eff7-872b-4175-bb53-1405a1f4a2e3'}`
+    );
+    return data;
+};

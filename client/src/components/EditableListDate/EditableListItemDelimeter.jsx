@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const HeadingWrapper = styled.td`
     width: 100%;
@@ -12,10 +12,8 @@ const HeadingWrapper = styled.td`
 
 const EditableListItemDelimeter = ({ heading }) => {
     return (
-        <tr className="bg-white border-b">
-            <HeadingWrapper colSpan="4">
-                {heading}
-            </HeadingWrapper>
+        <tr className='bg-white border-b'>
+            <HeadingWrapper colSpan='4'>{heading}</HeadingWrapper>
         </tr>
     );
 };

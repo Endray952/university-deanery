@@ -34,6 +34,33 @@ export const StudentQueries = {
         ON institute.id = direction.institute_id 
         JOIN "system_user" 
         ON "system_user".person_id = student.id 
-        WHERE student.id = '${userId}';`;
+        WHERE "system_user".id = '${userId}';`;
+    },
+    getGroupShedule: (group_id) => {
+        return `SELECT subject."name" AS "subject", 
+      teacher."name",
+      teacher."surname",
+     classroom."name" AS "classroom",
+     lesson.start_date,
+     lesson.duration ,
+     lesson."lesson_type",
+     "group"."id" AS group_id,
+     lesson.id AS lesson_id,
+     group_lesson.id AS group_lesson_id,
+     teacher.id AS teacher_id
+     FROM lesson  
+     JOIN teacher_subject  
+     ON lesson.teacher_subject_id = teacher_subject.id 
+     JOIN teacher 
+     ON teacher.id = teacher_subject.teacher_id 
+     JOIN subject 
+     ON subject.id = teacher_subject.subject_id 
+     JOIN group_lesson 
+     ON group_lesson.lesson_id = lesson.id 
+     JOIN "group" 
+     ON "group".id = group_lesson.group_id 
+     JOIN classroom 
+     ON lesson.classroom_id = classroom.id
+     WHERE "group".id = '${group_id}';`;
     },
 };

@@ -4,13 +4,10 @@ import SearchInput from './SearchInput';
 import EditableListHead from './EditableListHead';
 import EditableListItem from './EditableListItem';
 import { LoaderComponent } from 'react-fullscreen-loader';
-import {
-    DatePagination,
-    addDaysToDate,
-    toNormalDate,
-} from '../DatePagination/DatePagination';
+
 import EditableListItemDelimeter from './EditableListItemDelimeter';
 import ModalWindow from '../EditableList/Modal/ModalWindow';
+import { addDaysToDate, DatePagination, toNormalDate } from './DatePagination';
 
 export const EditableListContext = React.createContext();
 

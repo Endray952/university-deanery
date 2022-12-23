@@ -1,6 +1,4 @@
 import Router, { Request, Response } from 'express';
-import DeanController from '../controllers/DeanController/DeanController.js';
-import FeedbackController from '../controllers/FeedBackController/FeedbackController.js';
 import StudentController from '../controllers/StudentController/StudentController.js';
 import { checkRoleMiddleWare } from '../middleware/CheckRoleMiddleware.js';
 
@@ -10,6 +8,12 @@ router.get(
     '/myself/:id',
     checkRoleMiddleWare(['admin', 'student']),
     StudentController.getStudentByUserId
+);
+
+router.get(
+    '/groupShedule/:group_id',
+    checkRoleMiddleWare(['admin', 'dean', 'student']),
+    StudentController.getGroupShedule
 );
 
 export { router };
