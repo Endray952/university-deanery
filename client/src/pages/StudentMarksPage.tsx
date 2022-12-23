@@ -13,7 +13,7 @@ const PageContainerStyle = {
     display: 'flex',
 };
 
-export const StudentPage = () => {
+export const StudentMarksPage = () => {
     if (!UserStore.isAuth) {
         return <Navigate to={ROOT_PATH} replace />;
     }

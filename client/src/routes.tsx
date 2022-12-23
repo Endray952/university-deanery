@@ -1,31 +1,26 @@
 import {
-    ADMIN_PATH,
     ROOT_PATH,
     LOGIN_PATH,
-    REGISTRATION_PATH,
     STUDENT_MARKS_PATH,
     STUDENTS_EDIT_PATH,
     TEACHERS_EDIT_PATH,
+    STUDENT_SHEDULE_PATH,
 } from './utils/consts';
 
 import { LoginPage } from './pages/LoginPage';
 
 import DefaultPage from './pages/DefaultPage';
-import { StudentPage } from './pages/StudentPage';
+import { StudentMarksPage } from './pages/StudentMarksPage';
 import { EditStudentsPage } from './pages/EditStudentsPage';
 import { EditTeachersPage } from './pages/EditTeachersPage';
+import { StudentShedule } from './pages/StudentShedule';
 
 /**
  * Routes for authentication
  */
 export const adminRoutes = [
-    {
-        path: ADMIN_PATH,
-        component: LoginPage,
-    },
-
     // {
-    //     path: REGISTRATION_PATH,
+    //     path: ADMIN_PATH,
     //     component: LoginPage,
     // },
 
@@ -36,84 +31,77 @@ export const adminRoutes = [
 
     {
         path: STUDENT_MARKS_PATH,
-        component: StudentPage,
+        component: StudentMarksPage,
     },
 
     {
         path: TEACHERS_EDIT_PATH,
         component: EditTeachersPage,
     },
+
+    {
+        path: STUDENT_SHEDULE_PATH,
+        component: StudentShedule,
+    },
 ];
 
 export const deanRoutes = [
-    {
-        path: ADMIN_PATH,
-        component: LoginPage,
-    },
-
     // {
-    //     path: REGISTRATION_PATH,
+    //     path: ADMIN_PATH,
     //     component: LoginPage,
     // },
 
     {
         path: STUDENTS_EDIT_PATH,
-        component: StudentPage,
+        component: StudentMarksPage,
     },
     {
         path: TEACHERS_EDIT_PATH,
         component: EditTeachersPage,
     },
+    {
+        path: STUDENT_SHEDULE_PATH,
+        component: StudentShedule,
+    },
 ];
 
 export const studentRoutes = [
-    {
-        path: ADMIN_PATH,
-        component: LoginPage,
-    },
-
-    {
-        path: REGISTRATION_PATH,
-        component: LoginPage,
-    },
+    // {
+    //     path: ADMIN_PATH,
+    //     component: LoginPage,
+    // },
 
     {
         path: STUDENTS_EDIT_PATH,
-        component: StudentPage,
+        component: StudentMarksPage,
+    },
+    {
+        path: STUDENT_SHEDULE_PATH,
+        component: StudentShedule,
     },
 ];
 
 export const teacherRoutes = [
-    {
-        path: ADMIN_PATH,
-        component: LoginPage,
-    },
-
-    {
-        path: REGISTRATION_PATH,
-        component: LoginPage,
-    },
+    // {
+    //     path: ADMIN_PATH,
+    //     component: LoginPage,
+    // },
 
     {
         path: STUDENTS_EDIT_PATH,
-        component: StudentPage,
+        component: StudentMarksPage,
     },
 ];
 
 export const rectorRoutes = [
-    {
-        path: ADMIN_PATH,
-        component: LoginPage,
-    },
-
-    {
-        path: REGISTRATION_PATH,
-        component: LoginPage,
-    },
+    // {
+    //     path: ADMIN_PATH,
+    //     component: LoginPage,
+    // },
 
     {
         path: STUDENTS_EDIT_PATH,
-        component: StudentPage,
+        component: StudentMarksPage,
     },
 ];
 

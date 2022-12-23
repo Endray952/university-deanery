@@ -1,8 +1,8 @@
-export const ADMIN_PATH = '/admin';
+//export const ADMIN_PATH = '/admin';
 export const LOGIN_PATH = '/login';
-export const REGISTRATION_PATH = '/registration';
-export const STUDENT_MARKS_PATH = '/student';
-export const DEAN_PATH = '/dean';
+export const STUDENT_MARKS_PATH = '/studentMarks';
+export const STUDENT_SHEDULE_PATH = '/studentShedule';
+//export const DEAN_PATH = '/dean';
 export const ROOT_PATH = '/';
 export const STUDENTS_EDIT_PATH = '/editStudents'; //edit
 export const TEACHERS_EDIT_PATH = '/editTeachers'; //edit
