@@ -114,4 +114,15 @@ teacher.surname
   subject.id = '${subject_id}'
 ;`;
     },
+
+    getStudentGroupByUserId: (user_id) => {
+        return `SELECT student_group.group_id  FROM "system_user"
+        JOIN student 
+        ON student.id = "system_user".person_id 
+        JOIN student_group 
+        ON student_group.student_id =student.id
+        LEFT JOIN get_last_student_group_id(student.id) 
+        ON get_last_student_group_id = student_group.id
+        WHERE "system_user".id ='${user_id}'; `;
+    },
 };

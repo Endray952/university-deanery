@@ -55,6 +55,20 @@ class StudentController {
         }
     }
 
+    async getStudentGroupByUserId(req, res, next) {
+        try {
+            const { user_id } = req.query;
+            console.log(user_id);
+            const subjectsWithMarks: any = await pool.query(
+                StudentQueries.getStudentGroupByUserId(user_id)
+            );
+            res.json(subjectsWithMarks.rows[0]);
+        } catch (e) {
+            console.log('get student marks info error');
+            next(ApiError.badRequest(`${e.message}`));
+        }
+    }
+
     async updateFeedback(req, res) {}
 
     async deleteFeedback(req, res) {}

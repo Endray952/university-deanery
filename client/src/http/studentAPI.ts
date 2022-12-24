@@ -80,3 +80,25 @@ export const getSubjectMarksInfo = async (
     // console.log(data);
     return data;
 };
+
+export const getGroupByUserId = async (): Promise<object> => {
+    try {
+        console.log(UserStore?.user?.id);
+        const { group_id }: any = (
+            await $authHost.get(`api/student/getStudentGroupByUserId`, {
+                params: {
+                    user_id: UserStore?.user?.id,
+                },
+            })
+        ).data;
+        const { data } = await $authHost.get(
+            `api/student/groupShedule/${group_id}`
+        );
+
+        console.log(group_id);
+        return data;
+    } catch (e) {
+        console.log(e);
+        return getGroupSheduleById();
+    }
+};

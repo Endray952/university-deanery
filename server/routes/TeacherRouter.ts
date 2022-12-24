@@ -34,10 +34,4 @@ router.get(
     StudentController.getSubjectMarksInfo
 );
 
-router.get(
-    '/getStudentGroupByUserId/',
-    checkRoleMiddleWare(['admin', 'dean', 'student']),
-    StudentController.getStudentGroupByUserId
-);
-
 export { router };

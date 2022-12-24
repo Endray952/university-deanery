@@ -109,7 +109,6 @@ const EditableListDate = ({ config, shouldUpdate }) => {
 
             list.push(item);
         }
-        //console.log(sortedListItems);
         console.log(listItems);
         setCurrentListItems(list);
 
