@@ -54,16 +54,20 @@ export const deanRoutes = [
 
     {
         path: STUDENTS_EDIT_PATH,
-        component: StudentMarksPage,
+        component: EditStudentsPage,
     },
     {
         path: TEACHERS_EDIT_PATH,
         component: EditTeachersPage,
     },
-    {
-        path: STUDENT_SHEDULE_PATH,
-        component: StudentShedule,
-    },
+    // {
+    //     path: STUDENT_SHEDULE_PATH,
+    //     component: StudentShedule,
+    // },
+    // {
+    //     path: STUDENT_MARKS_PATH,
+    //     component: StudentMarksPage,
+    // },
 ];
 
 export const studentRoutes = [

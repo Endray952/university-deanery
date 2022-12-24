@@ -48,7 +48,7 @@ export const StudentLessonsConfig = {
                 secondaryText: getLessonType[lesson.lesson_type],
             },
             tableItems: [
-                `${lesson.name} ${lesson.surname}`,
+                `${lesson.name || 'незивестно'} ${lesson.surname || ''}`,
                 dateToNormalDateString(lesson.date) +
                     `- ${new Date(
                         new Date(lesson.date).getTime() +

@@ -14,14 +14,7 @@ const dateConvertOptions = {
 
 const dateToNormalDateString = (dateStr) => {
     const date = new Date(dateStr);
-    return (
-        date.toLocaleDateString('ru', dateConvertOptions) +
-        ' ' +
-        date.getHours() +
-        ':' +
-        date.getMinutes() +
-        '0'
-    );
+    return date.toLocaleDateString('ru', dateConvertOptions);
 };
 
 export const marksWithDatesConfig = {
@@ -50,7 +43,8 @@ export const marksWithDatesConfig = {
         },
         searchPlaceholder: 'Поиск',
     },
-    sort: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+    sort: (a, b) =>
+        new Date(a.start_date).getTime() - new Date(b.start_date).getTime(),
     actionDropDown: {
         name: 'marksWithDates',
         enabled: false,

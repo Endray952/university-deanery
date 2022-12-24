@@ -16,6 +16,10 @@ export const SidebarByRole = new Map()
     .set(role.STUDENT, [
         { to: STUDENT_SHEDULE_PATH, text: 'Мое расписание' },
         { to: STUDENT_MARKS_PATH, text: 'Мои оценки' },
+    ])
+    .set(role.DEAN, [
+        { to: STUDENTS_EDIT_PATH, text: 'Студенты' },
+        { to: TEACHERS_EDIT_PATH, text: 'Учителя' },
     ]);
 
 //@ts-ignore

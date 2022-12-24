@@ -6,7 +6,7 @@ const router = Router();
 
 router.get(
     '/myself/:id',
-    checkRoleMiddleWare(['admin', 'student']),
+    checkRoleMiddleWare(['admin', 'dean', 'student']),
     StudentController.getStudentByUserId
 );
 
