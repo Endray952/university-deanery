@@ -1,37 +1,25 @@
 import Router, { Request, Response } from 'express';
 import StudentController from '../controllers/StudentController/StudentController.js';
+import TeacherController from '../controllers/TeacherController/TeacherController.js';
 import { checkRoleMiddleWare } from '../middleware/CheckRoleMiddleware.js';
 
 const router = Router();
 
 router.get(
-    '/myself/:id',
-    checkRoleMiddleWare(['admin', 'dean', 'student']),
-    StudentController.getStudentByUserId
+    '/myShedule/',
+    checkRoleMiddleWare(['admin', 'dean', 'teacher']),
+    TeacherController.getMySheduleByUserId
+);
+router.get(
+    '/getTeacherByUserId/',
+    checkRoleMiddleWare(['admin', 'dean', 'teacher']),
+    TeacherController.getTeacherByUserId
 );
 
 router.get(
-    '/groupShedule/:group_id',
-    checkRoleMiddleWare(['admin', 'dean', 'student']),
-    StudentController.getGroupShedule
-);
-
-router.get(
-    '/getCurrentStudentMarks/:student_id',
-    checkRoleMiddleWare(['admin', 'dean', 'student']),
-    StudentController.getCurrentStudentMarks
-);
-
-router.get(
-    '/getCurrentStudentMarks/:student_id',
-    checkRoleMiddleWare(['admin', 'dean', 'student']),
-    StudentController.getCurrentStudentMarks
-);
-
-router.get(
-    '/getSubjectMarksInfo/',
-    checkRoleMiddleWare(['admin', 'dean', 'student']),
-    StudentController.getSubjectMarksInfo
+    '/getLessonStudents/',
+    checkRoleMiddleWare(['admin', 'dean', 'teacher']),
+    TeacherController.getLessonStudents
 );
 
 export { router };

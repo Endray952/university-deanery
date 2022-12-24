@@ -26,7 +26,7 @@ export const EditTeachersPage = () => {
                     <div
                         onClick={async (e) => console.log(await getTeachers())}
                     >
-                        getInfoTeacher
+                        {/* getInfoTeacher */}
                     </div>
 
                     {

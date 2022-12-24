@@ -1,18 +1,19 @@
-import React from 'react';
 import { Container } from '@mui/material';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
-import EditableList from '../components/EditableList/EditableList';
+
 import Sidebar from '../components/Slidebar/Sidebar';
-import { getStudents, getTeachers } from '../http/deanAPI';
+import EditableListDate from '../components/TeacherShedule/EditableListDate';
+import { TeacherLessonConfig } from '../components/TeacherShedule/TeacherLessonConfig';
+import { getMySheduleByUserId, getTeacherIdByUserId } from '../http/teacherAPI';
 import UserStore from '../store/UserStore';
 import { ROOT_PATH } from '../utils/consts';
-import { studentsListConfig } from '../components/EditableList/ListConfig/StudentsListConfig';
 
 const PageContainerStyle = {
     display: 'flex',
 };
 
-export const EditStudentsPage = () => {
+export const TeacherSchedulePage = () => {
     if (!UserStore.isAuth) {
         return <Navigate to={ROOT_PATH} replace />;
     }
@@ -22,16 +23,15 @@ export const EditStudentsPage = () => {
             <div style={PageContainerStyle}>
                 <Sidebar />
                 <Container maxWidth='xl' color='cyan'>
-                    <div
-                        onClick={async (e) => console.log(await getStudents())}
-                    >
-                        {/* getInfoStudent */}
-                    </div>
-
                     {
                         //@ts-ignore
-                        <EditableList config={studentsListConfig} />
+                        <EditableListDate config={TeacherLessonConfig} />
                     }
+                    <div
+                        onClick={async () =>
+                            console.log(await getMySheduleByUserId())
+                        }
+                    ></div>
                 </Container>
             </div>
         </>

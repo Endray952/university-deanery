@@ -12,6 +12,7 @@ import ModalInput from '../EditableList/Modal/ModalInput';
 import { getStudentByUserId } from '../../http/studentAPI';
 import UserStore from '../../store/UserStore';
 import { observer } from 'mobx-react-lite';
+import { role } from '../../utils/consts';
 
 export const EditableListContext = React.createContext();
 
@@ -183,15 +184,18 @@ const EditableListDate = ({ config, shouldUpdate }) => {
             <div className='overflow-x-auto relative shadow-md sm:rounded-lg'>
                 <div className='flex justify-between items-center py-4 bg-white'>
                     {/* <ActionDropDown config={config.actionDropDown} /> */}
-                    <ModalInput
-                        inputName={''}
-                        inputPlaceholder={'группа'}
-                        inputType={'text'}
-                        isRequired={false}
-                        inputValue={`Группа ${currentGroup}`}
-                        onChangeSet={null}
-                        inputDisabled={true}
-                    />
+                    {UserStore.user.role === role.STUDENT && (
+                        <ModalInput
+                            inputName={''}
+                            inputPlaceholder={'группа'}
+                            inputType={'text'}
+                            isRequired={false}
+                            inputValue={`Группа ${currentGroup}`}
+                            onChangeSet={null}
+                            inputDisabled={true}
+                        />
+                    )}
+
                     {listItems.filter((item) =>
                         config.searchConfig.searchBy(item, searchInput)
                     ).length > pageRatio && (

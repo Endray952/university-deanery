@@ -26,7 +26,7 @@ export const StudentShedule = () => {
                         //@ts-ignore
                         <EditableListDate config={StudentLessonsConfig} />
                     }
-                    <div onClick={() => getGroupSheduleById()}>getInfo</div>
+                    <div onClick={() => getGroupSheduleById()}></div>
                 </Container>
             </div>
         </>

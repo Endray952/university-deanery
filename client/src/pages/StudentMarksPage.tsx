@@ -60,7 +60,7 @@ export const StudentMarksPage = () => {
                 <Sidebar />
                 <Container maxWidth='xl' color='cyan'>
                     <EditableListPage config={studentMarksConfig} />
-                    <div onClick={getMarks}>get info</div>
+                    <div onClick={getMarks}></div>
                 </Container>
             </div>
         </>

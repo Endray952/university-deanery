@@ -6,11 +6,12 @@ import {
     role,
     STUDENTS_EDIT_PATH,
     STUDENT_SHEDULE_PATH,
+    TEACHER_SHEDULE_PATH,
 } from '../utils/consts';
 import { observer } from 'mobx-react-lite';
 
 const DefaultPage = observer(() => {
-    // console.log(JSON.stringify(UserStore.isAuth));
+    console.log('kek', JSON.stringify(UserStore.user?.role), role.TEACHER);
     if (!UserStore.isAuth) {
         return <Navigate to={LOGIN_PATH} replace />;
     } else {
@@ -25,7 +26,7 @@ const DefaultPage = observer(() => {
                 return <Navigate to={STUDENTS_EDIT_PATH} replace />;
                 break;
             case role.TEACHER:
-                return <Navigate to={STUDENTS_EDIT_PATH} replace />;
+                return <Navigate to={TEACHER_SHEDULE_PATH} replace />;
                 break;
             case role.STUDENT:
                 return <Navigate to={STUDENT_SHEDULE_PATH} replace />;

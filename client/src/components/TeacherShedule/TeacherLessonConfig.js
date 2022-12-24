@@ -1,4 +1,6 @@
-import { getGroupSheduleById } from '../../http/studentAPI';
+import { getMySheduleByUserId } from '../../http/teacherAPI';
+import ModalEditStudent from '../EditableList/Modal/ConcreteModals/StudentsModal/ModalEditStudent';
+import ModalEditLessonTeacher from './ModalEditLessonTeacher';
 
 const leftStringIncludesRight = (left, right) => {
     return String(left)
@@ -36,9 +38,9 @@ const dateToNormalDateString = (dateStr) => {
     return hours + ':' + minutes;
 };
 
-export const StudentLessonsConfig = {
-    asyncGetItems: getGroupSheduleById,
-    editableListHead: ['Предмет', 'Преподаватель', 'Время', 'Аудитория'],
+export const TeacherLessonConfig = {
+    asyncGetItems: getMySheduleByUserId,
+    editableListHead: ['Предмет', 'Время', 'Аудитория', 'Действие'],
 
     getListRow: (lesson) => {
         //console.log('getListRow', lesson);
@@ -48,7 +50,6 @@ export const StudentLessonsConfig = {
                 secondaryText: getLessonType[lesson.lesson_type],
             },
             tableItems: [
-                `${lesson.name || 'незивестно'} ${lesson.surname || ''}`,
                 dateToNormalDateString(lesson.date) +
                     `- ${new Date(
                         new Date(lesson.date).getTime() +
@@ -61,6 +62,7 @@ export const StudentLessonsConfig = {
                     ).getMinutes()}`,
                 lesson.classroom,
             ],
+            actionName: 'Подробнее',
         };
     },
     getListRowDelimeterObj: (weekDay) => {
@@ -83,6 +85,12 @@ export const StudentLessonsConfig = {
             );
         },
         searchPlaceholder: 'Поиск урока',
+    },
+    modal: {
+        modalName: 'Редактировать студента',
+        modalContent: (item, handleClose) => (
+            <ModalEditLessonTeacher lesson={item} handleClose={handleClose} />
+        ),
     },
     sort: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
     actionDropDown: {

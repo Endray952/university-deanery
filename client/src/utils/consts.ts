@@ -6,7 +6,7 @@ export const STUDENT_SHEDULE_PATH = '/studentShedule';
 export const ROOT_PATH = '/';
 export const STUDENTS_EDIT_PATH = '/editStudents'; //edit
 export const TEACHERS_EDIT_PATH = '/editTeachers'; //edit
-
+export const TEACHER_SHEDULE_PATH = '/teacherShedule';
 export interface userType {
     id: string;
     login: string;
@@ -19,5 +19,5 @@ export const role = {
     STUDENT: 'student',
     DEAN: 'dean',
     TEACHER: 'teacher',
-    RECTOR: 'teacher',
+    RECTOR: 'rector',
 };

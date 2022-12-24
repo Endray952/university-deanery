@@ -5,6 +5,7 @@ import {
     STUDENTS_EDIT_PATH,
     TEACHERS_EDIT_PATH,
     STUDENT_SHEDULE_PATH,
+    TEACHER_SHEDULE_PATH,
 } from './utils/consts';
 
 import { LoginPage } from './pages/LoginPage';
@@ -15,6 +16,8 @@ import { EditStudentsPage } from './pages/EditStudentsPage';
 import { EditTeachersPage } from './pages/EditTeachersPage';
 import { StudentShedule } from './pages/StudentShedule';
 import { StudentMarksPage } from './pages/StudentMarksPage';
+//@ts-ignore
+import { TeacherSchedulePage } from './pages/TeacherSchedulePage';
 
 /**
  * Routes for authentication
@@ -92,9 +95,13 @@ export const teacherRoutes = [
     //     component: LoginPage,
     // },
 
+    // {
+    //     path: STUDENTS_EDIT_PATH,
+    //     component: StudentMarksPage,
+    // },
     {
-        path: STUDENTS_EDIT_PATH,
-        component: StudentMarksPage,
+        path: TEACHER_SHEDULE_PATH,
+        component: TeacherSchedulePage,
     },
 ];
 

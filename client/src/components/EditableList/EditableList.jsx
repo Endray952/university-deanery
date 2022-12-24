@@ -48,7 +48,7 @@ const EditableList = ({ config }) => {
         >
             <div className='overflow-x-auto relative shadow-md sm:rounded-lg '>
                 <div className='flex justify-between items-center py-4 bg-white dark:bg-gray-800'>
-                    {config.actionComponent(listItems)}
+                    {config?.actionComponent(listItems)}
                     <Pagination
                         count={
                             +(
@@ -100,13 +100,15 @@ const EditableList = ({ config }) => {
                     </tbody>
                 </table>
             </div>
-            <ModalWindow
-                key={uuid()}
-                isModalOpen={isModalOpen}
-                setModalOpen={setModalOpen}
-                modalConfig={config.modal}
-                modalItem={modalItem}
-            />
+            {config?.modal && (
+                <ModalWindow
+                    key={uuid()}
+                    isModalOpen={isModalOpen}
+                    setModalOpen={setModalOpen}
+                    modalConfig={config.modal}
+                    modalItem={modalItem}
+                />
+            )}
         </EditableListContext.Provider>
     );
 };

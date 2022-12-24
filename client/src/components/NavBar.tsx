@@ -11,6 +11,7 @@ import { ROOT_PATH, LOGIN_PATH, role } from '../utils/consts';
 import { observer } from 'mobx-react-lite';
 import { getStudentByUserId } from '../http/studentAPI';
 import Spinner from './Spinner';
+import { getTeacherIdByUserId } from '../http/teacherAPI';
 
 const navlinkStyle = `
     text-xl font-bold
@@ -140,7 +141,7 @@ const getProfileByUser = async (setCurrentUser: any) => {
     try {
         switch (UserStore.user.role) {
             case role.ADMIN:
-                setCurrentUser({ name: 'админ' });
+                setCurrentUser({ name: 'декан' });
                 break;
             case role.STUDENT:
                 const student: any = await getStudentByUserId(
@@ -150,6 +151,12 @@ const getProfileByUser = async (setCurrentUser: any) => {
                 setCurrentUser({
                     name: `${student.name} ${student.surname}`,
                     group: student.group_code,
+                });
+                break;
+            case role.TEACHER:
+                const teacher: any = await getTeacherIdByUserId();
+                setCurrentUser({
+                    name: `${teacher.name} ${teacher.surname}`,
                 });
                 break;
             default:

@@ -30,7 +30,7 @@ const ModalWindow = ({ isModalOpen, setModalOpen, modalConfig, modalItem }) => {
                         {/* <!-- Modal header --> */}
                         <div className='flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600'>
                             <h3 className='text-xl font-semibold text-gray-900 dark:text-white'>
-                                {`${modalConfig.modalName} 
+                                {`${modalConfig?.modalName} 
                                 ${
                                     modalItem?.hasOwnProperty('average_mark')
                                         ? modalItem?.subject_name
