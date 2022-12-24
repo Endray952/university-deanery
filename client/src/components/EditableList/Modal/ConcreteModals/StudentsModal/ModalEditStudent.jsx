@@ -23,7 +23,8 @@ const ModalEditStudent = ({ student, handleClose }) => {
 
     const [selectedGroupId, setSelectedGroupId] = useState(null);
     console.log(selectedGroupId);
-    const handleSave = async () => {
+    const handleSave = async (e) => {
+        e.preventDefault();
         const form = document.getElementById('dura');
         if (!form.checkValidity()) {
             const tmpSubmit = document.createElement('button');

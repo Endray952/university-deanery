@@ -24,8 +24,12 @@ import UserStore from '../store/UserStore';
 // };
 
 export const getStudentByUserId = async (id: string): Promise<object> => {
-    const { data } = await $authHost.get(`api/student/myself/${id}`);
-    return data;
+    try {
+        const { data } = await $authHost.get(`api/student/myself/${id}`);
+        return data;
+    } catch (e) {
+        throw e;
+    }
 };
 
 export const getGroupById = async (group_id?: string): Promise<object> => {

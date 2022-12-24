@@ -63,4 +63,33 @@ export const StudentQueries = {
      ON lesson.classroom_id = classroom.id
      WHERE "group".id = '${group_id}';`;
     },
+
+    getCurrentStudentMarks: (student_id) => {
+        return `select 
+--mark.mark_value ,
+subject."name" as subject_name,
+subject."id" as subject_id,
+AVG(mark.mark_value) as average_mark,
+STRING_AGG(mark.mark_value::varchar, ',') as marks
+--teacher."name" as teacher_name,
+--teacher.surname  as teacher_name,
+from lesson 
+left join mark 
+on mark.lesson_id = lesson.id and 
+	mark.student_id = '${student_id}'  
+join teacher_subject on
+teacher_subject.id = lesson.teacher_subject_id 
+join subject 
+on subject.id = teacher_subject.subject_id 
+join group_lesson 
+on group_lesson.lesson_id =lesson.id 
+join student_group 
+on student_group.group_id = group_lesson.group_id 
+join teacher 
+on teacher.id = teacher_subject.teacher_id 
+where student_group.id = get_current_student_group_id('${student_id}') and 
+student_group.student_id = '${student_id}' 
+group by subject."name", subject."id"
+;`;
+    },
 };

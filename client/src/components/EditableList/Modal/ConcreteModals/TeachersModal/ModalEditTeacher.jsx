@@ -40,7 +40,7 @@ const ModalEditTeacher = ({ student: teacher, handleClose }) => {
         } else {
             handleClose();
             try {
-                if (isSubjectsChanged) {
+                if (isSubjectsChanged()) {
                     await updateTeacherSubjects(
                         teacher.teacher_id,
                         selectedSubjects

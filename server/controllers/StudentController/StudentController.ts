@@ -29,6 +29,18 @@ class StudentController {
             next(ApiError.badRequest(`${e.message}`));
         }
     }
+    async getCurrentStudentMarks(req, res, next) {
+        try {
+            const { student_id } = req.params;
+            const subjectsWithMarks = await pool.query(
+                StudentQueries.getCurrentStudentMarks(student_id)
+            );
+            res.json(subjectsWithMarks.rows);
+        } catch (e) {
+            console.log('get student marks error');
+            next(ApiError.badRequest(`${e.message}`));
+        }
+    }
 
     async updateFeedback(req, res) {}
 

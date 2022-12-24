@@ -251,7 +251,7 @@ class DeanController {
             );
             res.json(teachers.rows);
         } catch (e) {
-            console.log('update teacher error');
+            console.log('update teacher subjects error');
             next(ApiError.badRequest(`${e.message}`));
         }
     }

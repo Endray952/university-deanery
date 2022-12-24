@@ -59,7 +59,7 @@ export const NavBar = observer(() => {
 
         //console.log(JSON.stringify(UserStore.user));
     }, []);
-
+    console.log(JSON.stringify(UserStore.user));
     if (!UserStore.isAuth) {
         return null;
     }
@@ -113,7 +113,11 @@ export const NavBar = observer(() => {
                                               currentUser?.surname || ''
                                           }`}
                                 </p>
-                                <p>{currentUser?.group_code}</p>
+                                <p>
+                                    {currentUser?.group
+                                        ? `Группа ${currentUser?.group}`
+                                        : ''}
+                                </p>
                             </div>
                         </li>
 
@@ -129,15 +133,29 @@ export const NavBar = observer(() => {
     );
 });
 
-const getProfileByUser = (setCurrentUser: any) => {
+const getProfileByUser = async (setCurrentUser: any) => {
     if (!UserStore.user) {
         return 'неизвестно';
     }
-    switch (UserStore.user.role) {
-        case role.ADMIN:
-            setCurrentUser({ name: 'админ' });
-            break;
-        default:
-            setCurrentUser({ name: 'Не опредлено' });
+    try {
+        switch (UserStore.user.role) {
+            case role.ADMIN:
+                setCurrentUser({ name: 'админ' });
+                break;
+            case role.STUDENT:
+                const student: any = await getStudentByUserId(
+                    UserStore.user.id
+                );
+                console.log(student);
+                setCurrentUser({
+                    name: `${student.name} ${student.surname}`,
+                    group: student.group_code,
+                });
+                break;
+            default:
+                setCurrentUser({ name: 'Не опредлено' });
+        }
+    } catch (e) {
+        console.log(e);
     }
 };

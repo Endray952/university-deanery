@@ -16,4 +16,10 @@ router.get(
     StudentController.getGroupShedule
 );
 
+router.get(
+    '/getCurrentStudentMarks/:student_id',
+    checkRoleMiddleWare(['admin', 'dean', 'student']),
+    StudentController.getCurrentStudentMarks
+);
+
 export { router };

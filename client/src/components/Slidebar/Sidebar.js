@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import UserStore from '../../store/UserStore';
-import { adminSideBar } from '../../utils/constsJS';
+import { SidebarByRole } from '../../utils/constsJS';
 
 import SlidebarItem from './SlidebarItem';
 
@@ -14,9 +14,8 @@ const Sidebar = observer(() => {
             <div className='overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800 h-screen'>
                 <ul className='space-y-2'>
                     {UserStore.user.role &&
-                        adminSideBar
-                            .get(UserStore.user.role)
-                            .map((sidebarContent) => (
+                        SidebarByRole.get(UserStore.user.role).map(
+                            (sidebarContent) => (
                                 <SlidebarItem
                                     key={
                                         sidebarContent.text + sidebarContent.to
@@ -24,7 +23,8 @@ const Sidebar = observer(() => {
                                     linkTo={sidebarContent.to}
                                     sidebarText={sidebarContent.text}
                                 />
-                            ))}
+                            )
+                        )}
                 </ul>
             </div>
         </aside>

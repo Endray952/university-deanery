@@ -1,7 +1,12 @@
 import * as React from 'react';
 import { Navigate, redirect } from 'react-router-dom';
 import UserStore from '../store/UserStore';
-import { LOGIN_PATH, role, STUDENTS_EDIT_PATH } from '../utils/consts';
+import {
+    LOGIN_PATH,
+    role,
+    STUDENTS_EDIT_PATH,
+    STUDENT_SHEDULE_PATH,
+} from '../utils/consts';
 import { observer } from 'mobx-react-lite';
 
 const DefaultPage = observer(() => {
@@ -23,7 +28,7 @@ const DefaultPage = observer(() => {
                 return <Navigate to={STUDENTS_EDIT_PATH} replace />;
                 break;
             case role.STUDENT:
-                return <Navigate to={STUDENTS_EDIT_PATH} replace />;
+                return <Navigate to={STUDENT_SHEDULE_PATH} replace />;
                 break;
             default:
                 return <Navigate to={LOGIN_PATH} replace />;

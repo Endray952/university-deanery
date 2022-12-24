@@ -72,7 +72,7 @@ export const studentRoutes = [
     // },
 
     {
-        path: STUDENTS_EDIT_PATH,
+        path: STUDENT_MARKS_PATH,
         component: StudentMarksPage,
     },
     {
