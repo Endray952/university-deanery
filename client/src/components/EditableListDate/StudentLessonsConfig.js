@@ -1,4 +1,4 @@
-import { getGroupById } from '../../http/studentAPI';
+import { getGroupSheduleById } from '../../http/studentAPI';
 
 const leftStringIncludesRight = (left, right) => {
     return String(left)
@@ -30,7 +30,7 @@ const dateToNormalDateString = (dateStr) => {
 };
 
 export const StudentLessonsConfig = {
-    asyncGetItems: getGroupById,
+    asyncGetItems: getGroupSheduleById,
     editableListHead: ['Предмет', 'Учитель', 'Время', 'Кабинет'],
 
     getListRow: (lesson) => {
