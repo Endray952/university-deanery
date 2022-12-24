@@ -1,9 +1,17 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
+import { getSubjectMarksInfo } from '../../http/studentAPI';
+import UserStore from '../../store/UserStore';
+import marksWithDatesConfig from '../Marks/MarksWithDatesConfig';
 
-const EditableListItem = ({ setModalOpen, listRow, setModalItem }) => {
+const EditableListItem = ({ setModalOpen, listRow, setModalItem, item }) => {
     const handleOpenModal = () => {
         setModalItem();
+
+        marksWithDatesConfig.asyncGetItems = () =>
+            getSubjectMarksInfo(UserStore.user.id, item.subject_id);
+
+        console.log(item);
         setModalOpen(true);
     };
 

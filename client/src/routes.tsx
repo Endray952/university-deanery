@@ -10,10 +10,11 @@ import {
 import { LoginPage } from './pages/LoginPage';
 
 import DefaultPage from './pages/DefaultPage';
-import { StudentMarksPage } from './pages/StudentMarksPage';
+
 import { EditStudentsPage } from './pages/EditStudentsPage';
 import { EditTeachersPage } from './pages/EditTeachersPage';
 import { StudentShedule } from './pages/StudentShedule';
+import { StudentMarksPage } from './pages/StudentMarksPage';
 
 /**
  * Routes for authentication

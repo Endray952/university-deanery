@@ -1,6 +1,4 @@
-import { UserStore } from "../../../../classes/UserStore";
-import { getAllMarks, getMarksWithDate } from "../../../../http/studentAPI";
-import ModalDisciplineMarks from "../../Modal/ModalDisciplineMarks";
+import { getSubjectMarksInfo } from '../../http/studentAPI';
 
 const leftStringIncludesRight = (left, right) => {
     return String(left)
@@ -9,36 +7,36 @@ const leftStringIncludesRight = (left, right) => {
 };
 
 const dateConvertOptions = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
 };
 
 const dateToNormalDateString = (dateStr) => {
     const date = new Date(dateStr);
     return (
-        date.toLocaleDateString("ru", dateConvertOptions) +
-        " " +
+        date.toLocaleDateString('ru', dateConvertOptions) +
+        ' ' +
         date.getHours() +
-        ":" +
+        ':' +
         date.getMinutes() +
-        "0"
+        '0'
     );
 };
 
 export const marksWithDatesConfig = {
-    asyncGetItems: () => getMarksWithDate(),
-    editableListHead: ["Оценка", "Дата", "Учитель"],
+    asyncGetItems: () => getSubjectMarksInfo(),
+    editableListHead: ['Оценка', 'Дата', 'Учитель'],
 
     getListRow: (mark) => {
         return {
             heading: {
-                mainText: `${mark.mark || "неизвестно"}`,
-                secondaryText: "",
+                mainText: `${mark.mark_value || 'неизвестно'}`,
+                secondaryText: '',
             },
             tableItems: [
-                dateToNormalDateString(mark.date),
-                `${mark.teacherName} ${mark.teacherSurname}`,
+                dateToNormalDateString(mark.start_date),
+                `${mark.name} ${mark.surname}`,
             ],
         };
     },
@@ -46,19 +44,19 @@ export const marksWithDatesConfig = {
         searchBy: (mark, searchInput) => {
             return (
                 leftStringIncludesRight(mark.mark, searchInput) ||
-                leftStringIncludesRight(mark.teacheName, searchInput) ||
-                leftStringIncludesRight(mark.teacherSurname, searchInput)
+                leftStringIncludesRight(mark.name, searchInput) ||
+                leftStringIncludesRight(mark.surname, searchInput)
             );
         },
-        searchPlaceholder: "Поиск",
+        searchPlaceholder: 'Поиск',
     },
     sort: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
     actionDropDown: {
-        name: "marksWithDates",
+        name: 'marksWithDates',
         enabled: false,
         visible: false,
         actions: [],
-    }
+    },
 };
 
 export default marksWithDatesConfig;

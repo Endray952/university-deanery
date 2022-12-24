@@ -59,7 +59,7 @@ export const NavBar = observer(() => {
 
         //console.log(JSON.stringify(UserStore.user));
     }, [UserStore.user?.role]);
-    console.log(JSON.stringify(UserStore.user));
+    // console.log(JSON.stringify(UserStore.user));
     if (!UserStore.isAuth) {
         return null;
     }

@@ -42,6 +42,19 @@ class StudentController {
         }
     }
 
+    async getSubjectMarksInfo(req, res, next) {
+        try {
+            const { student_id, subject_id } = req.query;
+            const subjectsWithMarks = await pool.query(
+                StudentQueries.getSubjectMarksInfo(student_id, subject_id)
+            );
+            res.json(subjectsWithMarks.rows);
+        } catch (e) {
+            console.log('get student marks info error');
+            next(ApiError.badRequest(`${e.message}`));
+        }
+    }
+
     async updateFeedback(req, res) {}
 
     async deleteFeedback(req, res) {}

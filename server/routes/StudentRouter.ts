@@ -22,4 +22,16 @@ router.get(
     StudentController.getCurrentStudentMarks
 );
 
+router.get(
+    '/getCurrentStudentMarks/:student_id',
+    checkRoleMiddleWare(['admin', 'dean', 'student']),
+    StudentController.getCurrentStudentMarks
+);
+
+router.get(
+    '/getSubjectMarksInfo/',
+    checkRoleMiddleWare(['admin', 'dean', 'student']),
+    StudentController.getSubjectMarksInfo
+);
+
 export { router };

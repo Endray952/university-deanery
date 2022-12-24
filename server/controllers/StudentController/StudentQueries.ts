@@ -88,4 +88,30 @@ export const StudentQueries = {
           group by subject."name", subject."id"    
 ;`;
     },
+
+    getSubjectMarksInfo: (student_id, subject_id) => {
+        return `select 
+  mark.mark_value ,
+  subject."name" as subject_name,
+  subject."id" as subject_id,
+lesson.start_date,
+teacher."name",
+teacher.surname 
+  from lesson 
+   join mark 
+  on mark.lesson_id = lesson.id and 
+    mark.student_id = '${student_id}'  
+  join teacher on
+  teacher.id = lesson.teacher_id 
+  join subject 
+  on subject.id = lesson.subject_id 
+  join group_lesson 
+  on group_lesson.lesson_id = lesson.id 
+  join student_group 
+  on student_group.group_id = group_lesson.group_id 
+  where student_group.id = get_current_student_group_id('${student_id}') and 
+  student_group.student_id = '${student_id}' AND 
+  subject.id = '${subject_id}'
+;`;
+    },
 };

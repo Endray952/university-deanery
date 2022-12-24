@@ -26,7 +26,7 @@ import UserStore from '../store/UserStore';
 export const getStudentByUserId = async (id: string): Promise<object> => {
     try {
         const { data } = await $authHost.get(`api/student/myself/${id}`);
-        console.log('data', data);
+        //console.log('data', data);
         return data;
     } catch (e) {
         throw e;
@@ -40,5 +40,43 @@ export const getGroupSheduleById = async (
         `api/student/groupShedule/${'b9b6eff7-872b-4175-bb53-1405a1f4a2e3'}`
     );
     //console.log(data);
+    return data;
+};
+
+export const getAllCurrentMarksByStudentId = async (
+    student_id: any
+): Promise<object> => {
+    const { data } = await $authHost.get(
+        `api/student/getCurrentStudentMarks/${student_id}`
+    );
+    //console.log(data);
+    return data;
+};
+
+export const getAllCurrentMarksByUserId = async (
+    user_id: any
+): Promise<object> => {
+    const student = await getStudentByUserId(user_id);
+    //@ts-ignore
+    const marks = await getAllCurrentMarksByStudentId(student.student_id);
+    return marks;
+};
+
+export const getSubjectMarksInfo = async (
+    user_id: any,
+    subject_id: any
+): Promise<object> => {
+    const student: any = await getStudentByUserId(user_id);
+    //console.log(student);
+    if (!student) {
+        return [];
+    }
+    const { data } = await $authHost.get(`api/student/getSubjectMarksInfo`, {
+        params: {
+            student_id: student.student_id,
+            subject_id,
+        },
+    });
+    // console.log(data);
     return data;
 };

@@ -1,53 +1,29 @@
-import React, { useEffect, useState, useRef } from "react";
-import ActionDropDown from "./ActionDropDown";
-import ModalWindow from "./Modal/ModalWindow";
-import SearchInput from "./SearchInput";
-import EditableListHead from "./EditableListHead";
-import EditableListItem from "./EditableListItem";
-import { LoaderComponent } from "react-fullscreen-loader";
-import Pagination from "@mui/material/Pagination";
+import React, { useEffect, useState, useRef } from 'react';
+
+import Pagination from '@mui/material/Pagination';
+import SearchInput from '../EditableList/SearchInput';
+import EditableListHead from '../EditableList/EditableListHead';
+import EditableListItem from '../EditableList/EditableListItem';
+import { Spinner } from 'react-bootstrap';
+import ModalWindow from '../EditableList/Modal/ModalWindow';
 
 export const EditableListContext = React.createContext();
 
 const pageRatio = 5;
 
-const EditableListPage = ({ config, shouldUpdate }) => {
+const EditableListPage = ({ config }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [listItems, setListItems] = useState(null);
-    const [searchInput, setSearchInput] = useState("");
+    const [searchInput, setSearchInput] = useState('');
     const [modalItem, setModalItem] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const updateComponent = () => {
-        setIsLoading(true);
-        config
-            .asyncGetItems()
-            .then((response) => {
-                setListItems(response.data.courses);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    };
-
-    useEffect(() => {
-        setIsLoading(true);
-        config
-            .asyncGetItems()
-            .then((response) => {
-                setListItems(response.data.courses);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    }, [shouldUpdate]);
-
     useEffect(() => {
         config
             .asyncGetItems()
             .then((response) => {
-                setListItems(response.data.courses);
+                setListItems(response);
             })
             .finally(() => {
                 setIsLoading(false);
@@ -55,13 +31,13 @@ const EditableListPage = ({ config, shouldUpdate }) => {
     }, []);
 
     if (isLoading) {
-        return <LoaderComponent />;
+        return <Spinner />;
     }
 
     if (!listItems) {
         return <div>Ошибка загрузки данных</div>;
     }
-
+    //log(listItems);
     return (
         <EditableListContext.Provider
             value={{
@@ -70,9 +46,10 @@ const EditableListPage = ({ config, shouldUpdate }) => {
                 asyncGetItems: config.asyncGetItems.bind(config),
             }}
         >
-            <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
-                <div className="flex justify-between items-center py-4 bg-white">
-                    <ActionDropDown config={config.actionDropDown} />
+            <div className='overflow-x-auto relative shadow-md sm:rounded-lg'>
+                <div className='flex justify-between items-center py-4 bg-white'>
+                    {/* <ActionDropDown config={config.actionDropDown} /> */}
+                    <div></div>
                     {listItems.filter((item) =>
                         config.searchConfig.searchBy(item, searchInput)
                     ).length > pageRatio && (
@@ -87,7 +64,7 @@ const EditableListPage = ({ config, shouldUpdate }) => {
                             )}
                             page={currentPage}
                             onChange={(e, val) => setCurrentPage(val)}
-                            color="primary"
+                            color='primary'
                         />
                     )}
                     <SearchInput
@@ -96,14 +73,17 @@ const EditableListPage = ({ config, shouldUpdate }) => {
                         setSearchInput={setSearchInput}
                     />
                 </div>
-                <table className="w-full text-sm text-left text-gray-500">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                <table className='w-full text-sm text-left text-gray-500'>
+                    <thead className='text-xs text-gray-700 uppercase bg-gray-50'>
                         <EditableListHead
                             editableListHead={config.editableListHead}
                         />
                     </thead>
                     <tbody>
-                        {(config.sort !== undefined ? listItems.sort(config.sort) : listItems)
+                        {(config.sort !== undefined
+                            ? listItems.sort(config.sort)
+                            : listItems
+                        )
                             .filter((item) =>
                                 config.searchConfig.searchBy(item, searchInput)
                             )
@@ -113,6 +93,7 @@ const EditableListPage = ({ config, shouldUpdate }) => {
                                     setModalOpen={setModalOpen}
                                     setModalItem={() => setModalItem(item)}
                                     listRow={config.getListRow(item)}
+                                    item={item}
                                 />
                             ))
                             .slice(
@@ -128,7 +109,6 @@ const EditableListPage = ({ config, shouldUpdate }) => {
                     setModalOpen={setModalOpen}
                     modalConfig={config.modal}
                     modalItem={modalItem}
-                    update={updateComponent}
                 />
             )}
         </EditableListContext.Provider>

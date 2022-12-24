@@ -1,6 +1,6 @@
-import { UserStore } from "../../../../classes/UserStore";
-import { getAllMarks } from "../../../../http/studentAPI";
-import ModalDisciplineMarks from "../../Modal/ModalDisciplineMarks";
+import { getAllCurrentMarksByUserId } from '../../http/studentAPI';
+import UserStore from '../../store/UserStore';
+import ModalDisciplineMarks from './ModalDisciplineMarks';
 
 const leftStringIncludesRight = (left, right) => {
     return String(left)
@@ -9,49 +9,34 @@ const leftStringIncludesRight = (left, right) => {
 };
 
 export const studentMarksConfig = {
-    asyncGetItems: () => getAllMarks(UserStore.personId),
-    editableListHead: [
-        "Предмет",
-        "Оценки",
-        "Средний балл",
-        "Учитель",
-        "Действие",
-    ],
+    asyncGetItems: () => getAllCurrentMarksByUserId(UserStore?.user?.id),
+    editableListHead: ['Предмет', 'Оценки', 'Средний балл', 'Действие'],
 
     getListRow: (mark) => {
         return {
             heading: {
-                mainText: `${mark.disciplineName || "неизвестно"}`,
-                secondaryText: mark.disciplineId,
+                mainText: `${mark.subject_name || 'неизвестно'}`,
             },
-            tableItems: [
-                mark.marks,
-                (+mark.averageMark).toFixed(2),
-                `${mark.teacherName} ${mark.teacherSurname}`,
-            ],
-            actionName: "Подробнее",
+            tableItems: [mark.marks, (+mark.average_mark).toFixed(2)],
+            actionName: 'Подробнее',
         };
     },
     searchConfig: {
         searchBy: (mark, searchInput) => {
-            return (
-                leftStringIncludesRight(mark.disciplineName, searchInput) ||
-                leftStringIncludesRight(mark.teacheName, searchInput) ||
-                leftStringIncludesRight(mark.teacherSurname, searchInput)
-            );
+            return leftStringIncludesRight(mark.subject_name, searchInput);
         },
-        searchPlaceholder: "Поиск",
+        searchPlaceholder: 'Поиск',
     },
     modal: {
-        modalName: "Оценки по предмету",
+        modalName: 'Оценки по предмету',
         modalContent: (item, handleClose, update) => (
-            <ModalDisciplineMarks marks={item} handleClose={handleClose}/>
+            <ModalDisciplineMarks marks={item} handleClose={handleClose} />
         ),
     },
     actionDropDown: {
-        name: "marks",
+        name: 'marks',
         enabled: false,
         visible: false,
         actions: [],
-    }
+    },
 };

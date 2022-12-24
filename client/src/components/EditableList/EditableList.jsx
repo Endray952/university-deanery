@@ -89,6 +89,7 @@ const EditableList = ({ config }) => {
                                         setModalOpen={setModalOpen}
                                         setModalItem={() => setModalItem(item)}
                                         listRow={config.getListRow(item)}
+                                        item={item}
                                     />
                                 );
                             })
