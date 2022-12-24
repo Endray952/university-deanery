@@ -7,6 +7,10 @@ import SearchInput from '../EditableList/SearchInput';
 import EditableListHead from '../EditableList/EditableListHead';
 import EditableListItem from '../EditableList/EditableListItem';
 import Spinner from '../Spinner';
+import StudentsActions from '../EditableList/Actions/StudentsActions';
+import ModalInput from '../EditableList/Modal/ModalInput';
+import { getStudentByUserId } from '../../http/studentAPI';
+import UserStore from '../../store/UserStore';
 
 export const EditableListContext = React.createContext();
 
@@ -30,13 +34,15 @@ const EditableListDate = ({ config, shouldUpdate }) => {
     const [listItems, setListItems] = useState(null);
     const [searchInput, setSearchInput] = useState('');
     const [modalItem, setModalItem] = useState(null);
+    const [currentGroup, setCurrentGroup] = useState('неизвествно');
+
     const [currentPage, setCurrentPage] = useState(
         new Date(
             new Date().setDate(new Date().getDate() - new Date().getDay() + 1)
         ).toDateString()
     );
-    console.log(currentPage);
-    console.log(new Date(currentPage));
+    //console.log(currentPage);
+    //console.log(new Date(currentPage));
     const [currentListItems, setCurrentListItems] = useState([]);
     const sortedListItems = useRef([]);
 
@@ -83,7 +89,7 @@ const EditableListDate = ({ config, shouldUpdate }) => {
 
         for (const [index, item] of sortedListItems.current.entries()) {
             if (index === 0) {
-                console.log(new Date(item.date));
+                //console.log(new Date(item.date));
                 list.push(
                     config.getListRowDelimeterObj(
                         `${week[weekDay]} ${toNormalDate(new Date(item.date))}`
@@ -102,7 +108,7 @@ const EditableListDate = ({ config, shouldUpdate }) => {
 
             list.push(item);
         }
-        console.log(sortedListItems);
+        //console.log(sortedListItems);
         setCurrentListItems(list);
 
         weekDay = 1;
@@ -143,6 +149,14 @@ const EditableListDate = ({ config, shouldUpdate }) => {
             });
     }, []);
 
+    useEffect(() => {
+        try {
+            getGroup();
+        } catch (e) {
+            console.log(e);
+        }
+    }, [UserStore?.user?.id]);
+
     if (isLoading) {
         return <Spinner />;
     }
@@ -150,7 +164,12 @@ const EditableListDate = ({ config, shouldUpdate }) => {
     if (!listItems) {
         return <div>Ошибка загрузки данных</div>;
     }
-    console.log('item', currentListItems);
+    // console.log('item', currentListItems);
+    const getGroup = async () => {
+        const student = await getStudentByUserId(UserStore.user.id);
+        setCurrentGroup(student.group_code);
+    };
+
     return (
         <EditableListContext.Provider
             value={{
@@ -162,6 +181,15 @@ const EditableListDate = ({ config, shouldUpdate }) => {
             <div className='overflow-x-auto relative shadow-md sm:rounded-lg'>
                 <div className='flex justify-between items-center py-4 bg-white'>
                     {/* <ActionDropDown config={config.actionDropDown} /> */}
+                    <ModalInput
+                        inputName={''}
+                        inputPlaceholder={'группа'}
+                        inputType={'text'}
+                        isRequired={false}
+                        inputValue={`Группа ${currentGroup}`}
+                        onChangeSet={null}
+                        inputDisabled={true}
+                    />
                     {listItems.filter((item) =>
                         config.searchConfig.searchBy(item, searchInput)
                     ).length > pageRatio && (

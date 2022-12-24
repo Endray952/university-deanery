@@ -12,6 +12,13 @@ const dateConvertOptions = {
     day: 'numeric',
 };
 
+const getLessonType = {
+    credit: 'зачет',
+    practice: 'практика',
+    exam: 'экзамен',
+    lecture: 'лекция',
+};
+
 const dateToNormalDateString = (dateStr) => {
     const date = new Date(dateStr);
 
@@ -31,14 +38,14 @@ const dateToNormalDateString = (dateStr) => {
 
 export const StudentLessonsConfig = {
     asyncGetItems: getGroupSheduleById,
-    editableListHead: ['Предмет', 'Учитель', 'Время', 'Кабинет'],
+    editableListHead: ['Предмет', 'Преподаватель', 'Время', 'Аудитория'],
 
     getListRow: (lesson) => {
         //console.log('getListRow', lesson);
         return {
             heading: {
                 mainText: `${lesson.subject || 'неизвестно'}`,
-                secondaryText: '',
+                secondaryText: getLessonType[lesson.lesson_type],
             },
             tableItems: [
                 `${lesson.name} ${lesson.surname}`,
