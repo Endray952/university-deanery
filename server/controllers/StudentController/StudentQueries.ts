@@ -38,58 +38,54 @@ export const StudentQueries = {
     },
     getGroupShedule: (group_id) => {
         return `SELECT subject."name" AS "subject", 
-      teacher."name",
-      teacher."surname",
-     classroom."name" AS "classroom",
-     lesson.start_date AS date,
-     lesson.duration ,
-     lesson."lesson_type",
-     "group"."id" AS group_id,
-     lesson.id AS lesson_id,
-     group_lesson.id AS group_lesson_id,
-     teacher.id AS teacher_id
-     FROM lesson  
-     JOIN teacher_subject  
-     ON lesson.teacher_subject_id = teacher_subject.id 
-     JOIN teacher 
-     ON teacher.id = teacher_subject.teacher_id 
-     JOIN subject 
-     ON subject.id = teacher_subject.subject_id 
-     JOIN group_lesson 
-     ON group_lesson.lesson_id = lesson.id 
-     JOIN "group" 
-     ON "group".id = group_lesson.group_id 
-     JOIN classroom 
-     ON lesson.classroom_id = classroom.id
-     WHERE "group".id = '${group_id}';`;
+     teacher."name",
+     teacher."surname",
+    classroom."name" AS "classroom",
+    lesson.start_date as date,
+    lesson.duration ,
+    lesson."lesson_type",
+    "group"."id" AS group_id,
+    lesson.id AS lesson_id,
+    group_lesson.id AS group_lesson_id,
+    teacher.id AS teacher_id
+    FROM lesson  
+    JOIN subject 
+    ON subject.id = lesson.subject_id 
+    JOIN group_lesson 
+    ON group_lesson.lesson_id = lesson.id 
+    JOIN "group" 
+    ON "group".id = group_lesson.group_id 
+    LEFT JOIN teacher  
+    ON teacher.id = lesson.teacher_id 
+    LEFT JOIN classroom 
+    ON lesson.classroom_id = classroom.id
+    WHERE "group".id = '${group_id}';`;
     },
 
     getCurrentStudentMarks: (student_id) => {
         return `select 
---mark.mark_value ,
-subject."name" as subject_name,
-subject."id" as subject_id,
-AVG(mark.mark_value) as average_mark,
-STRING_AGG(mark.mark_value::varchar, ',') as marks
---teacher."name" as teacher_name,
---teacher.surname  as teacher_name,
-from lesson 
-left join mark 
-on mark.lesson_id = lesson.id and 
-	mark.student_id = '${student_id}'  
-join teacher_subject on
-teacher_subject.id = lesson.teacher_subject_id 
-join subject 
-on subject.id = teacher_subject.subject_id 
-join group_lesson 
-on group_lesson.lesson_id =lesson.id 
-join student_group 
-on student_group.group_id = group_lesson.group_id 
-join teacher 
-on teacher.id = teacher_subject.teacher_id 
-where student_group.id = get_current_student_group_id('${student_id}') and 
-student_group.student_id = '${student_id}' 
-group by subject."name", subject."id"
+          --mark.mark_value ,
+          subject."name" as subject_name,
+          subject."id" as subject_id,
+          AVG(mark.mark_value) as average_mark,
+          STRING_AGG(mark.mark_value::varchar, ',') as marks
+          --teacher."name" as teacher_name,
+          --teacher.surname  as teacher_name,
+          from lesson 
+          left join mark 
+          on mark.lesson_id = lesson.id and 
+            mark.student_id = '${student_id}'  
+          join teacher on
+          teacher.id = lesson.teacher_id 
+          join subject 
+          on subject.id = lesson.subject_id 
+          join group_lesson 
+          on group_lesson.lesson_id = lesson.id 
+          join student_group 
+          on student_group.group_id = group_lesson.group_id 
+          where student_group.id = get_current_student_group_id('${student_id}') and 
+          student_group.student_id = '${student_id}' 
+          group by subject."name", subject."id"    
 ;`;
     },
 };

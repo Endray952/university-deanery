@@ -25,7 +25,7 @@ class StudentController {
             );
             res.json(shedule.rows);
         } catch (e) {
-            console.log('get shedule error error');
+            console.log('get shedule error ');
             next(ApiError.badRequest(`${e.message}`));
         }
     }

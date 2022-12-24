@@ -2,8 +2,6 @@ import { Container } from '@mui/material';
 import React from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-import EditableList from '../components/EditableList/EditableList';
-import { studentsListConfig } from '../components/EditableList/ListConfig/StudentsListConfig';
 import Sidebar from '../components/Slidebar/Sidebar';
 import { getStudents } from '../http/deanAPI';
 import UserStore from '../store/UserStore';
@@ -32,7 +30,7 @@ export const StudentMarksPage = () => {
                         //@ts-ignore
                         <EditableList config={studentsListConfig} />
                     } */}
-                    <div>Pososi</div>
+                    <div>get info</div>
                 </Container>
             </div>
         </>

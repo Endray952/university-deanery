@@ -11,6 +11,7 @@ import StudentsActions from '../EditableList/Actions/StudentsActions';
 import ModalInput from '../EditableList/Modal/ModalInput';
 import { getStudentByUserId } from '../../http/studentAPI';
 import UserStore from '../../store/UserStore';
+import { observer } from 'mobx-react-lite';
 
 export const EditableListContext = React.createContext();
 
@@ -148,14 +149,19 @@ const EditableListDate = ({ config, shouldUpdate }) => {
                 setIsLoading(false);
             });
     }, []);
-
+    const getGroup = async () => {
+        console.log(JSON.stringify(UserStore.user));
+        const student = await getStudentByUserId(UserStore.user.id);
+        console.log(student);
+        setCurrentGroup(student.group_code);
+    };
     useEffect(() => {
         try {
             getGroup();
         } catch (e) {
             console.log(e);
         }
-    }, [UserStore?.user?.id]);
+    }, []);
 
     if (isLoading) {
         return <Spinner />;
@@ -165,10 +171,6 @@ const EditableListDate = ({ config, shouldUpdate }) => {
         return <div>Ошибка загрузки данных</div>;
     }
     // console.log('item', currentListItems);
-    const getGroup = async () => {
-        const student = await getStudentByUserId(UserStore.user.id);
-        setCurrentGroup(student.group_code);
-    };
 
     return (
         <EditableListContext.Provider
@@ -212,7 +214,7 @@ const EditableListDate = ({ config, shouldUpdate }) => {
                     </thead>
                     <tbody>
                         {currentListItems.map((item, index) => {
-                            console.log('item', item);
+                            //console.log('item', item);
                             if (week.includes(item.subject.split(' ')[0])) {
                                 return (
                                     <EditableListItemDelimeter
